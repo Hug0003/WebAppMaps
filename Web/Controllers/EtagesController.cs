@@ -29,20 +29,10 @@ namespace Web.Controllers
         public async Task<IActionResult> FormSearchEtage(string niveau)
         {
 
-            var salles = _salleManager.GetEtageByNumSalle(niveau);
+            var salles = _salleManager.GetSalleByNumero(niveau);
 
-            if (salles == null)
-            {
-                ViewBag.Message = "Aucune salle trouvée pour cet étage.";
-                return View("SearchEtage", null);
-            }
 
-            // Optionnel : récupérer l'étage à afficher avec les salles
-            var etage = await _etageRepository.GetAll()
-                .FirstOrDefaultAsync(e => e.Niveau == int.Parse(niveau.ToString()[0].ToString()));
-
-            ViewBag.Salles = salles.ToList();
-            return View("SearchEtage", etage);
+            return View("SearchEtage", salles);
         }
 
         public IActionResult Index()

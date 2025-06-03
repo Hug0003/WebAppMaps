@@ -10,7 +10,7 @@ namespace Domain
     public class Salle : Entity
     {
         public string Nom { get; set; }
-        public int Numero { get; set; }
+        public string Numero { get; set; }
         public int NbPlace { get; set; }
         public string ImageSalle { get; set; }
         public bool Favori { get; set; }

@@ -8,7 +8,6 @@ namespace Domain
 {
     public interface ISalleManager
     {
-        IQueryable<Salle> GetSalleByEtageId(int id);
-        IQueryable<Salle> GetEtageByNumSalle(string niveau);
+        Salle GetSalleByNumero(string numeroSalle);
     }
 }

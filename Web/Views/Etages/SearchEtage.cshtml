@@ -1,5 +1,5 @@
 ﻿
-@model Domain.Etage
+@model Domain.Salle
 
 <h2>Rechercher un étage</h2>
 
@@ -15,12 +15,14 @@
 {
     <p>Étage trouvé :</p>
     <ul>
-        <li>Numéro : @Model.Niveau</li>
-        <li>Nom : @Model.Nom</li>
+        
+        <li>Nom Bureau : @Model.Nom</li>
+        <li>Nom Bureau : @Model.Numero</li>
+        <li>Nom Bureau : @Model.Favori</li>
+        <li>Nom Bureau : @Model.CoordX2BotRight</li>
+
+        <li>Nom Etage : @Model.Etage.Nom</li>
+
 
     </ul>
-}
-else
-{
-    <p>@ViewBag.Message</p>
 }

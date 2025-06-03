@@ -18,24 +18,14 @@ namespace Domain
             _salleRepository = salleRepository;
         }
 
-        public IQueryable<Salle> GetSalleByEtageId(int id)
+        public Salle GetSalleByNumero(string numeroSalle)
         {
-            throw new NotImplementedException();
+            return _salleRepository.GetAll()
+                .Include(s => s.Etage) // ← charge aussi l'étage lié
+                .FirstOrDefault(s => s.Numero == numeroSalle);
         }
 
-        public IQueryable<Salle> GetEtageByNumSalle(string input)
-        {
-            if (!string.IsNullOrEmpty(input) && char.IsDigit(input[0]))
-            {
-                int prefix = int.Parse(input[0].ToString());
 
-                return _salleRepository.GetAll()
-                    .Include(s => s.Etage)
-                    .Where(s => s.Etage.Niveau == prefix);
-            }
-
-            return Enumerable.Empty<Salle>().AsQueryable();
-        }
 
 
     }
