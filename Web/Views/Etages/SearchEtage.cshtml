@@ -1,0 +1,26 @@
+﻿
+@model Domain.Etage
+
+<h2>Rechercher un étage</h2>
+
+<form asp-action="formSearchEtage">
+    <input name="Niveau" placeholder="Numéro étage"/>
+    <button type="submit">Rechercher</button>
+</form>
+
+
+<h2>Résultat de la recherche</h2>
+
+@if (Model != null)
+{
+    <p>Étage trouvé :</p>
+    <ul>
+        <li>Numéro : @Model.Niveau</li>
+        <li>Nom : @Model.Nom</li>
+
+    </ul>
+}
+else
+{
+    <p>@ViewBag.Message</p>
+}
