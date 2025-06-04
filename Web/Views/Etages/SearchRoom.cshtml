@@ -1,51 +1,49 @@
 ﻿@using Web.ViewModel
-
 @model SalleViewModel
 
-
-
-
-<div class="container">
-    <div class="container_formSearchRoom">
-        <form asp-action="formSearchRoom">
-            <input name="Niveau" placeholder="Numéro étage" />
-            <button type="submit">Rechercher</button>
+<div class="search-room-container">
+    <div class="form-section">
+        <form asp-action="formSearchRoom" class="form">
+            <input name="Niveau" placeholder="Numéro étage" class="input-field" />
+            <button type="submit" class="btn">Rechercher</button>
         </form>
-
     </div>
-
 
     @if (Model.salle != null)
     {
-        <p>Étage trouvé :</p>
-        <ul>
-        
-            <li>Nom Bureau : @Model.salle.Nom</li>
-            <li>Nom Bureau : @Model.salle.Numero</li>
-            <li>Nom Bureau : @Model.salle.Favori</li>
-            <li>Nom Bureau : @Model.salle.CoordX2BotRight</li>
 
-            <li>Nom Bureau : @Model.salle.Etage.Nom</li>
+            <section class="section_imgPlan">
+                <div>
+                    <img src="~/@Model.salle.Etage.ImgPlanEtage" alt="Plan d'étage" class="img-plan" />
+                </div>
+            </section>
 
-            <p>image salle:</p>
+            <section class="section_infoSalle">
 
-            <img src="~/@Model.salle.ImageSalle" style="width:100px" />
+                <ul class="list-info">
+                    <li><strong>Nom Bureau :</strong> @Model.salle.Nom</li>
+                    <li><strong>Numéro :</strong> @Model.salle.Numero</li>
+                    <li><strong>Favori :</strong> @Model.salle.Favori</li>
+                    <li><strong>CoordX2BotRight :</strong> @Model.salle.CoordX2BotRight</li>
+                    <li><strong>Étage :</strong> @Model.salle.Etage.Nom</li>
+                </ul>
 
-            <p>image plan:</p>
-
-            <img src="~/@Model.salle.Etage.ImgPlanEtage" style="width:100px" />
-
-
-        </ul>
-
-
+                <div class=".container_imageSalle">
+                    <div>
+                        <img src="~/@Model.salle.ImageSalle" alt="Salle" />
+                    </div>
+                </div>
+            </section>
     }
 
-    @foreach (var item in Model.etages)
-    {
-        <ul>
-            <li>@item.Niveau</li>
-            <li>@item.Nom</li>
-        </ul>
-    }
+    @* <div class="floor-list">
+        <h3>Liste des étages :</h3>
+        @foreach (var item in Model.etages)
+        {
+            <ul>
+                <li><strong>Niveau :</strong> @item.Niveau</li>
+                <li><strong>Nom :</strong> @item.Nom</li>
+            </ul>
+        }
+    </div> *@
 </div>
