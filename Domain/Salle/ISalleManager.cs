@@ -8,6 +8,6 @@ namespace Domain
 {
     public interface ISalleManager
     {
-        Salle GetSalleByNumero(string numeroSalle);
+        Task<Salle> GetSalleByNumeroAsync(int numeroSalle);
     }
 }

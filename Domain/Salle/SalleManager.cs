@@ -18,15 +18,12 @@ namespace Domain
             _salleRepository = salleRepository;
         }
 
-        public Salle GetSalleByNumero(string numeroSalle)
+
+        public async Task<Salle> GetSalleByNumeroAsync(int numeroSalle)
         {
-            return _salleRepository.GetAll()
-                .Include(s => s.Etage) // ← charge aussi l'étage lié
-                .FirstOrDefault(s => s.Numero == numeroSalle);
+            return await _salleRepository.GetAll()
+                            .Include(s => s.Etage) // ← charge aussi l'étage lié
+                            .FirstOrDefaultAsync(s => s.Numero == numeroSalle);
         }
-
-
-
-
     }
 }

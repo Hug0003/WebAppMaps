@@ -1,10 +1,14 @@
-﻿using Domain;
+﻿using Azure;
+using Domain;
 using Infrastructure;
+using Infrastructure.Migrations;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Web.Models;
+using Web.ViewModel;
 namespace Web.Controllers
 {
     public class EtagesController : Controller
@@ -20,27 +24,32 @@ namespace Web.Controllers
             _salleManager = salleManager;
         }
 
-        public IActionResult SearchEtage()
+        public IActionResult SearchRoom()
         {
-            return View("SearchEtage");
+            var viewModel = new SalleViewModel
+            {
+                salle = null,
+                etages = _etageRepository.GetAll().ToList()
+            };
+
+            return View("SearchRoom", viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> FormSearchEtage(string niveau)
+        public async Task<IActionResult> FormSearchRoom(int niveau)
         {
+            var viewModel = new SalleViewModel
+            {
+                salle = await _salleManager.GetSalleByNumeroAsync(niveau),
+                etages = _etageRepository.GetAll().ToList()
+            };
+            
+            return View("SearchRoom", viewModel);
 
-            var salles = _salleManager.GetSalleByNumero(niveau);
-
-
-            return View("SearchEtage", salles);
+       
         }
 
-        public IActionResult Index()
-        {
-            var etages = _etageRepository.GetAll();
-            return View(etages);
-        }
-
+     
 
         public IActionResult Create()
         {

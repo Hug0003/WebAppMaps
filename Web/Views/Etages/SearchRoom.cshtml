@@ -1,0 +1,51 @@
+﻿@using Web.ViewModel
+
+@model SalleViewModel
+
+
+
+
+<div class="container">
+    <div class="container_formSearchRoom">
+        <form asp-action="formSearchRoom">
+            <input name="Niveau" placeholder="Numéro étage" />
+            <button type="submit">Rechercher</button>
+        </form>
+
+    </div>
+
+
+    @if (Model.salle != null)
+    {
+        <p>Étage trouvé :</p>
+        <ul>
+        
+            <li>Nom Bureau : @Model.salle.Nom</li>
+            <li>Nom Bureau : @Model.salle.Numero</li>
+            <li>Nom Bureau : @Model.salle.Favori</li>
+            <li>Nom Bureau : @Model.salle.CoordX2BotRight</li>
+
+            <li>Nom Bureau : @Model.salle.Etage.Nom</li>
+
+            <p>image salle:</p>
+
+            <img src="~/@Model.salle.ImageSalle" style="width:100px" />
+
+            <p>image plan:</p>
+
+            <img src="~/@Model.salle.Etage.ImgPlanEtage" style="width:100px" />
+
+
+        </ul>
+
+
+    }
+
+    @foreach (var item in Model.etages)
+    {
+        <ul>
+            <li>@item.Niveau</li>
+            <li>@item.Nom</li>
+        </ul>
+    }
+</div>
