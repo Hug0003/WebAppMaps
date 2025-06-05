@@ -5,6 +5,7 @@ using Infrastructure.Migrations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Web.Models;
@@ -56,18 +57,35 @@ namespace Web.Controllers
         public IActionResult CreateEtage()
         {
             return View();
-        }  
+        }
 
-        [HttpPost] //à l'envoie des data ( submit ) 
-        public async Task<IActionResult> CreateEtage([Bind("Niveau, Nom, ImgPlanEtagePath")] Etage etage)  //attent ces 2 columns de la class Etage
+        [HttpPost]
+        public async Task<IActionResult> CreateEtage(int Niveau, string Nom, IFormFile ImgPlanEtagePath)
         {
-            //ajoute a la base de donnée
-            await _etageRepository.AddAsync(etage);
-            //sauvegarde la base de donnée
-            await _etageRepository.SaveChangeAsync();
-            //redirection de la page apres l'envoie ( vers la page nommée Index )
+            if (ImgPlanEtagePath != null && ImgPlanEtagePath.Length > 0)
+            {
+                // Chemin de base où les fichiers seront stockés
+                var assetsPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "assets");
+
+                // Chemin complet du fichier
+                var filePath = Path.Combine(assetsPath, ImgPlanEtagePath.FileName);
+
+                // Sauvegarde du fichier
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await ImgPlanEtagePath.CopyToAsync(stream);
+                }
+
+                // Création de l'objet Etage et ajout à la base de données
+                var etage = new Etage { Niveau = Niveau, Nom = Nom, ImgPlanEtagePath = "assets/" + ImgPlanEtagePath.FileName };
+                await _etageRepository.AddAsync(etage);
+                await _etageRepository.SaveChangeAsync();
+            }
+
             return RedirectToAction(nameof(SearchRoom));
         }
+
+
 
         public IActionResult CreateSalle()
         {
@@ -77,13 +95,34 @@ namespace Web.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> CreateSalle([Bind("Numero, Nom, EtageId, ImgSallePath")] Salle salle)
+        public async Task<IActionResult> CreateSalle(int Numero, string Nom, int EtageId, IFormFile ImgSallePath)
         {
-            //ajoute a la base de donnée
-            await _salleRepository.AddAsync(salle);
-            //sauvegarde la base de donnée
-            await _salleRepository.SaveChangeAsync();
-            //redirection de la page apres l'envoie ( vers la page nommée Index )
+
+            if(ImgSallePath != null && ImgSallePath.Length > 0)
+            {
+
+                var assetsPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "assets");
+
+                var filePath = Path.Combine(assetsPath, ImgSallePath.FileName);
+
+                using(var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await ImgSallePath.CopyToAsync(stream);
+                }
+
+                var salle = new Salle
+                {
+                    Numero = Numero,
+                    Nom = Nom,
+                    EtageId = EtageId,
+                    ImgSallePath = "assets/" + ImgSallePath.FileName
+                };
+                //ajoute a la base de donnée
+                await _salleRepository.AddAsync(salle);
+                //sauvegarde la base de donnée
+                await _salleRepository.SaveChangeAsync();
+            }
+
             return RedirectToAction(nameof(SearchRoom));
         }
     }
