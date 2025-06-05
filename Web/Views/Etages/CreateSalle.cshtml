@@ -1,6 +1,6 @@
 ﻿@model Domain.Salle
 
-<form asp-action="CreateSalle">
+<form asp-action="CreateSalle" >
     <input name="Nom" type="text" placeholder="Nom de la salle" required />
     <input name="Numero" type="text" placeholder="Numéro de la salle" required />
 
@@ -10,6 +10,7 @@
             <option value="@etage.Id">@etage.Nom</option>
         }
     </select>
+    <input name=ImgSallePath type="file"/>
     <button type="submit">Créer Salle</button>
 </form>
 

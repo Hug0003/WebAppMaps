@@ -12,7 +12,7 @@ namespace Domain
         public string Nom { get; set; }
         public int Numero { get; set; }
         public int? NbPlace { get; set; }
-        public string? ImageSalle { get; set; }
+        public string? ImgSallePath { get; set; }
         public bool? Favori { get; set; }
         public Etage Etage { get; set; }
         public int EtageId { get; set; }

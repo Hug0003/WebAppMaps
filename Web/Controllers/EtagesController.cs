@@ -59,7 +59,7 @@ namespace Web.Controllers
         }  
 
         [HttpPost] //à l'envoie des data ( submit ) 
-        public async Task<IActionResult> CreateEtage([Bind("Niveau, Nom")] Etage etage)  //attent ces 2 columns de la class Etage
+        public async Task<IActionResult> CreateEtage([Bind("Niveau, Nom, ImgPlanEtagePath")] Etage etage)  //attent ces 2 columns de la class Etage
         {
             //ajoute a la base de donnée
             await _etageRepository.AddAsync(etage);
@@ -77,7 +77,7 @@ namespace Web.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> CreateSalle([Bind("Numero, Nom, EtageId")] Salle salle)
+        public async Task<IActionResult> CreateSalle([Bind("Numero, Nom, EtageId, ImgSallePath")] Salle salle)
         {
             //ajoute a la base de donnée
             await _salleRepository.AddAsync(salle);

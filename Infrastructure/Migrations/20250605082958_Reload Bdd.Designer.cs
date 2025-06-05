@@ -4,6 +4,7 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(WebAppMapsContext))]
-    partial class WebAppMapsContextModelSnapshot : ModelSnapshot
+    [Migration("20250605082958_Reload Bdd")]
+    partial class ReloadBdd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,7 +36,7 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ImgPlanEtagePath")
+                    b.Property<string>("ImgPlanEtage")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
@@ -83,7 +86,7 @@ namespace Infrastructure.Migrations
                     b.Property<bool?>("Favori")
                         .HasColumnType("bit");
 
-                    b.Property<string>("ImgSallePath")
+                    b.Property<string>("ImageSalle")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
