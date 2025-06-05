@@ -15,12 +15,14 @@ namespace Web.Controllers
     {
 
         private readonly IRepository<Etage> _etageRepository;
+        private readonly IRepository<Salle> _salleRepository;
         private readonly ISalleManager _salleManager;
 
 
-        public EtagesController ( IRepository<Etage> etageRepository, ISalleManager salleManager)
+        public EtagesController(IRepository<Etage> etageRepository, IRepository<Salle> salleRepository, ISalleManager salleManager)
         {
             _etageRepository = etageRepository;
+            _salleRepository = salleRepository;
             _salleManager = salleManager;
         }
 
@@ -51,21 +53,38 @@ namespace Web.Controllers
 
      
 
-        public IActionResult Create()
+        public IActionResult CreateEtage()
         {
             return View();
         }  
 
         [HttpPost] //à l'envoie des data ( submit ) 
-        public async Task<IActionResult> Create([Bind("Niveau, Nom")] Etage etage)  //attent ces 2 columns de la class Etage
+        public async Task<IActionResult> CreateEtage([Bind("Niveau, Nom")] Etage etage)  //attent ces 2 columns de la class Etage
         {
             //ajoute a la base de donnée
             await _etageRepository.AddAsync(etage);
             //sauvegarde la base de donnée
             await _etageRepository.SaveChangeAsync();
             //redirection de la page apres l'envoie ( vers la page nommée Index )
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(SearchRoom));
         }
 
+        public IActionResult CreateSalle()
+        {
+            ViewBag.EtageId = _etageRepository.GetAll().ToList();
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> CreateSalle([Bind("Numero, Nom, EtageId")] Salle salle)
+        {
+            //ajoute a la base de donnée
+            await _salleRepository.AddAsync(salle);
+            //sauvegarde la base de donnée
+            await _salleRepository.SaveChangeAsync();
+            //redirection de la page apres l'envoie ( vers la page nommée Index )
+            return RedirectToAction(nameof(SearchRoom));
+        }
     }
 }

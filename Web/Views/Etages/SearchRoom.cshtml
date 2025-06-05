@@ -2,6 +2,9 @@
 @model SalleViewModel
 
 <div class="search-room-container">
+    <a asp-controller="Etages" asp-action="CreateEtage">Créer un étage</a>
+    <a asp-controller="Etages" asp-action="CreateSalle">Créer une salle</a>
+
     <div class="form-section">
         <form asp-action="formSearchRoom" class="form">
             <input name="Niveau" placeholder="Numéro étage" class="input-field" />

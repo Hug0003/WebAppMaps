@@ -10,7 +10,7 @@ namespace Domain
     {
         public int Niveau { get; set; }
         public string Nom { get; set; }
-        public string ImgPlanEtage { get; set; }
+        public string? ImgPlanEtage { get; set; }
         public ICollection<Salle> Salles { get; set; } = new List<Salle>();
 
     }

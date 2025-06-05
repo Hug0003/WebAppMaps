@@ -44,7 +44,6 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
-
     .btn:hover {
         background-color: rgb(124,170,150);
         color:white;
@@ -74,7 +73,7 @@
     background-color: white;
     padding:1rem;
     border-radius: 1rem;
-    box-shadow: .5rem .5rem .5rem rgba(0,0,0,0.2);
+    box-shadow: .3rem .3rem .3rem rgba(0,0,0,0.15);
     display: flex;
     align-items: center;
     justify-content:center;
@@ -87,11 +86,10 @@
     height: max-content;
     background-color: white;
     border-radius: 1rem;
-    box-shadow: .5rem .5rem .5rem rgba(0,0,0,0.2);
-    display:grid;
+    box-shadow: .3rem .3rem .3rem rgba(0,0,0,0.15);
+    display: grid;
     grid-template-columns: 4fr 1fr;
-    overflow:hidden;
-
+    overflow: hidden;
 }
 
 .list-info{
