@@ -4,6 +4,7 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(WebAppMapsContext))]
-    partial class WebAppMapsContextModelSnapshot : ModelSnapshot
+    [Migration("20250606141806_Utilisateur_class_upload1")]
+    partial class Utilisateur_class_upload1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -121,21 +124,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("EmailUtilisateur")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MotDePasseUtilisateur")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NomUtilisateur")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PrenomUtilisateur")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RoleUtilisateur")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
