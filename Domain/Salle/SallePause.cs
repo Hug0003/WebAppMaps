@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    internal class SallePause : Salle
+    public class SallePause : Salle
     {
         public int MicroOndes { get; set; }
         public bool Frigo { get; set; }

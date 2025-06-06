@@ -5,9 +5,10 @@
     <a asp-controller="Etages" asp-action="CreateEtage">Créer un étage</a>
     <a asp-controller="Etages" asp-action="CreateSalle">Créer une salle</a>
 
+
     <div class="form-section">
         <form asp-action="formSearchRoom" class="form">
-            <input name="Niveau" placeholder="Numéro étage" class="input-field" />
+            <input name="salle" placeholder="Numéro/Nom étage" class="input-field" />
             <button type="submit" class="btn">Rechercher</button>
         </form>
     </div>
@@ -27,6 +28,8 @@
                     <li><strong>Favori :</strong> @Model.salle.Favori</li>
                     <li><strong>CoordX2BotRight :</strong> @Model.salle.CoordX2BotRight</li>
                     <li><strong>Étage :</strong> @Model.salle.Etage.Nom</li>
+                    <a asp-controller="Etages" asp-action="SignalerRoom">Signaler</a>
+
                 </ul>
 
                 <div class=".container_imageSalle">

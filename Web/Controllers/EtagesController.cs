@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Diagnostics;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using Web.Models;
 using Web.ViewModel;
@@ -39,17 +41,41 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> FormSearchRoom(int niveau)
+        public async Task<IActionResult> FormSearchRoom(string salle)
         {
             var viewModel = new SalleViewModel
             {
-                salle = await _salleManager.GetSalleByNumeroAsync(niveau),
+                salle = null,
                 etages = _etageRepository.GetAll().ToList()
             };
-            
-            return View("SearchRoom", viewModel);
 
-       
+            if (int.TryParse(salle.ToString(), out int numeroSalle) == false)
+            {
+               viewModel = new SalleViewModel
+                {
+                    salle = await _salleManager.GetSalleByNameAsync(salle.ToString()),
+                    etages = _etageRepository.GetAll().ToList()
+                };
+                if (viewModel.salle == null)
+                {
+                    ModelState.AddModelError("salle", "La salle n'existe pas.");
+                    return View("SearchRoom", viewModel);
+                }
+            }
+            else
+            {
+                viewModel = new SalleViewModel
+                {
+                    salle = await _salleManager.GetSalleByNumeroAsync(numeroSalle),
+                    etages = _etageRepository.GetAll().ToList()
+                };
+                if (viewModel.salle == null)
+                {
+                    ModelState.AddModelError("salle", "La salle n'existe pas.");
+                    return View("SearchRoom", viewModel);
+                }
+            }
+            return View("SearchRoom", viewModel);
         }
 
      
@@ -125,5 +151,36 @@ namespace Web.Controllers
 
             return RedirectToAction(nameof(SearchRoom));
         }
+
+        public IActionResult SignalerRoom()
+        {
+            return View();
+        }
+
+        public void SendEmail(string subject, string body)
+        {
+            var smtp = new SmtpClient("smtp.gmail.com")
+            {
+                Port = 587,
+                Credentials = new NetworkCredential("hugomeuriel@gmail.com", "btzq mcia ryxw ongv"),
+                EnableSsl = true
+            };
+            var message = new MailMessage("hugomeuriel@gmail.com", "hugomeuriel@gmail.com")
+            {
+                Subject = subject,
+                Body = body
+            };
+            smtp.Send(message);
+
+        }
+
+        public IActionResult Signaler(string salle, string probleme)
+        {
+            SendEmail("Signal : " + salle, probleme);
+            return View(nameof(SearchRoom));
+        }
+
+
+
     }
 }

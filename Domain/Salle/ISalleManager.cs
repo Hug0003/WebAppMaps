@@ -9,5 +9,6 @@ namespace Domain
     public interface ISalleManager
     {
         Task<Salle> GetSalleByNumeroAsync(int numeroSalle);
+        Task<Salle> GetSalleByNameAsync(string nomSalle);
     }
 }

@@ -17,6 +17,8 @@ namespace Infrastructure
 
         public DbSet<Salle> Salles { get; set; }
         public DbSet<Etage> Etages { get; set; }
+
+
     }
 }
 

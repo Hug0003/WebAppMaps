@@ -18,6 +18,12 @@ namespace Domain
             _salleRepository = salleRepository;
         }
 
+        public async Task<Salle> GetSalleByNameAsync(string nomSalle)
+        {
+            return await _salleRepository.GetAll()
+                            .Include(s => s.Etage) // ← charge aussi l'étage lié
+                            .FirstOrDefaultAsync(s => s.Nom == nomSalle);
+        }
 
         public async Task<Salle> GetSalleByNumeroAsync(int numeroSalle)
         {

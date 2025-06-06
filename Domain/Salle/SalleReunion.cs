@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    internal class salleReunion : Salle
+    public class salleReunion : Salle
     {
         public bool ecran { get; set; }
         public bool camera { get; set; }
