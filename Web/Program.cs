@@ -17,6 +17,8 @@ namespace Web
 
             builder.Services.AddScoped<IRepository<Salle>, Repository<Salle>>();
             builder.Services.AddScoped<IRepository<Etage>, Repository<Etage>>();
+            builder.Services.AddScoped<IRepository<Utilisateur>, Repository<Utilisateur>>();
+
             builder.Services.AddScoped<ISalleManager, SalleManager>();
 
 

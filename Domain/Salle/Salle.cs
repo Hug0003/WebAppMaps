@@ -23,8 +23,8 @@ namespace Domain
         public Etage Etage { get; set; }
         public int EtageId { get; set; }
 
-        public Utilisateur Utilisateur{ get; set; }
-        public int UtilisateurId { get; set; }
+        public Utilisateur? Utilisateur { get; set; }
+        public int? UtilisateurId { get; set; }
     }
 }
 

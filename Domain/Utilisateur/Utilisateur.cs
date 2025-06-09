@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    public class Utilisateur
+    public class Utilisateur : Entity
     {
-        public int Id { get; set; }
+        internal int Id;
+
         public string? NomUtilisateur { get; set; }
         public string? PrenomUtilisateur { get; set; }
         public string? EmailUtilisateur { get; set; }
         public string? MotDePasseUtilisateur { get; set; }
         public string? RoleUtilisateur { get; set; } // "Administrateur" ou "Utilisateur"
-        public ICollection<Salle> Salles { get; set; } = new List<Salle>();
+        public ICollection<Salle>? Salles { get; set; } = new List<Salle>();
 
 
     }

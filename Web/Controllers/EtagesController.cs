@@ -19,13 +19,16 @@ namespace Web.Controllers
 
         private readonly IRepository<Etage> _etageRepository;
         private readonly IRepository<Salle> _salleRepository;
+        private readonly IRepository<Utilisateur> _utilisateurRepository;
         private readonly ISalleManager _salleManager;
 
 
-        public EtagesController(IRepository<Etage> etageRepository, IRepository<Salle> salleRepository, ISalleManager salleManager)
+        public EtagesController(IRepository<Etage> etageRepository, IRepository<Salle> salleRepository, IRepository<Utilisateur> utilisateurRepository, ISalleManager salleManager)
         {
             _etageRepository = etageRepository;
             _salleRepository = salleRepository;
+            _utilisateurRepository = utilisateurRepository;
+
             _salleManager = salleManager;
         }
 
@@ -34,7 +37,9 @@ namespace Web.Controllers
             var viewModel = new SalleViewModel
             {
                 salle = null,
-                etages = _etageRepository.GetAll().ToList()
+                etages = _etageRepository.GetAll().ToList(),
+                utilisateur = null
+
             };
 
             return View("SearchRoom", viewModel);
@@ -51,16 +56,17 @@ namespace Web.Controllers
 
             if (int.TryParse(salle.ToString(), out int numeroSalle) == false)
             {
-               viewModel = new SalleViewModel
-                {
-                    salle = await _salleManager.GetSalleByNameAsync(salle.ToString()),
-                    etages = _etageRepository.GetAll().ToList()
-                };
-                if (viewModel.salle == null)
-                {
-                    ModelState.AddModelError("salle", "La salle n'existe pas.");
-                    return View("SearchRoom", viewModel);
-                }
+               //viewModel = new SalleViewModel
+               // {
+               //     salle = await _salleManager.GetSalleByNameAsync(salle.ToString()),
+               //     etages = _etageRepository.GetAll().ToList()
+               // };
+               // if (viewModel.salle == null)
+               // {
+               //     ModelState.AddModelError("salle", "La salle n'existe pas.");
+               //     return View("SearchRoom", viewModel);
+               // }
+               
             }
             else
             {
@@ -177,7 +183,7 @@ namespace Web.Controllers
         public IActionResult Signaler(string salle, string probleme)
         {
             SendEmail("Signal : " + salle, probleme);
-            return View(nameof(SearchRoom));
+            return SearchRoom();
         }
 
 
