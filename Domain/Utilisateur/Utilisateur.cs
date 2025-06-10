@@ -8,8 +8,6 @@ namespace Domain
 {
     public class Utilisateur : Entity
     {
-        internal int Id;
-
         public string? NomUtilisateur { get; set; }
         public string? PrenomUtilisateur { get; set; }
         public string? EmailUtilisateur { get; set; }

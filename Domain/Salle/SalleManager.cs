@@ -18,6 +18,14 @@ namespace Domain
             _salleRepository = salleRepository;
         }
 
+        public async Task<List<Salle>> GetSalleByEtageidAsync(int IdEtage)
+        {
+            // Fix: Use ToListAsync to materialize the IQueryable into a List asynchronously
+            return await _salleRepository.GetAll()
+                                         .Where(s => s.EtageId == IdEtage)
+                                         .ToListAsync();
+        }
+
         public async Task<Salle> GetSalleByNameAsync(string nomSalle)
         {
             return await _salleRepository.GetAll()

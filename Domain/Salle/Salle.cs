@@ -15,11 +15,6 @@ namespace Domain
         public string? ImgSallePath { get; set; }
         public bool? Favori { get; set; }
 
-        public double? CoordXTopLeft { get; set; }
-        public double? CoordY1TopLeft { get; set; }
-        public double? CoordX2BotRight { get; set; }
-        public double? CoordY2BotRight { get; set; }
-
         public Etage Etage { get; set; }
         public int EtageId { get; set; }
 

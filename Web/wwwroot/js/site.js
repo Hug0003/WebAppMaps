@@ -1,4 +1,9 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿const formSelectEtage = document.querySelector(".formSelectEtage");
+const formSelectSalle = document.querySelector(".formSelectSalle");
 
-// Write your JavaScript code.
+formSelectEtage.addEventListener("change", function () {
+    const etageId = formSelectEtage.value;
+
+    formSelectSalle.disabled = true;
+
+});

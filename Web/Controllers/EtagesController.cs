@@ -16,21 +16,23 @@ namespace Web.Controllers
 {
     public class EtagesController : Controller
     {
-
         private readonly IRepository<Etage> _etageRepository;
         private readonly IRepository<Salle> _salleRepository;
         private readonly IRepository<Utilisateur> _utilisateurRepository;
         private readonly ISalleManager _salleManager;
 
-
-        public EtagesController(IRepository<Etage> etageRepository, IRepository<Salle> salleRepository, IRepository<Utilisateur> utilisateurRepository, ISalleManager salleManager)
+        public EtagesController(IRepository<Etage> etageRepository, 
+            IRepository<Salle> salleRepository, 
+            IRepository<Utilisateur> utilisateurRepository, 
+            ISalleManager salleManager)
         {
             _etageRepository = etageRepository;
             _salleRepository = salleRepository;
             _utilisateurRepository = utilisateurRepository;
-
             _salleManager = salleManager;
         }
+
+        #region Affiche Salle && Etage
 
         public IActionResult SearchRoom()
         {
@@ -38,7 +40,6 @@ namespace Web.Controllers
             {
                 salle = null,
                 etages = _etageRepository.GetAll().ToList(),
-                utilisateur = null
 
             };
 
@@ -48,31 +49,45 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult> FormSearchRoom(string salle)
         {
+            if (salle == null)
+            {
+                ModelState.AddModelError("salle", "La salle ne peut pas être null.");
+                return View("SearchRoom", new SalleViewModel
+                {
+                    salle = null,
+                    salles = _salleRepository.GetAll().ToList(),
+                    etages = _etageRepository.GetAll().ToList()
+                });
+            }
+
             var viewModel = new SalleViewModel
             {
                 salle = null,
+                salles = _salleRepository.GetAll().ToList(),
                 etages = _etageRepository.GetAll().ToList()
             };
 
             if (int.TryParse(salle.ToString(), out int numeroSalle) == false)
             {
-               //viewModel = new SalleViewModel
-               // {
-               //     salle = await _salleManager.GetSalleByNameAsync(salle.ToString()),
-               //     etages = _etageRepository.GetAll().ToList()
-               // };
-               // if (viewModel.salle == null)
-               // {
-               //     ModelState.AddModelError("salle", "La salle n'existe pas.");
-               //     return View("SearchRoom", viewModel);
-               // }
-               
+                viewModel = new SalleViewModel
+                {
+                    salle = await _salleManager.GetSalleByNameAsync(salle.ToString()),
+                    salles = _salleRepository.GetAll().ToList(),
+                    etages = _etageRepository.GetAll().ToList()
+                };
+                if (viewModel.salle == null)
+                {
+                    ModelState.AddModelError("salle", "La salle n'existe pas.");
+                    return View("SearchRoom", viewModel);
+                }
+
             }
             else
             {
                 viewModel = new SalleViewModel
                 {
                     salle = await _salleManager.GetSalleByNumeroAsync(numeroSalle),
+                    salles = _salleRepository.GetAll().ToList(),
                     etages = _etageRepository.GetAll().ToList()
                 };
                 if (viewModel.salle == null)
@@ -84,8 +99,26 @@ namespace Web.Controllers
             return View("SearchRoom", viewModel);
         }
 
-     
+    
 
+        public async Task<IActionResult> formSearchEtage(int EtageId)
+        {
+            var ViewModel = new SalleViewModel
+            {
+                salle = null,
+                salles = await _salleManager.GetSalleByEtageidAsync(EtageId),
+                etages = _etageRepository.GetAll().ToList()
+
+            };
+            return View("SearchRoom", ViewModel);
+        }
+        #endregion
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public IActionResult CreateEtage()
         {
             return View();
@@ -117,6 +150,7 @@ namespace Web.Controllers
             return RedirectToAction(nameof(SearchRoom));
         }
 
+        // -------------------------------------- Created Salle -----------------------------------------
 
 
         public IActionResult CreateSalle()
@@ -157,6 +191,8 @@ namespace Web.Controllers
 
             return RedirectToAction(nameof(SearchRoom));
         }
+
+        // -------------------------------------- Signaler  -----------------------------------------
 
         public IActionResult SignalerRoom()
         {

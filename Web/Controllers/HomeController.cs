@@ -12,6 +12,7 @@ namespace Web.Controllers
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
+            _logger.LogError("Aie aie ça marche pas !", null);
         }
 
         public IActionResult Index()

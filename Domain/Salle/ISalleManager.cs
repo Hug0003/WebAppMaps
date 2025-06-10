@@ -10,5 +10,7 @@ namespace Domain
     {
         Task<Salle> GetSalleByNumeroAsync(int numeroSalle);
         Task<Salle> GetSalleByNameAsync(string nomSalle);
+        Task<List<Salle>> GetSalleByEtageidAsync(int IdEtage);
+
     }
 }
