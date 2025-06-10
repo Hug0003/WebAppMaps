@@ -38,80 +38,16 @@ namespace Web.Controllers
         {
             var viewModel = new SalleViewModel
             {
-                salle = null,
+                salles = _salleRepository.GetAll().ToList(),
                 etages = _etageRepository.GetAll().ToList(),
 
             };
 
             return View("SearchRoom", viewModel);
         }
-
-        [HttpPost]
-        public async Task<IActionResult> FormSearchRoom(string salle)
-        {
-            if (salle == null)
-            {
-                ModelState.AddModelError("salle", "La salle ne peut pas être null.");
-                return View("SearchRoom", new SalleViewModel
-                {
-                    salle = null,
-                    salles = _salleRepository.GetAll().ToList(),
-                    etages = _etageRepository.GetAll().ToList()
-                });
-            }
-
-            var viewModel = new SalleViewModel
-            {
-                salle = null,
-                salles = _salleRepository.GetAll().ToList(),
-                etages = _etageRepository.GetAll().ToList()
-            };
-
-            if (int.TryParse(salle.ToString(), out int numeroSalle) == false)
-            {
-                viewModel = new SalleViewModel
-                {
-                    salle = await _salleManager.GetSalleByNameAsync(salle.ToString()),
-                    salles = _salleRepository.GetAll().ToList(),
-                    etages = _etageRepository.GetAll().ToList()
-                };
-                if (viewModel.salle == null)
-                {
-                    ModelState.AddModelError("salle", "La salle n'existe pas.");
-                    return View("SearchRoom", viewModel);
-                }
-
-            }
-            else
-            {
-                viewModel = new SalleViewModel
-                {
-                    salle = await _salleManager.GetSalleByNumeroAsync(numeroSalle),
-                    salles = _salleRepository.GetAll().ToList(),
-                    etages = _etageRepository.GetAll().ToList()
-                };
-                if (viewModel.salle == null)
-                {
-                    ModelState.AddModelError("salle", "La salle n'existe pas.");
-                    return View("SearchRoom", viewModel);
-                }
-            }
-            return View("SearchRoom", viewModel);
-        }
+            
 
     
-
-        public async Task<IActionResult> formSearchEtage(int EtageId)
-        {
-            var ViewModel = new SalleViewModel
-            {
-                salle = null,
-                salles = await _salleManager.GetSalleByEtageidAsync(EtageId),
-                etages = _etageRepository.GetAll().ToList()
-
-            };
-            return View("SearchRoom", ViewModel);
-        }
         #endregion
 
 

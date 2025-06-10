@@ -7,68 +7,74 @@
     <a asp-controller="Utilisateurs" asp-action="Signin">S'inscrire</a>
 
     <div class="form-section">
-        <form asp-action="formSearchRoom" class="form">
-            <input name="salle" placeholder="Numéro/Nom étage" class="input-field" />
+        <form class="form" id="searchRoomForm">
+            <input name="salle" id="salleInput" placeholder="Numéro/Nom étage" class="input-field" />
             <button type="submit" class="btn">Rechercher</button>
         </form>
     </div>
 
-    <div class="form-section">
-        @foreach(var salle in Model.salles)
-        {
-            <card>@salle.Nom</card>
-        }
-    </div>
-
-    @if(Model.salles != null)
+    @if(Model.etages != null)
     {
         <div class="form-section">
-            <form asp-action="formSearchSalle" class="form formSelectSalle">
-                <select name="SalleId">
-                    @foreach (var salle in Model.salles)
+            <form class="form formSelectEtage">
+                <select id="etageSelect" name="EtageId">
+                    <option value="all">-- Tous les étages --</option>
+                    @foreach (var etage in Model.etages)
                     {
-                        <option value="@salle.Numero">@salle.Nom ( @salle.Numero )</option>
+                        <option value="@etage.Id">@etage.Nom</option>
                     }
                 </select>
-                 <button type="submit" class="btn">Rechercher</button>
             </form>
         </div>
     }
 
-    @if (Model.salle != null)
+    <div id="sallesList">
+        @if(Model.salles != null)
+        {
+            @foreach (var salle in Model.salles)
+            {
+
+                <a class="salles_click" data-etage="@salle.EtageId" data-salledataid="@salle.Id" style="cursor:pointer;">@salle.Nom @salle.Id ( @salle.Numero )</a>
+            }
+        }
+        else
+        {
+            <p>no working</p>
+        }
+    </div>
+
+
+    @foreach(var salle in Model.salles)
     {
-        <section class="section_imgPlan">
-                <embed src="~/@Model.salle.Etage.ImgPlanEtagePath" class="img-plan" />
-        </section>
+        
+    
+        @if (salle != null)
+        {
 
-        <section class="section_infoSalle">
+            <div class="container_infoSalle" data-sallelid="@salle.Id" data-sallenom="@salle.Numero">
+            <section class="section_imgPlan">
+                    <embed src="~/@salle.Etage.ImgPlanEtagePath" class="img-plan" />
+            </section>
 
-            <ul class="list-info">
-                <li><strong>Nom Bureau :</strong> @Model.salle.Nom</li>
-                <li><strong>Numéro :</strong> @Model.salle.Numero</li>
-                <li><strong>Favori :</strong> @Model.salle.Favori</li>
-                <li><strong>Étage :</strong> @Model.salle.Etage.Nom</li>
-                <a asp-controller="Etages" asp-action="SignalerRoom">Signaler</a>
-
-            </ul>
-
-            <div class=".container_imageSalle">
-                <div>
-                    <img src="~/@Model.salle.ImgSallePath" alt="Salle" />
-
+            <section class="section_infoSalle">
+                <ul class="list-info">
+                    <li><strong>Nom Bureau :</strong> @salle.Nom</li>
+                        <li><strong>Numéro :</strong> @salle.Numero</li>
+                        <li><strong>Favori :</strong> @salle.Favori</li>
+                        <li><strong>Étage :</strong> @salle.Etage.Nom</li>
+                    <a asp-controller="Etages" asp-action="SignalerRoom">Signaler</a>
+                </ul>
+                <div class=".container_imageSalle">
+                    <div>
+                            <img src="~/@salle.ImgSallePath" alt="Salle" />
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </div>
+            
+        
+        
+        }
     }
 
-    @* <div class="floor-list">
-        <h3>Liste des étages :</h3>
-        @foreach (var item in Model.etages)
-        {
-            <ul>
-                <li><strong>Niveau :</strong> @item.Niveau</li>
-                <li><strong>Nom :</strong> @item.Nom</li>
-            </ul>
-        }
-    </div> *@
 </div>

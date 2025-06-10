@@ -50,6 +50,10 @@
     }
 
 
+.container_infoSalle{
+    display:none;
+}
+
 .floor-list {
     background-color: #fff;
     padding: 20px;
