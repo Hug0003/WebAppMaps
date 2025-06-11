@@ -3,24 +3,23 @@ const salleClick = document.querySelectorAll(".salles_click");
 const container_infoSalle = document.querySelectorAll('.container_infoSalle');
 
 
+document.getElementById('searchRoomForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var inputValue = document.getElementById('salleInput').value;
+    console.log('Valeur de l\'input :', inputValue);
+    container_infoSalle.forEach(info => {
 
-document.addEventListener('DOMContentLoaded', function () {
+        const salleNum = info.dataset.sallenum;
+        const salleNom = info.dataset.sallenom;
+        console.log('Valeur de l\'input :', salleNum);
 
-    salleClick.forEach(salle => {
-        salle.addEventListener('click', function (e) {
-            const salledataId = salle.dataset.salledataid;
-
-            container_infoSalle.forEach(info => {
-                if (info.dataset.sallelid === salledataId) {
-                    info.style.display = "block";
-                } else {
-                    info.style.display = "none";
-                }
-            });
-        });
-    });
+        if (inputValue == salleNum || inputValue == salleNom) {
+            info.style.display = "block";
+        } else {
+            info.style.display = "none";
+        }
+    })
 });
-
 
 
 formSelectEtage.addEventListener("change", function () {
@@ -41,19 +40,22 @@ formSelectEtage.addEventListener("change", function () {
 });
 
 
-document.getElementById('searchRoomForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    var inputValue = document.getElementById('salleInput').value;
-    console.log('Valeur de l\'input :', inputValue);
-    container_infoSalle.forEach(info => {
 
-        const salleNom = info.dataset.sallenom;
-        console.log('Valeur de l\'input :', salleNom);
 
-        if (inputValue == salleNom) {
-            info.style.display = "block";
-        } else {
-            info.style.display = "none";
-        }
-    })
+salleClick.forEach(salle => {
+    salle.addEventListener('click', function (e) {
+        const salledataId = salle.dataset.salledataid;
+
+        container_infoSalle.forEach(info => {
+            if (info.dataset.sallelid === salledataId) {
+                info.style.display = "block";
+            } else {
+                info.style.display = "none";
+            }
+        });
+
+
+    });
 });
+
+
