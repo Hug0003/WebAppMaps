@@ -2,9 +2,8 @@
 @model SalleViewModel
 
 <div class="search-room-container">
-    <a asp-controller="Etages" asp-action="CreateEtage">Créer un étage</a>
-    <a asp-controller="Etages" asp-action="CreateSalle">Créer une salle</a>
-    <a asp-controller="Utilisateurs" asp-action="Signin">S'inscrire</a>
+    <a class="linkStyle" asp-controller="Etages" asp-action="Index">+</a>
+
 
     <div class="form-section">
         <form class="form" id="searchRoomForm">
@@ -17,8 +16,9 @@
     {
         <div class="form-section">
             <form class="form formSelectEtage">
-                <select id="etageSelect" name="EtageId">
+                <select id="etageSelect" name="EtageId" class="form-select">
                     <option value="all">-- Tous les étages --</option>
+                    <hr class="dropdown-divider">
                     @foreach (var etage in Model.etages)
                     {
                         <option value="@etage.Id">@etage.Nom</option>
@@ -28,13 +28,23 @@
         </div>
     }
 
-    <div id="sallesList">
+    <div id="sallesList" class="container_ListSalle">
         @if(Model.salles != null)
         {
             @foreach (var salle in Model.salles)
             {
 
-                <a class="salles_click" data-etage="@salle.EtageId" data-salledataid="@salle.Id" style="cursor:pointer;">@salle.Nom ( @salle.Numero )</a>
+                <a class="salles_click" data-etage="@salle.EtageId" data-salledataid="@salle.Id" style="cursor:pointer;">
+                    <div class="box_visuSalle">
+                        <div class="box_visuSalleInfo">
+                            <p>@salle.Nom</p>
+                            <p>@salle.Numero</p>
+                        </div>
+                        <div class="box_visuSalleImg">
+                            <img class="Img_visuSalle" src="~/@salle.ImgSallePath"/>
+                        </div>
+                    </div>
+                </a>
             }
         }
         else
@@ -67,7 +77,7 @@
                             <li><strong>Étage :</strong> @salle.Etage.Nom</li>
                         <a asp-controller="Etages" asp-action="SignalerRoom">Signaler</a>
                     </ul>
-                    <div class=".container_imageSalle">
+                    <div class="container_imageSalle">
                         <div>
                                 <img src="~/@salle.ImgSallePath" alt="Salle" />
                         </div>

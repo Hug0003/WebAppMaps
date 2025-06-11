@@ -32,6 +32,11 @@ namespace Web.Controllers
             _salleManager = salleManager;
         }
 
+        public IActionResult Index()
+        {
+            return View();
+        }
+
         #region Affiche Salle && Etage
 
         public IActionResult SearchRoom()
@@ -51,10 +56,7 @@ namespace Web.Controllers
         #endregion
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+
         public IActionResult CreateEtage()
         {
             return View();
