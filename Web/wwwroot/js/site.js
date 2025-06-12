@@ -1,13 +1,11 @@
 ﻿const formSelectEtage = document.querySelector("#etageSelect");
 const salleClick = document.querySelectorAll(".salles_click");
 const container_infoSalle = document.querySelectorAll('.container_infoSalle');
-const infoSalles = document.querySelectorAll(".box_visuSalleInfo")
 const scrollContainer = document.querySelector(".container_ListSalle");
 
-const btns = document.querySelectorAll(".btnFavori");
-const txtFavorie = document.querySelectorAll(".displayFavorie");
-const box_iconFavori = document.querySelectorAll(".box_iconFavori");
 
+const box_iconFavori = document.querySelectorAll(".box_iconFavori");
+const box_iconFavori_visu = document.querySelectorAll(".box_iconFavori_visuSalle");
 
 
 //ajouter des cookies
@@ -145,24 +143,30 @@ const AddIconFavorie = function (container, nameDataset) {
     })
 }
 
-AddIconFavorie(infoSalles, "salleinfoid");
-AddIconFavorie(box_iconFavori, "salleidfavorite")
+
+
+
+const updateIcon = function (){
+    AddIconFavorie(box_iconFavori_visu, "salleinfoid");
+    AddIconFavorie(box_iconFavori, "salleidfavorite")
+}
+updateIcon()
+
+
 const iconsStar = document.querySelectorAll(".iconStar");
 
-    
 iconsStar.forEach(iconStar => {
-    console.log("ils sont la")
+
     iconStar.addEventListener("click", function (e) {
-        e.preventDefault();
         var parentIcon = iconStar.parentNode;
-        setCookie("mesSallesFavorites", parentIcon.dataset.salleidfavorite);
 
-        if (iconStar.classList.contains("iconFavoriFill")) {
-            AddIconFavorie(box_iconFavori, "salleidfavorite")
-
+        if (parentIcon.classList.contains("box_iconFavori_visuSalle")) {
+            setCookie("mesSallesFavorites", parentIcon.dataset.salleinfoid);
+            updateIcon()
         } else {
-            AddIconFavorie(box_iconFavori, "salleidfavorite")
-
+            setCookie("mesSallesFavorites", parentIcon.dataset.salleidfavorite);
+            updateIcon()
         }
+
     })
 }) 

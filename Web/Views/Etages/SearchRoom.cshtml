@@ -36,9 +36,11 @@
 
                 <a class="salles_click" data-etage="@salle.EtageId" data-salleclickid="@salle.Id" style="cursor:pointer;">
                     <div class="box_visuSalle">
-                        <div class="box_visuSalleInfo" data-salleinfoid="@salle.Id">
+                        <div class="box_visuSalleInfo" >
                             <p>@salle.Nom</p>
                             <p>@salle.Numero</p>
+                            <div class="box_iconFavori_visuSalle" data-salleinfoid="@salle.Id">
+                            </div>
                         </div>
                         <div class="box_visuSalleImg">
                             <img class="Img_visuSalle" src="~/@salle.ImgSallePath"/>
@@ -65,8 +67,6 @@
                 <section class="section_infoSalle">
 
                     <div class="box_iconFavori" data-salleidfavorite="@salle.Id">
-                        @* <a style="cursor:pointer;" class="btnFavori">j'adore</a>
-                        <p class="displayFavorie"></p> *@
                     </div>
 
                     <ul class="list-info">
