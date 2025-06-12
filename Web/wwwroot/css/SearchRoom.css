@@ -133,6 +133,7 @@ img {
 .container_infoSalle {
     display: none;
     margin-top:1rem;
+    position:relative;
 
 }
 
@@ -187,11 +188,20 @@ img {
 
 .list-info{
     padding: 1rem;
+    padding-top:2rem;
 }
 
 .container_imageSalle {
     border-left: 2px solid rgb(96,167,138);
     padding:1px;
+}
+
+.box_iconFavori{
+    position:absolute;
+    top:0;
+    left:0;
+    
+
 }
 
 

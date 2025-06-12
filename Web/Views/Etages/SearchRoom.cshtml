@@ -64,13 +64,17 @@
             <div class="container_infoSalle" data-sallelid="@salle.Id" data-sallenum="@salle.Numero" data-sallenom="@salle.Nom">
                 <section class="section_infoSalle">
 
+                    <div class="box_iconFavori" data-salleidfavorite="@salle.Id">
+                        @* <a style="cursor:pointer;" class="btnFavori">j'adore</a>
+                        <p class="displayFavorie"></p> *@
+                    </div>
+
                     <ul class="list-info">
                         <li><strong>Nom Bureau :</strong> @salle.Nom</li>
                         <li><strong>Numéro :</strong> @salle.Numero</li>
                         <li><strong>Favori :</strong> @salle.Favori</li>
                         <li><strong>Étage :</strong> @salle.Etage.Nom</li>
-                        <a style="cursor:pointer;" class="btnFavori " data-salleidfavorite="@salle.Id">j'adore</a>
-                        <p class="displayFavorie"></p>
+
                         <a asp-controller="Etages" asp-action="SignalerRoom">Signaler</a>
                     </ul>
                     <div class="container_imageSalle">
