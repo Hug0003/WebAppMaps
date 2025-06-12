@@ -1,8 +1,27 @@
 ﻿const formSelectEtage = document.querySelector("#etageSelect");
 const salleClick = document.querySelectorAll(".salles_click");
 const container_infoSalle = document.querySelectorAll('.container_infoSalle');
+const infoSalles = document.querySelectorAll(".box_visuSalleInfo")
+const scrollContainer = document.querySelector(".container_ListSalle");
+
+//recuperer les cookies
+function getCookie(nom) {
+    let nomCookie = nom + "=";
+    let cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+        let cookie = cookies[i];
+        while (cookie.charAt(0) === ' ') {
+            cookie = cookie.substring(1);
+        }
+        if (cookie.indexOf(nomCookie) === 0) {
+            return cookie.substring(nomCookie.length, cookie.length);
+        }
+    }
+    return "";
+}
 
 
+//input search salle 
 document.getElementById('searchRoomForm').addEventListener('submit', function (e) {
     e.preventDefault();
     var inputValue = document.getElementById('salleInput').value;
@@ -21,7 +40,7 @@ document.getElementById('searchRoomForm').addEventListener('submit', function (e
     })
 });
 
-
+//select filtre salle selon étage
 formSelectEtage.addEventListener("change", function () {
     const etageId = formSelectEtage.value;
 
@@ -41,13 +60,13 @@ formSelectEtage.addEventListener("change", function () {
 
 
 
-
+//affiche les infos de la salle cliqué
 salleClick.forEach(salle => {
     salle.addEventListener('click', function (e) {
-        const salledataId = salle.dataset.salledataid;
+        const salleClickId = salle.dataset.salleclickid;
 
         container_infoSalle.forEach(info => {
-            if (info.dataset.sallelid === salledataId) {
+            if (info.dataset.sallelid === salleClickId) {
                 info.style.display = "block";
             } else {
                 info.style.display = "none";
@@ -59,3 +78,37 @@ salleClick.forEach(salle => {
 });
 
 
+//scroll horizontal
+const scrollY = function (parent) {
+    parent.addEventListener('wheel', event => {
+        event.preventDefault();
+        parent.scrollLeft += event.deltaY;
+    })
+
+}
+
+scrollY(scrollContainer)
+
+
+
+
+//mettre icon favori
+const AddIconFavorie = function (container, nameDataset) {
+    let listSalleFavorite = getCookie("mesSallesFavorites");
+
+    container.forEach(infosalle => {
+        if (listSalleFavorite.includes(infosalle.dataset[nameDataset])) {
+            const htmlIcon =
+                `<svg xmlns = "http://www.w3.org/2000/svg" width = "16" height = "16" fill = "currentColor" class="bi bi-star-fill iconFavori" viewBox = "0 0 16 16" >
+        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+    </svg >
+`;
+            infosalle.insertAdjacentHTML("beforeend", htmlIcon)
+        };
+    })
+
+}
+
+AddIconFavorie(infoSalles, "salleinfoid");
+
+        

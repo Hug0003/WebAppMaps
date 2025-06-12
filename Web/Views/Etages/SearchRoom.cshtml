@@ -34,14 +34,11 @@
             @foreach (var salle in Model.salles)
             {
 
-                <a class="salles_click" data-etage="@salle.EtageId" data-salledataid="@salle.Id" style="cursor:pointer;">
+                <a class="salles_click" data-etage="@salle.EtageId" data-salleclickid="@salle.Id" style="cursor:pointer;">
                     <div class="box_visuSalle">
-                        <div class="box_visuSalleInfo">
+                        <div class="box_visuSalleInfo" data-salleinfoid="@salle.Id">
                             <p>@salle.Nom</p>
                             <p>@salle.Numero</p>
-                            
-                             
-  
                         </div>
                         <div class="box_visuSalleImg">
                             <img class="Img_visuSalle" src="~/@salle.ImgSallePath"/>
@@ -65,27 +62,29 @@
         {
 
             <div class="container_infoSalle" data-sallelid="@salle.Id" data-sallenum="@salle.Numero" data-sallenom="@salle.Nom">
-                <a style="cursor:pointer;" class="btnFavori " data-salleidfavorite="@salle.Id">j'adore</a>
-                <p class="displayFavorie"></p>
-                <section class="section_imgPlan">
-                        <embed src="~/@salle.Etage.ImgPlanEtagePath" class="img-plan" />
-                </section>
-
-                    <section class="section_infoSalle">
+                <section class="section_infoSalle">
 
                     <ul class="list-info">
                         <li><strong>Nom Bureau :</strong> @salle.Nom</li>
-                            <li><strong>Numéro :</strong> @salle.Numero</li>
-                            <li><strong>Favori :</strong> @salle.Favori</li>
-                            <li><strong>Étage :</strong> @salle.Etage.Nom</li>
+                        <li><strong>Numéro :</strong> @salle.Numero</li>
+                        <li><strong>Favori :</strong> @salle.Favori</li>
+                        <li><strong>Étage :</strong> @salle.Etage.Nom</li>
+                        <a style="cursor:pointer;" class="btnFavori " data-salleidfavorite="@salle.Id">j'adore</a>
+                        <p class="displayFavorie"></p>
                         <a asp-controller="Etages" asp-action="SignalerRoom">Signaler</a>
                     </ul>
                     <div class="container_imageSalle">
                         <div>
-                                <img src="~/@salle.ImgSallePath" alt="Salle" />
+                            <img src="~/@salle.ImgSallePath" alt="Salle" />
                         </div>
                     </div>
                 </section>
+
+                <section class="section_imgPlan">
+                        <embed src="~/@salle.Etage.ImgPlanEtagePath" class="img-plan" />
+                </section>
+
+  
             </div>
 
         

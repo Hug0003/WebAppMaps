@@ -23,7 +23,7 @@ salleClick_.forEach(s => s.addEventListener("click", function (e) {
     let favorites = getCookie("mesSallesFavorites");
     let isFavorite = false;
 
-    if (getCookie("mesSallesFavorites") && getCookie("mesSallesFavorites").includes(s.dataset.salledataid)){
+    if (getCookie("mesSallesFavorites") && getCookie("mesSallesFavorites").includes(s.dataset.salleclickid)){
         isFavorite = true
     } else {
         isFavorite = false
