@@ -15,15 +15,32 @@ img {
 
 
 /*formulaire search salle*/
+
+.addItem{
+    width:1rem;
+}
+
 .search-room-container {
-    max-width: 1280px;
-    min-height:max-content;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80vw;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
     margin: 40px auto;
     padding: 20px;
     font-family: 'Segoe UI', sans-serif;
     background-color: #f9f9f9;
     border-radius: 1rem;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.bodyBackDesable {
+    z-index:1000;
+    background-color: rgba(0,0,0,0.4);
+    pointer-events: none;
 }
 
 .form-section {
@@ -64,33 +81,35 @@ img {
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
-    .btn:hover {
-        background-color: rgb(124,170,150);
-        color:white;
-    }
+.btn:hover {
+    background-color: rgb(124,170,150);
+    color:white;
+}
 
 /*fin formulaire search salle*/
 
 /*style affichage card salleClick*/
 .container_ListSalle {
     width: 100%;
-    height: 10rem;
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    gap: 1.5rem;
-    padding:1rem;
-    overflow-x:hidden;
+    height: 100%;
+    display:grid;
+    grid-template-columns:repeat(3,20rem);
+    grid-template-rows:7rem;
+    justify-content:center;
+    overflow-y:scroll;
+    gap: 1rem;
+    padding: 2rem 0;
 }
+
 
 .box_visuSalle {
     position:relative;
     width: 20rem;
-    height: 8rem;
+    height: 7rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: .5rem .5rem .5rem rgba(0,0,0,0.2);
+    box-shadow: 0rem 0rem 2rem rgba(0,0,0,0.2);
     background-color: white;
     border-radius: 1rem;
     overflow: hidden;
@@ -115,96 +134,129 @@ img {
 }
 
 .box_visuSalleImg {
-    position:absolute;
-    top:0;
-    right:0;
+    position: absolute;
+    top: 0;
+    right: 0;
     width: 70%;
     height: 100%;
-    -webkit-clip-path: polygon(0 40%, 100% 0, 100% 100%, 0 100%);
-    clip-path: polygon(0 40%, 70% 0  ,100% 0, 100% 100%, 0 100%);
+    -webkit-clip-path: polygon(0 40%, 70% 0,100% 0, 100% 100%, 0 100%);
+    clip-path: polygon(0 40%, 70% 0,100% 0, 100% 100%, 0 100%);
 }
 
+.iconStar{
+    fill:rgb(96,167,138)
+}
 
 /*fin style affichage card salleClick*/
 
 
-
 /*style affichage toutes les infos salle et etage*/
 
-.container_infoSalle {
-    display: none;
-    margin-top:1rem;
-    position:relative;
-
-}
-
-.floor-list {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 30px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-}
-
-    ul, .floor-list ul {
-        list-style: none;
-        padding: 0;
-    }
-
-    li, .floor-list li {
-        padding: 5px 0;
-    }
-
-.section_imgPlan {
-    width: 100%;
-    height: 45rem;
-    padding: 0;
-    border-radius: 1rem;
-    box-shadow: 0 0 2rem rgba(0,0,0,0.15);
-    display: flex;
+.container_plan_info {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80vw;
+    height: 80vh;
+    background-color:white;
+    border-radius:1rem;
+    display: grid;
+    grid-template-rows: 1fr 4fr;
     align-items: center;
     justify-content: center;
-    margin-top: 1rem;
-    background-color:white;
+    pointer-events: all;
     overflow:hidden;
+    z-index: 10000;
+    
 }
 
-.img-plan {
-    transform: rotate(-90deg);
-    width:50rem;
-    height:1200px;
-    object-fit:contain;
+.closeModal {
+    position: absolute;
+    right: 1rem;
+    top: 0rem;
+    border: none;
+    outline: none;
+    font-size: 2rem;
+    color: rgb(96,167,138);
+    background-color: transparent;
+    z-index: 30000;
 }
+
+
+.hidden {
+    display: none;
+}
+
+
 
 .section_infoSalle {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: max-content;
-    background-color: white;
-    border-radius: 1rem;
-    box-shadow: 0 0 2rem rgba(0,0,0,0.15);
+    height: 10vh;
+    background-color:white;
     display: grid;
-    grid-template-columns: 4fr 1fr;
-    overflow: hidden;
+    grid-template-columns: 1fr 4fr;
+
 }
 
-.list-info{
-    padding: 1rem;
-    padding-top:2rem;
+.box_imgSalle {
+    position:absolute;
+    top:0;
+    left:0;
+    width: 30%;
+    height: 100%;
 }
 
-.container_imageSalle {
-    border-left: 2px solid rgb(96,167,138);
-    padding:1px;
+.imgSalle {
+    -webkit-clip-path: polygon(0 0%, 60% 0,100% 50%, 100% 100%, 0 100%);
+    clip-path: polygon(0 0%, 60% 0,100% 50%, 100% 100%, 0 100%);
+    object-fit: cover;
 }
 
 .box_iconFavori{
     position:absolute;
-    top:0;
-    left:0;
-    
+    top:.2rem;
+    left:31%;
+    cursor:pointer;
+    z-index:50000;
+}
 
+.list-info{
+    position:absolute;
+    top:0;
+    left:31%;
+    width:70%;
+    height:100%;
+    display:flex;
+    gap:1rem;
+    padding-top:2rem;
+}
+
+.p_infoSalle {
+    margin-bottom:0;
+}
+
+.section_imgPlan {
+    position: absolute;
+    top: 10vh;
+    left: 0;
+    width: 100%;
+    height: 70vh;
+    background-color: white;
+    overflow:hidden;
+    
+}
+
+.img-plan {
+    
+    transform: rotate(-90deg) scale(1.7) translate(-1rem);
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 
-
-/*finstyle affichage toutes les infos salle et etage*/
+/*fin style affichage toutes les infos salle et etage*/

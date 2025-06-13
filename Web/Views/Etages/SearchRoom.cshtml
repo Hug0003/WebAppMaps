@@ -2,31 +2,38 @@
 @model SalleViewModel
 
 <div class="search-room-container">
-    <a class="linkStyle" asp-controller="Etages" asp-action="Index">+</a>
+    <a class="linkStyle addItem" asp-controller="Etages" asp-action="Index">+</a>
 
 
     <div class="form-section">
         <form class="form" id="searchRoomForm">
-            <input name="salle" id="salleInput" placeholder="Numéro/Nom étage" class="input-field" />
+            <input name="salle" id="salleInput" placeholder="Numéro/Nom salle" class="input-field" />
             <button type="submit" class="btn">Rechercher</button>
         </form>
     </div>
 
-    @if(Model.etages != null)
-    {
-        <div class="form-section">
-            <form class="form formSelectEtage">
-                <select id="etageSelect" name="EtageId" class="form-select">
-                    <option value="all">-- Tous les étages --</option>
-                    <hr class="dropdown-divider">
-                    @foreach (var etage in Model.etages)
-                    {
-                        <option value="@etage.Id">@etage.Nom</option>
-                    }
-                </select>
-            </form>
-        </div>
-    }
+
+    <div class="form-section">
+        <form class="form formSelectEtage">
+            <select id="etageSelect" name="EtageId" class="form-select">
+                <option value="all">-- Tous les étages --</option>
+                <hr class="dropdown-divider">
+                @foreach (var etage in Model.etages)
+                {
+                    <option value="@etage.Id">@etage.Nom</option>
+                }
+            </select>
+            <select id="favorieSelect" name="SalleFavorie" class="form-select">
+                <option value="all">-- Tous les étages --</option>
+                <hr class="dropdown-divider">
+                <option value="1">Mes favoris</option>
+                <option value="0">Les non favoris</option>
+
+
+            </select>
+        </form>
+    </div>
+    
 
     <div id="sallesList" class="container_ListSalle">
         @if(Model.salles != null)
@@ -50,56 +57,50 @@
                         </div>
                     </div>
                 </a>
+
+                <div class="hidden container_plan_info" data-sallelid="@salle.Id" data-sallenom="@salle.Nom" data-sallenum="@salle.Numero">
+                    <button class="closeModal">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x-lg iconCLose" viewBox="0 0 16 16">
+                          <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                        </svg>
+                    </button>
+
+                    <div class="section_infoSalle">
+                        <div class="box_imgSalle">
+                            <img src="~/@salle.ImgSallePath" alt="Salle" class="imgSalle" />
+                        </div>
+                     
+                        <div class="box_iconFavori" data-salleidfavorite="@salle.Id">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill iconFavoriFill iconStar" viewBox="0 0 16 16">
+                                <path class="iconStar" d="" />
+                            </svg>
+                        </div>
+
+                        <div class="list-info">
+                            <div>
+                            <p class="p_infoSalle"><strong>Nom Bureau :</strong> @salle.Nom</p>
+                            <p class="p_infoSalle"><strong>Numéro :</strong> @salle.Numero</p>
+                            </div>
+                            <div>
+                            <p class="p_infoSalle" ><strong>Étage :</strong> @salle.Etage.Nom</p>
+                             <a asp-controller="Etages" asp-action="SignalerRoom">Signaler</a>
+                            </div>
+                        </div>
+                    </div>       
+                <div class="section_imgPlan" >
+                        <img src="~/@salle.Etage.ImgPlanEtagePath" class="img-plan" />
+                </div>
+
+                </div>
+
             }
         }
         else
         {
             <p>no working</p>
         }
+
+
+    </div>
     </div>
 
-
-    @foreach(var salle in Model.salles)
-    {
-        
-    
-        @if (salle != null)
-        {
-
-            <div class="container_infoSalle" data-sallelid="@salle.Id" data-sallenum="@salle.Numero" data-sallenom="@salle.Nom">
-                <section class="section_infoSalle">
-
-                    <div class="box_iconFavori" data-salleidfavorite="@salle.Id">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill iconFavoriFill iconStar" viewBox="0 0 16 16">
-                            <path d="" />
-                        </svg>
-                    </div>
-
-                    <ul class="list-info">
-                        <li><strong>Nom Bureau :</strong> @salle.Nom</li>
-                        <li><strong>Numéro :</strong> @salle.Numero</li>
-                        <li><strong>Favori :</strong> @salle.Favori</li>
-                        <li><strong>Étage :</strong> @salle.Etage.Nom</li>
-
-                        <a asp-controller="Etages" asp-action="SignalerRoom">Signaler</a>
-                    </ul>
-                    <div class="container_imageSalle">
-                        <div>
-                            <img src="~/@salle.ImgSallePath" alt="Salle" />
-                        </div>
-                    </div>
-                </section>
-
-                <section class="section_imgPlan">
-                        <embed src="~/@salle.Etage.ImgPlanEtagePath" class="img-plan" />
-                </section>
-
-  
-            </div>
-
-        
-        
-        }
-    }
-
-</div>
