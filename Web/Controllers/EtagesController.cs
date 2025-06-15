@@ -68,10 +68,11 @@ namespace Web.Controllers
             if (ImgPlanEtagePath != null && ImgPlanEtagePath.Length > 0)
             {
                 // Chemin de base où les fichiers seront stockés
-                var assetsPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "assets");
+                var assetsPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "assets/PlansEtages/");
 
                 // Chemin complet du fichier
                 var filePath = Path.Combine(assetsPath, ImgPlanEtagePath.FileName);
+                
 
                 // Sauvegarde du fichier
                 using (var stream = new FileStream(filePath, FileMode.Create))
@@ -80,7 +81,7 @@ namespace Web.Controllers
                 }
 
                 // Création de l'objet Etage et ajout à la base de données
-                var etage = new Etage { Niveau = Niveau, Nom = Nom, ImgPlanEtagePath = "assets/" + ImgPlanEtagePath.FileName };
+                var etage = new Etage { Niveau = Niveau, Nom = Nom, ImgPlanEtagePath = "assets/PlansEtages/" + ImgPlanEtagePath.FileName };
                 await _etageRepository.AddAsync(etage);
                 await _etageRepository.SaveChangeAsync();
             }
@@ -102,14 +103,13 @@ namespace Web.Controllers
         public async Task<IActionResult> CreateSalle(int Numero, string Nom, int EtageId, IFormFile ImgSallePath)
         {
 
-            if(ImgSallePath != null && ImgSallePath.Length > 0)
+            if (ImgSallePath != null && ImgSallePath.Length > 0)
             {
-
-                var assetsPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "assets");
+                var assetsPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "assets/Salles/");
 
                 var filePath = Path.Combine(assetsPath, ImgSallePath.FileName);
 
-                using(var stream = new FileStream(filePath, FileMode.Create))
+                using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await ImgSallePath.CopyToAsync(stream);
                 }
@@ -119,12 +119,30 @@ namespace Web.Controllers
                     Numero = Numero,
                     Nom = Nom,
                     EtageId = EtageId,
-                    ImgSallePath = "assets/" + ImgSallePath.FileName
+                    ImgSallePath = "assets/Salles/" + ImgSallePath.FileName
                 };
+
                 //ajoute a la base de donnée
                 await _salleRepository.AddAsync(salle);
                 //sauvegarde la base de donnée
                 await _salleRepository.SaveChangeAsync();
+
+            }
+            else
+            {
+                var salle = new Salle
+                {
+                    Numero = Numero,
+                    Nom = Nom,
+                    EtageId = EtageId,
+                    ImgSallePath = "assets/Salles/ImageSalle_444.jpg"
+                };
+
+                //ajoute a la base de donnée
+                await _salleRepository.AddAsync(salle);
+                //sauvegarde la base de donnée
+                await _salleRepository.SaveChangeAsync();
+
             }
 
             return RedirectToAction(nameof(SearchRoom));
