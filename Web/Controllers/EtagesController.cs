@@ -100,50 +100,93 @@ namespace Web.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> CreateSalle(int Numero, string Nom, int EtageId, IFormFile ImgSallePath)
+        public async Task<IActionResult> CreateSalle(
+            int Numero, 
+            string Nom, 
+            int EtageId, 
+            IFormFile ImgSallePath, 
+            TypeSalle TypeSalle,
+            // Paramètres pour SalleReunion
+            bool? Ecran = null,
+            bool? Camera = null,
+            bool? TableauBlanc = null,
+            bool? SystemeAudio = null,
+
+            // Paramètres pour SallePause
+            int? MicroOndes = null,
+            bool? Frigo = null,
+            int? Evier = null,
+            bool? Distributeur = null,
+            int? NbTables = null,
+            int? NbChaises = null,
+            // Paramètres pour SalleBubble
+            bool? PriseElectrique = null
+            )
         {
+            string imagePath = "assets/Salles/ImageSalle_444.jpg";
 
             if (ImgSallePath != null && ImgSallePath.Length > 0)
             {
                 var assetsPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "assets/Salles/");
-
                 var filePath = Path.Combine(assetsPath, ImgSallePath.FileName);
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await ImgSallePath.CopyToAsync(stream);
                 }
-
-                var salle = new Salle
-                {
-                    Numero = Numero,
-                    Nom = Nom,
-                    EtageId = EtageId,
-                    ImgSallePath = "assets/Salles/" + ImgSallePath.FileName
-                };
-
-                //ajoute a la base de donnée
-                await _salleRepository.AddAsync(salle);
-                //sauvegarde la base de donnée
-                await _salleRepository.SaveChangeAsync();
-
+                imagePath = "assets/Salles/" + ImgSallePath.FileName;
             }
-            else
+
+            Salle salle = TypeSalle switch
             {
-                var salle = new Salle
+                TypeSalle.Reunion => new SalleReunion
                 {
                     Numero = Numero,
                     Nom = Nom,
                     EtageId = EtageId,
-                    ImgSallePath = "assets/Salles/ImageSalle_444.jpg"
-                };
+                    ImgSallePath = imagePath,
+                    TypeSalle = TypeSalle,
+                    Ecran = Ecran ?? false,
+                    Camera = Camera ?? false,
+                    TableauBlanc = TableauBlanc ?? false,
+                    SystemeAudio = SystemeAudio ?? false,
+    
+                },
+                TypeSalle.Pause => new SallePause
+                {
+                    Numero = Numero,
+                    Nom = Nom,
+                    EtageId = EtageId,
+                    ImgSallePath = imagePath,
+                    TypeSalle = TypeSalle,
+                    MicroOndes = MicroOndes ?? 0,
+                    Frigo = Frigo ?? false,
+                    Evier = Evier ?? 0,
+                    Distributeur = Distributeur ?? false,
+                    NbTables = NbTables ?? 0,
+                    NbChaises = NbChaises ?? 0
+                },
+                TypeSalle.Bubble => new SalleBubble
+                {
+                    Numero = Numero,
+                    Nom = Nom,
+                    EtageId = EtageId,
+                    ImgSallePath = imagePath,
+                    TypeSalle = TypeSalle,
+                    PriseElectrique = PriseElectrique ?? false,
+                },
+                _ => new Salle
+                {
+                    Numero = Numero,
+                    Nom = Nom,
+                    EtageId = EtageId,
+                    ImgSallePath = imagePath,
+                    TypeSalle = TypeSalle
+                }
+            };
 
-                //ajoute a la base de donnée
-                await _salleRepository.AddAsync(salle);
-                //sauvegarde la base de donnée
-                await _salleRepository.SaveChangeAsync();
-
-            }
+            await _salleRepository.AddAsync(salle);
+            await _salleRepository.SaveChangeAsync();
 
             return RedirectToAction(nameof(SearchRoom));
         }

@@ -4,6 +4,7 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(WebAppMapsContext))]
-    partial class WebAppMapsContextModelSnapshot : ModelSnapshot
+    [Migration("20250615155755_add_class_pause_reunion_bubble")]
+    partial class add_class_pause_reunion_bubble
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,11 +68,6 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(13)
-                        .HasColumnType("nvarchar(13)");
-
                     b.Property<int>("EtageId")
                         .HasColumnType("int");
 
@@ -92,9 +90,6 @@ namespace Infrastructure.Migrations
                     b.Property<int>("Numero")
                         .HasColumnType("int");
 
-                    b.Property<int>("TypeSalle")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -108,10 +103,6 @@ namespace Infrastructure.Migrations
                     b.HasIndex("UtilisateurId");
 
                     b.ToTable("Salles");
-
-                    b.HasDiscriminator().HasValue("Salle");
-
-                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Domain.Utilisateur", b =>
@@ -149,41 +140,6 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Utilisateurs");
-                });
-
-            modelBuilder.Entity("Domain.SalleBubble", b =>
-                {
-                    b.HasBaseType("Domain.Salle");
-
-                    b.Property<bool>("PriseElectrique")
-                        .HasColumnType("bit");
-
-                    b.HasDiscriminator().HasValue("SalleBubble");
-                });
-
-            modelBuilder.Entity("Domain.SallePause", b =>
-                {
-                    b.HasBaseType("Domain.Salle");
-
-                    b.Property<bool>("Distributeur")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Evier")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Frigo")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("MicroOndes")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NbChaises")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NbTables")
-                        .HasColumnType("int");
-
-                    b.HasDiscriminator().HasValue("SallePause");
                 });
 
             modelBuilder.Entity("Domain.Salle", b =>

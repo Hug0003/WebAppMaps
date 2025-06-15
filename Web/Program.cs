@@ -16,6 +16,11 @@ namespace Web
             builder.Services.AddDbContext<WebAppMapsContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddScoped<IRepository<Salle>, Repository<Salle>>();
+            builder.Services.AddScoped<IRepository<SallePause>, Repository<SallePause>>();
+            builder.Services.AddScoped<IRepository<SalleBubble>, Repository<SalleBubble>>();
+
+
+
             builder.Services.AddScoped<IRepository<Etage>, Repository<Etage>>();
             builder.Services.AddScoped<IRepository<Utilisateur>, Repository<Utilisateur>>();
 

@@ -4,6 +4,7 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(WebAppMapsContext))]
-    partial class WebAppMapsContextModelSnapshot : ModelSnapshot
+    [Migration("20250615161501_typeSalle")]
+    partial class typeSalle
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -155,6 +158,21 @@ namespace Infrastructure.Migrations
                 {
                     b.HasBaseType("Domain.Salle");
 
+                    b.Property<bool>("Climatisation")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("ConnexionInternet")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("EclairageReglable")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Isolement")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MaterielDisponible")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("PriseElectrique")
                         .HasColumnType("bit");
 
@@ -164,6 +182,9 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.SallePause", b =>
                 {
                     b.HasBaseType("Domain.Salle");
+
+                    b.Property<bool>("Cafetiere")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("Distributeur")
                         .HasColumnType("bit");

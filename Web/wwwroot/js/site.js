@@ -55,6 +55,31 @@ function getCookie(nom) {
 }
 
 
+function showSpecificFields() {
+    var typeSalle = document.getElementById('typeSalle').value;
+
+    // Cacher tous les champs spécifiques
+    document.getElementById('reunionFields').style.display = 'none';
+    document.getElementById('pauseFields').style.display = 'none';
+    document.getElementById('bubbleFields').style.display = 'none';
+
+    // Afficher les champs correspondants au type sélectionné
+    switch (typeSalle) {
+        case '1': // Réunion
+            document.getElementById('reunionFields').style.display = 'block';
+            break;
+        case '2': // Pause
+            document.getElementById('pauseFields').style.display = 'block';
+            break;
+        case '3': // Bubble
+            document.getElementById('bubbleFields').style.display = 'block';
+            break;
+    }
+}
+
+// Appeler la fonction au chargement de la page
+window.onload = showSpecificFields;
+
 
 
 // Écouteur d'événement pour le filtre d'étage

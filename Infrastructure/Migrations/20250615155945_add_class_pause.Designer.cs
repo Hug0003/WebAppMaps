@@ -4,6 +4,7 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(WebAppMapsContext))]
-    partial class WebAppMapsContextModelSnapshot : ModelSnapshot
+    [Migration("20250615155945_add_class_pause")]
+    partial class add_class_pause
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,9 +95,6 @@ namespace Infrastructure.Migrations
                     b.Property<int>("Numero")
                         .HasColumnType("int");
 
-                    b.Property<int>("TypeSalle")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -151,22 +151,9 @@ namespace Infrastructure.Migrations
                     b.ToTable("Utilisateurs");
                 });
 
-            modelBuilder.Entity("Domain.SalleBubble", b =>
-                {
-                    b.HasBaseType("Domain.Salle");
-
-                    b.Property<bool>("PriseElectrique")
-                        .HasColumnType("bit");
-
-                    b.HasDiscriminator().HasValue("SalleBubble");
-                });
-
             modelBuilder.Entity("Domain.SallePause", b =>
                 {
                     b.HasBaseType("Domain.Salle");
-
-                    b.Property<bool>("Distributeur")
-                        .HasColumnType("bit");
 
                     b.Property<int>("Evier")
                         .HasColumnType("int");
@@ -175,12 +162,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<int>("MicroOndes")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NbChaises")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NbTables")
                         .HasColumnType("int");
 
                     b.HasDiscriminator().HasValue("SallePause");

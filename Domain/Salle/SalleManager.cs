@@ -13,6 +13,7 @@ namespace Domain
 
         private readonly IRepository<Salle> _salleRepository;
 
+
         public SalleManager(IRepository<Salle> salleRepository)
         {
             _salleRepository = salleRepository;
