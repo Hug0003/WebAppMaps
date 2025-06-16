@@ -86,17 +86,21 @@ img {
     color:white;
 }
 
+.formSelectFiltre{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr .5fr;
+    gap:1rem;
+}
 /*fin formulaire search salle*/
-
 /*style affichage card salleClick*/
 .container_ListSalle {
     width: 100%;
     height: 100%;
-    display:grid;
-    grid-template-columns:repeat(3,20rem);
-    grid-template-rows:7rem;
-    justify-content:center;
-    overflow-y:scroll;
+    display: grid;
+    grid-template-columns: repeat(3,20rem);
+    grid-auto-rows: 7rem;
+    justify-content: center;
+    overflow-y: scroll;
     gap: 1rem;
     padding: 2rem 0;
 }
@@ -145,6 +149,7 @@ img {
 
 .iconStar{
     fill:rgb(96,167,138);
+
 
 }
 
