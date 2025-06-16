@@ -1,6 +1,7 @@
 ﻿
 const formSelectEtage = document.querySelector("#etageSelect");
 const formSelectFavorie = document.querySelector("#favoriSelect");
+const formSelectType = document.querySelector("#typeSalle");
 const salleClick = document.querySelectorAll(".salles_click");
 const container_infoSalle = document.querySelectorAll('.container_plan_info');
 const scrollContainer = document.querySelector(".container_ListSalle");
@@ -54,16 +55,14 @@ function getCookie(nom) {
     return "";
 }
 
-
+// formulaire de creation de salle adaptation
 function showSpecificFields() {
     var typeSalle = document.getElementById('typeSalle').value;
 
-    // Cacher tous les champs spécifiques
     document.getElementById('reunionFields').style.display = 'none';
     document.getElementById('pauseFields').style.display = 'none';
     document.getElementById('bubbleFields').style.display = 'none';
 
-    // Afficher les champs correspondants au type sélectionné
     switch (typeSalle) {
         case '1': // Réunion
             document.getElementById('reunionFields').style.display = 'block';
@@ -77,24 +76,23 @@ function showSpecificFields() {
     }
 }
 
-// Appeler la fonction au chargement de la page
-window.onload = showSpecificFields;
 
 
 
-// Écouteur d'événement pour le filtre d'étage
 formSelectEtage.addEventListener("change", filterSalles);
+formSelectType.addEventListener("change", filterSalles);
 
-// Écouteur d'événement pour le filtre favori
 formSelectFavorie.addEventListener("click", toggleFavoriteFilter);
 
 function filterSalles() {
     const etageId = formSelectEtage.value;
+    const typeSalle = formSelectType.value;
     const isFavorie = document.querySelector(".iconStar-filter");
     const salleFavorie = getCookie("mesSallesFavorites");
 
     salleClick.forEach(function (salle) {
         const matchesEtage = etageId === "all" || salle.dataset.etage == etageId;
+        const matchesType = typeSalle === "all" || salle.dataset.type == typeSalle;
         let matchesFavorie = false;
 
         if (isFavorie.getAttribute("d") === dStarFull) {
@@ -103,7 +101,7 @@ function filterSalles() {
             matchesFavorie = true;
         }
 
-        if (matchesEtage && matchesFavorie) {
+        if (matchesEtage && matchesFavorie && matchesType) {
             salle.style.display = "block";
         } else {
             salle.style.display = "none";
@@ -114,14 +112,11 @@ function filterSalles() {
 function toggleFavoriteFilter() {
     const isFavorie = document.querySelector(".iconStar-filter");
 
-    // Inverser l'état de l'icône d'étoile
     if (isFavorie.getAttribute("d") === dStarEmpty) {
         isFavorie.setAttribute("d", dStarFull);
     } else {
         isFavorie.setAttribute("d", dStarEmpty);
     }
-
-    // Appliquer le filtre après avoir changé l'état de l'icône
     filterSalles();
 }
 
