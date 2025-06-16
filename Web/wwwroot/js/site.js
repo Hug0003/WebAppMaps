@@ -1,5 +1,4 @@
-﻿
-const formSelectEtage = document.querySelector("#etageSelect");
+﻿const formSelectEtage = document.querySelector("#etageSelect");
 const formSelectFavorie = document.querySelector("#favoriSelect");
 const formSelectType = document.querySelector("#typeSalle");
 const formSelectAttribut = document.querySelector("#attributSalle");
@@ -278,5 +277,175 @@ iconsStar.forEach(iconStar => {
         }
 
     })
-}) 
+})
+
+// Gestion du zoom des plans
+document.addEventListener('DOMContentLoaded', function() {
+    const planSections = document.querySelectorAll('.section_imgPlan');
+    
+    planSections.forEach(section => {
+        const container = section.querySelector('.img-plan-container');
+        const img = section.querySelector('.img-plan');
+        const zoomControls = section.querySelector('.zoom-controls');
+        
+        let scale = 1.7;
+        let isDragging = false;
+        let startX, startY;
+        let translateX = 0;
+        let translateY = 0;
+        let lastTranslateX = 0;
+        let lastTranslateY = 0;
+        let animationFrameId = null;
+        let zoomLevel = 0;
+        const zoomLevels = [1.7, 2.5, 3.5, 4.5];
+
+        // Appliquer l'échelle initiale
+        updateTransform();
+
+        function updateTransform() {
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+            }
+            animationFrameId = requestAnimationFrame(() => {
+                const bounded = getBoundedPosition(translateX, translateY);
+                container.style.transform = `translate(${bounded.x}px, ${bounded.y}px) scale(${scale})`;
+            });
+        }
+
+        function getBoundedPosition(x, y) {
+            const rect = section.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
+            
+            const maxX = Math.max(0, (containerRect.width * scale - rect.width) / 2);
+            const maxY = Math.max(0, (containerRect.height * scale - rect.height) / 2);
+            
+            let boundedX = x;
+            let boundedY = y;
+            
+            if (Math.abs(x) > maxX) {
+                const overshoot = Math.abs(x) - maxX;
+                boundedX = x > 0 ? maxX + overshoot * 0.2 : -maxX - overshoot * 0.2;
+            }
+            
+            if (Math.abs(y) > maxY) {
+                const overshoot = Math.abs(y) - maxY;
+                boundedY = y > 0 ? maxY + overshoot * 0.2 : -maxY - overshoot * 0.2;
+            }
+            
+            return { x: boundedX, y: boundedY };
+        }
+
+        function zoomToLevel(level) {
+            const oldScale = scale;
+            zoomLevel = Math.max(0, Math.min(zoomLevels.length - 1, level));
+            scale = zoomLevels[zoomLevel];
+            
+            // Calcul du centre de l'image
+            const rect = section.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
+            
+            // Calcul des dimensions de l'image avec le nouveau zoom
+            const newWidth = containerRect.width * scale;
+            const newHeight = containerRect.height * scale;
+            
+            // Calcul des limites pour garder l'image centrée
+            const maxX = Math.max(0, (newWidth - rect.width) / 2);
+            const maxY = Math.max(0, (newHeight - rect.height) / 2);
+            
+            // Réinitialisation de la position au centre
+            translateX = 0;
+            translateY = 0;
+            
+            // Application des limites
+            const bounded = getBoundedPosition(translateX, translateY);
+            translateX = bounded.x;
+            translateY = bounded.y;
+            
+            lastTranslateX = translateX;
+            lastTranslateY = translateY;
+            
+            updateTransform();
+        }
+
+        // Gestion des boutons de zoom
+        zoomControls.addEventListener('click', function(e) {
+            const button = e.target.closest('.zoom-btn');
+            if (!button) return;
+
+            const action = button.dataset.action;
+            switch(action) {
+                case 'zoom-in':
+                    zoomToLevel(zoomLevel + 1);
+                    break;
+                case 'zoom-out':
+                    zoomToLevel(zoomLevel - 1);
+                    break;
+                case 'reset':
+                    zoomLevel = 1;
+                    scale = zoomLevels[zoomLevel];
+                    translateX = 0;
+                    translateY = 0;
+                    lastTranslateX = 0;
+                    lastTranslateY = 0;
+                    updateTransform();
+                    break;
+            }
+        });
+
+        // Gestion du déplacement avec la souris
+        section.addEventListener('mousedown', function(e) {
+            if (e.target === img || e.target === container) {
+                e.preventDefault();
+                isDragging = true;
+                startX = e.clientX - translateX;
+                startY = e.clientY - translateY;
+                container.classList.add('dragging');
+            }
+        });
+
+        function handleMove(e) {
+            if (!isDragging) return;
+            
+            translateX = e.clientX - startX;
+            translateY = e.clientY - startY;
+            
+            updateTransform();
+        }
+
+        document.addEventListener('mousemove', handleMove);
+
+        document.addEventListener('mouseup', function() {
+            if (isDragging) {
+                isDragging = false;
+                container.classList.remove('dragging');
+                
+                const bounded = getBoundedPosition(translateX, translateY);
+                translateX = bounded.x;
+                translateY = bounded.y;
+                
+                lastTranslateX = translateX;
+                lastTranslateY = translateY;
+                
+                updateTransform();
+            }
+        });
+
+        // Gestion du zoom avec la molette
+        section.addEventListener('wheel', function(e) {
+            e.preventDefault();
+            const delta = e.deltaY > 0 ? -1 : 1;
+            zoomToLevel(zoomLevel + delta);
+        });
+
+        // Nettoyage lors de la fermeture de la modal
+        const closeModal = section.closest('.container_plan_info').querySelector('.closeModal');
+        if (closeModal) {
+            closeModal.addEventListener('click', function() {
+                if (animationFrameId) {
+                    cancelAnimationFrame(animationFrameId);
+                }
+            });
+        }
+    });
+}); 
 
