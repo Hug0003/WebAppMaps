@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(WebAppMapsContext))]
-    [Migration("20250605130557_reload_projet")]
-    partial class reload_projet
+    [Migration("20250616080326_yes04")]
+    partial class yes04
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,20 +65,13 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<double?>("CoordX2BotRight")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("CoordXTopLeft")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("CoordY1TopLeft")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("CoordY2BotRight")
-                        .HasColumnType("float");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)");
 
                     b.Property<int>("EtageId")
                         .HasColumnType("int");
@@ -102,14 +95,98 @@ namespace Infrastructure.Migrations
                     b.Property<int>("Numero")
                         .HasColumnType("int");
 
+                    b.Property<int>("TypeSalle")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("UtilisateurId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("EtageId");
 
+                    b.HasIndex("UtilisateurId");
+
                     b.ToTable("Salles");
+
+                    b.HasDiscriminator().HasValue("Salle");
+
+                    b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("Domain.Utilisateur", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EmailUtilisateur")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MotDePasseUtilisateur")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NomUtilisateur")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PrenomUtilisateur")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleUtilisateur")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Utilisateurs");
+                });
+
+            modelBuilder.Entity("Domain.SalleBubble", b =>
+                {
+                    b.HasBaseType("Domain.Salle");
+
+                    b.Property<bool>("PriseElectrique")
+                        .HasColumnType("bit");
+
+                    b.HasDiscriminator().HasValue("SalleBubble");
+                });
+
+            modelBuilder.Entity("Domain.SallePause", b =>
+                {
+                    b.HasBaseType("Domain.Salle");
+
+                    b.Property<bool>("Distributeur")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Evier")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Frigo")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("MicroOndes")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NbChaises")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NbTables")
+                        .HasColumnType("int");
+
+                    b.HasDiscriminator().HasValue("SallePause");
                 });
 
             modelBuilder.Entity("Domain.Salle", b =>
@@ -120,10 +197,21 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Domain.Utilisateur", "Utilisateur")
+                        .WithMany("Salles")
+                        .HasForeignKey("UtilisateurId");
+
                     b.Navigation("Etage");
+
+                    b.Navigation("Utilisateur");
                 });
 
             modelBuilder.Entity("Domain.Etage", b =>
+                {
+                    b.Navigation("Salles");
+                });
+
+            modelBuilder.Entity("Domain.Utilisateur", b =>
                 {
                     b.Navigation("Salles");
                 });

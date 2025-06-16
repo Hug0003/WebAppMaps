@@ -230,13 +230,21 @@ img {
     top: .35rem;
     left:31%;
     width:70%;
-    max-height:max-content;
-    display:flex;
+    max-height:10vh;
     gap:1rem;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-evenly;
+    align-items:start;
+}
+
+.box_infoPrin_salle_modal {
+    display: flex;
+    gap: 1rem
 }
 
 .p_infoSalle {
-    margin-bottom:0;
+    margin-bottom: 0;
 }
 
 .section_imgPlan {

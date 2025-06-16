@@ -1,4 +1,5 @@
-﻿@using Web.ViewModel
+﻿@using Domain
+@using Web.ViewModel
 @model SalleViewModel
 
 <div class="search-room-container">
@@ -28,7 +29,8 @@
                 </svg>
         </form>
     </div>
-    
+
+
 
     <div id="sallesList" class="container_ListSalle">
         @if(Model.salles != null)
@@ -45,6 +47,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill iconFavoriFill iconStar" viewBox="0 0 16 16">
                                     <path d="" />
                                 </svg>
+  
                             </div>
                         </div>
                         <div class="box_visuSalleImg">
@@ -64,7 +67,7 @@
                         <div class="box_imgSalle">
                             <img src="~/@salle.ImgSallePath" alt="Salle" class="imgSalle" />
                         </div>
-                     
+    
                         <div class="box_iconFavori" data-salleidfavorite="@salle.Id">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill iconFavoriFill iconStar" viewBox="0 0 16 16">
                                 <path class="iconStar" d="" />
@@ -72,14 +75,32 @@
                         </div>
 
                         <div class="list-info">
-                            <div>
+                            <div class="box_infoPrin_salle_modal">
                             <p class="p_infoSalle"><strong>Nom Bureau :</strong> @salle.Nom</p>
                             <p class="p_infoSalle"><strong>Numéro :</strong> @salle.Numero</p>
-                            </div>
-                            <div>
                             <p class="p_infoSalle" ><strong>Étage :</strong> @salle.Etage.Nom</p>
+
                              <a asp-controller="Etages" asp-action="SignalerRoom">Signaler</a>
                             </div>
+
+                             <div class="box_infoPrin_salle_modal">
+                             @if (salle is SallePause sallePause && sallePause.Distributeur == true)
+                                {
+                                   <p>Distributeur: @sallePause.Distributeur</p>
+                                }  
+                             @if (salle is SalleReunion salleReunion)
+                                {
+                                        <p>@salleReunion.Ecran</p>
+                                } 
+                                @if (salle is SalleBubble salleBubble)
+                                {
+                                        <p>@salleBubble.PriseElectrique</p>
+                                }   
+
+
+                             </div>
+
+
                         </div>
                     </div>       
                 <div class="section_imgPlan" >

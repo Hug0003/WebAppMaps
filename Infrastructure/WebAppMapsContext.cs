@@ -18,6 +18,8 @@ namespace Infrastructure
         public DbSet<Salle> Salles { get; set; }
         public DbSet<SallePause> SallesPause { get; set; }
         public DbSet<SalleBubble> SallesBubble { get; set; }
+        public DbSet<SalleReunion> SallesReunion { get; set; }
+
 
 
         public DbSet<Etage> Etages { get; set; }

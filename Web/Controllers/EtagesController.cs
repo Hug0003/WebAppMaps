@@ -1,7 +1,6 @@
 ﻿using Azure;
 using Domain;
 using Infrastructure;
-using Infrastructure.Migrations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.EntityFrameworkCore;
@@ -101,27 +100,25 @@ namespace Web.Controllers
 
         [HttpPost]
         public async Task<IActionResult> CreateSalle(
-            int Numero, 
-            string Nom, 
-            int EtageId, 
-            IFormFile ImgSallePath, 
-            TypeSalle TypeSalle,
-            // Paramètres pour SalleReunion
-            bool? Ecran = null,
-            bool? Camera = null,
-            bool? TableauBlanc = null,
-            bool? SystemeAudio = null,
-
-            // Paramètres pour SallePause
-            int? MicroOndes = null,
-            bool? Frigo = null,
-            int? Evier = null,
-            bool? Distributeur = null,
-            int? NbTables = null,
-            int? NbChaises = null,
-            // Paramètres pour SalleBubble
-            bool? PriseElectrique = null
-            )
+        int Numero,
+        string Nom,
+        int EtageId,
+        IFormFile ImgSallePath,
+        TypeSalle TypeSalle,
+        // Paramètres pour SalleReunion
+        bool Ecran = false,
+        bool Camera = false,
+        bool TableauBlanc = false,
+        bool SystemeAudio = false,
+        // Paramètres pour SallePause
+        int MicroOndes = 0,
+        bool Frigo = false,
+        int Evier = 0,
+        bool Distributeur = false,
+        int NbTables = 0,
+        int NbChaises = 0,
+        // Paramètres pour SalleBubble
+        bool PriseElectrique = false)
         {
             string imagePath = "assets/Salles/ImageSalle_444.jpg";
 
@@ -146,11 +143,10 @@ namespace Web.Controllers
                     EtageId = EtageId,
                     ImgSallePath = imagePath,
                     TypeSalle = TypeSalle,
-                    Ecran = Ecran ?? false,
-                    Camera = Camera ?? false,
-                    TableauBlanc = TableauBlanc ?? false,
-                    SystemeAudio = SystemeAudio ?? false,
-    
+                    Ecran = Ecran,
+                    Camera = Camera,
+                    TableauBlanc = TableauBlanc,
+                    SystemeAudio = SystemeAudio,
                 },
                 TypeSalle.Pause => new SallePause
                 {
@@ -159,12 +155,12 @@ namespace Web.Controllers
                     EtageId = EtageId,
                     ImgSallePath = imagePath,
                     TypeSalle = TypeSalle,
-                    MicroOndes = MicroOndes ?? 0,
-                    Frigo = Frigo ?? false,
-                    Evier = Evier ?? 0,
-                    Distributeur = Distributeur ?? false,
-                    NbTables = NbTables ?? 0,
-                    NbChaises = NbChaises ?? 0
+                    MicroOndes = MicroOndes,
+                    Frigo = Frigo,
+                    Evier = Evier,
+                    Distributeur = Distributeur,
+                    NbTables = NbTables,
+                    NbChaises = NbChaises
                 },
                 TypeSalle.Bubble => new SalleBubble
                 {
@@ -173,7 +169,7 @@ namespace Web.Controllers
                     EtageId = EtageId,
                     ImgSallePath = imagePath,
                     TypeSalle = TypeSalle,
-                    PriseElectrique = PriseElectrique ?? false,
+                    PriseElectrique = PriseElectrique,
                 },
                 _ => new Salle
                 {
@@ -190,6 +186,8 @@ namespace Web.Controllers
 
             return RedirectToAction(nameof(SearchRoom));
         }
+
+
 
         // -------------------------------------- Signaler  -----------------------------------------
 

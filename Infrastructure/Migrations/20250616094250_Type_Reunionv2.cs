@@ -5,35 +5,33 @@
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class add_class_pause : Migration
+    public partial class Type_Reunionv2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "Discriminator",
-                table: "Salles",
-                type: "nvarchar(13)",
-                maxLength: 13,
-                nullable: false,
-                defaultValue: "");
-
-            migrationBuilder.AddColumn<int>(
-                name: "Evier",
-                table: "Salles",
-                type: "int",
-                nullable: true);
-
             migrationBuilder.AddColumn<bool>(
-                name: "Frigo",
+                name: "Camera",
                 table: "Salles",
                 type: "bit",
                 nullable: true);
 
-            migrationBuilder.AddColumn<int>(
-                name: "MicroOndes",
+            migrationBuilder.AddColumn<bool>(
+                name: "Ecran",
                 table: "Salles",
-                type: "int",
+                type: "bit",
+                nullable: true);
+
+            migrationBuilder.AddColumn<bool>(
+                name: "SystemeAudio",
+                table: "Salles",
+                type: "bit",
+                nullable: true);
+
+            migrationBuilder.AddColumn<bool>(
+                name: "TableauBlanc",
+                table: "Salles",
+                type: "bit",
                 nullable: true);
         }
 
@@ -41,19 +39,19 @@ namespace Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Discriminator",
+                name: "Camera",
                 table: "Salles");
 
             migrationBuilder.DropColumn(
-                name: "Evier",
+                name: "Ecran",
                 table: "Salles");
 
             migrationBuilder.DropColumn(
-                name: "Frigo",
+                name: "SystemeAudio",
                 table: "Salles");
 
             migrationBuilder.DropColumn(
-                name: "MicroOndes",
+                name: "TableauBlanc",
                 table: "Salles");
         }
     }

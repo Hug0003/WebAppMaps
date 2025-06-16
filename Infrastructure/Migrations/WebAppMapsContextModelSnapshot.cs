@@ -186,6 +186,25 @@ namespace Infrastructure.Migrations
                     b.HasDiscriminator().HasValue("SallePause");
                 });
 
+            modelBuilder.Entity("Domain.SalleReunion", b =>
+                {
+                    b.HasBaseType("Domain.Salle");
+
+                    b.Property<bool>("Camera")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Ecran")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("SystemeAudio")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("TableauBlanc")
+                        .HasColumnType("bit");
+
+                    b.HasDiscriminator().HasValue("SalleReunion");
+                });
+
             modelBuilder.Entity("Domain.Salle", b =>
                 {
                     b.HasOne("Domain.Etage", "Etage")
