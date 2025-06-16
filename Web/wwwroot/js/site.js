@@ -2,6 +2,7 @@
 const formSelectEtage = document.querySelector("#etageSelect");
 const formSelectFavorie = document.querySelector("#favoriSelect");
 const formSelectType = document.querySelector("#typeSalle");
+const formSelectAttribut = document.querySelector("#attributSalle");
 const salleClick = document.querySelectorAll(".salles_click");
 const container_infoSalle = document.querySelectorAll('.container_plan_info');
 const scrollContainer = document.querySelector(".container_ListSalle");
@@ -75,39 +76,101 @@ function showSpecificFields() {
             break;
     }
 }
+// Appeler la fonction au chargement de la page
+window.onload = showSpecificFields;
+
+
+
+// option en fonction du type
+formSelectType.addEventListener('change', function () {
+    var typeSalle = this.value;
+
+    formSelectAttribut.innerHTML = '<option value="all">-- Tous les attributs --</option>';
+
+    if (typeSalle === 'Pause') {
+        var options = [
+            { value: 'distributeur', text: 'Distributeur' },
+            { value: 'frigo', text: 'Frigo' },
+        ];
+    } else if (typeSalle === 'Reunion') {
+        var options = [
+            { value: 'ecran', text: 'Ecran' },
+            { value: 'camera', text: 'Camera' },
+            { value: 'tableaublanc', text: 'Tableau blanc' },
+            { value: 'systemeaudio', text: 'Système audio' }
+        ];
+    } else if (typeSalle === 'Bubble') {
+        var options = [
+            { value: 'priseelectrique', text: 'Prise électrique' }
+        ];
+    } else {
+        var options = [
+            { value: 'distributeur', text: 'Distributeur' },
+            { value: 'frigo', text: 'Frigo' },
+            { value: 'ecran', text: 'Ecran' },
+            { value: 'camera', text: 'Camera' },
+            { value: 'tableaublanc', text: 'Tableau blanc' },
+            { value: 'systemeaudio', text: 'Système audio' },
+            { value: 'priseelectrique', text: 'Prise électrique' },
+
+        ]
+    }
+
+    if (options) {
+        options.forEach(function (option) {
+            var opt = document.createElement('option');
+            opt.value = option.value;
+            opt.text = option.text;
+            formSelectAttribut.add(opt);
+        });
+    }
+});
 
 
 
 
 formSelectEtage.addEventListener("change", filterSalles);
 formSelectType.addEventListener("change", filterSalles);
+formSelectAttribut.addEventListener("change", filterSalles)
 
 formSelectFavorie.addEventListener("click", toggleFavoriteFilter);
 
 function filterSalles() {
     const etageId = formSelectEtage.value;
     const typeSalle = formSelectType.value;
+    const attributSalle = formSelectAttribut.value;
     const isFavorie = document.querySelector(".iconStar-filter");
     const salleFavorie = getCookie("mesSallesFavorites");
 
     salleClick.forEach(function (salle) {
         const matchesEtage = etageId === "all" || salle.dataset.etage == etageId;
         const matchesType = typeSalle === "all" || salle.dataset.type == typeSalle;
-        let matchesFavorie = false;
 
+        let matchesAttribut = false;
+
+        // Vérification de l'attribut sélectionné uniquement
+        if (attributSalle === "all") {
+            matchesAttribut = true;
+        } else {
+            // Vérification de l'attribut spécifique sélectionné
+            matchesAttribut = salle.dataset[attributSalle] === attributSalle;
+        }
+        console.log(salle.dataset["priseelectrique"])
+        let matchesFavorie = false;
         if (isFavorie.getAttribute("d") === dStarFull) {
             matchesFavorie = salleFavorie.includes(salle.dataset.salleclickid);
         } else {
             matchesFavorie = true;
         }
 
-        if (matchesEtage && matchesFavorie && matchesType) {
+        if (matchesEtage && matchesType && matchesAttribut && matchesFavorie) {
             salle.style.display = "block";
         } else {
             salle.style.display = "none";
         }
     });
 }
+
 
 function toggleFavoriteFilter() {
     const isFavorie = document.querySelector(".iconStar-filter");

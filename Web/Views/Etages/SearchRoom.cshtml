@@ -5,14 +5,12 @@
 <div class="search-room-container">
     <a class="linkStyle addItem" asp-controller="Etages" asp-action="Index">+</a>
 
-
     <div class="form-section">
         <form class="form" id="searchRoomForm">
             <input name="salle" id="salleInput" placeholder="Numéro/Nom salle" class="input-field" />
             <button type="submit" class="btn">Rechercher</button>
         </form>
     </div>
-
 
     <div class="form-section">
         <form class="form formSelectEtage">
@@ -25,38 +23,112 @@
                 }
             </select>
             <select id="typeSalle" name="TypeSalle" class="form-select">
-                <option value="all">-- Tous les étages --</option>
+                <option value="all">-- Tous les types --</option>
                 <hr class="dropdown-divider">
-                
-                 @foreach (var type in Model.salles.Select(s => s.TypeSalle).Distinct())
+                @foreach (var type in Model.salles.Select(s => s.TypeSalle).Distinct())
                 {
                     <option value="@type">@type</option>
                 }
             </select>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" id="favoriSelect" class="bi bi-star-fill iconFavoriFill iconStar " viewBox="0 0 16 16">
+            <select id="attributSalle" name="AttributSalle" class="form-select">
+                <option value="all">-- Tous les attributs --</option>
+                <hr class="dropdown-divider">
+
+                @{
+                    var addedOptions = new HashSet<string>();
+
+                    foreach (var salle in Model.salles)
+                    {
+                        var sallePause = salle as SallePause;
+                        var salleReunion = salle as SalleReunion;
+                        var salleBubble = salle as SalleBubble;
+
+
+                        if (sallePause != null)
+                        {
+                            if (addedOptions.Add("distributeur"))
+                            {
+                                <option value="distributeur">Distributeur</option>
+                            }
+                            if (addedOptions.Add("frigo"))
+                            {
+                                <option value="frigo">Frigo</option>
+                            }
+                        }
+
+                        if (salleReunion != null)
+                        {
+                            if (addedOptions.Add("ecran"))
+                            {
+                                <option value="ecran">Écran</option>
+                            }
+                            if (addedOptions.Add("camera"))
+                            {
+                                <option value="camera">Caméra</option>
+                            }
+                            if (addedOptions.Add("tableaublanc"))
+                            {
+                                <option value="tableaublanc">Tableau blanc</option>
+                            }
+                            if (addedOptions.Add("systemeaudio"))
+                            {
+                                <option value="systemeaudio">Système audio</option>
+                            }
+                        }
+                        
+                        if (salleBubble != null && addedOptions.Add("priseelectrique"))
+                        {
+                            <option value="priseelectrique">Prise électrique</option>
+                        }
+                    }
+                }
+            </select>
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" id="favoriSelect" class="bi bi-star-fill iconFavoriFill iconStar" viewBox="0 0 16 16">
                 <path class="iconStar-filter" d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.56.56 0 0 0-.163-.505L1.71 6.745l4.052-.576a.53.53 0 0 0 .393-.288L8 2.223l1.847 3.658a.53.53 0 0 0 .393.288l4.052.575-2.906 2.77a.56.56 0 0 0-.163.506l.694 3.957-3.686-1.894a.5.5 0 0 0-.461 0z" />
             </svg>
         </form>
     </div>
 
-
-
     <div id="sallesList" class="container_ListSalle">
-        @if(Model.salles != null)
+        @if (Model.salles != null)
         {
             @foreach (var salle in Model.salles)
             {
+                var sallePause = salle as SallePause;
+                var salleReunion = salle as SalleReunion;
+                var salleBubble = salle as SalleBubble;
 
-                <a class="salles_click" data-etage="@salle.EtageId" data-salleclickid="@salle.Id" data-type="@salle.TypeSalle" style="cursor:pointer;">
+                <a class="salles_click"
+                   data-etage="@salle.EtageId"
+                   data-salleclickid="@salle.Id"
+                   data-type="@salle.TypeSalle"
+                   @if (sallePause != null)
+                   {
+                       @:data-distributeur="@(sallePause.Distributeur ? "distributeur" : "non")"
+                       @:data-frigo="@(sallePause.Frigo ? "frigo" :"non")"
+                   }
+                   @if (salleReunion != null)
+                   {
+                       @:data-ecran="@(salleReunion.Ecran ? "ecran" : "non")"
+                       @:data-camera="@(salleReunion.Camera ? "camera" : "non")"
+                       @:data-tableaublanc="@(salleReunion.TableauBlanc ? "tableaublanc" : "non")"
+                       @:data-systemeaudio="@(salleReunion.SystemeAudio ? "systemeaudio" : "non")"
+                   }
+                   @if (salleBubble != null)
+                   {
+                       @:data-priseelectrique="@(salleBubble.PriseElectrique ? "priseelectrique" : "non")"
+                   }
+                   style="cursor:pointer;">
                     <div class="box_visuSalle">
-                        <div class="box_visuSalleInfo" >
+                        <div class="box_visuSalleInfo">
                             <p>@salle.Nom</p>
                             <p>@salle.Numero</p>
+                            <p>@salle.TypeSalle</p>
                             <div class="box_iconFavori_visuSalle" data-salleinfoid="@salle.Id">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill iconFavoriFill iconStar" viewBox="0 0 16 16">
                                     <path d="" />
                                 </svg>
-  
                             </div>
                         </div>
                         <div class="box_visuSalleImg">
@@ -68,7 +140,7 @@
                 <div class="hidden container_plan_info" data-sallelid="@salle.Id" data-sallenom="@salle.Nom" data-sallenum="@salle.Numero">
                     <button class="closeModal">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x-lg iconCLose" viewBox="0 0 16 16">
-                          <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
                         </svg>
                     </button>
 
@@ -76,7 +148,7 @@
                         <div class="box_imgSalle">
                             <img src="~/@salle.ImgSallePath" alt="Salle" class="imgSalle" />
                         </div>
-    
+
                         <div class="box_iconFavori" data-salleidfavorite="@salle.Id">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill iconFavoriFill iconStar" viewBox="0 0 16 16">
                                 <path class="iconStar" d="" />
@@ -85,57 +157,52 @@
 
                         <div class="list-info">
                             <div class="box_infoPrin_salle_modal">
-                            <p class="p_infoSalle"><strong>Nom Bureau :</strong> @salle.Nom</p>
-                            <p class="p_infoSalle"><strong>Numéro :</strong> @salle.Numero</p>
-                            <p class="p_infoSalle" ><strong>Étage :</strong> @salle.Etage.Nom</p>
-
-                             <a asp-controller="Etages" asp-action="SignalerRoom">Signaler</a>
+                                <p class="p_infoSalle"><strong>Nom Bureau :</strong> @salle.Nom</p>
+                                <p class="p_infoSalle"><strong>Numéro :</strong> @salle.Numero</p>
+                                <p class="p_infoSalle"><strong>Étage :</strong> @salle.Etage.Nom</p>
+                                <p class="p_infoSalle"><strong>Type :</strong> @salle.TypeSalle</p>
+                                <a asp-controller="Etages" asp-action="SignalerRoom">Signaler</a>
                             </div>
 
-                             <div class="box_infoPrin_salle_modal">
-                             @if (salle is SallePause sallePause)
+                            <div class="box_infoPrin_salle_modal">
+                                @if (sallePause != null)
                                 {
-
-                                   <p>Distributeur: @sallePause.Distributeur</p>
-                                   <p>MicroOndes: @sallePause.MicroOndes</p>
-                                   <p>Frigo: @sallePause.Frigo</p>
-                                   <p>Evier: @sallePause.Evier</p>
-                                   <p>NbChaises: @sallePause.NbChaises</p>
-                                   <p>NbTables: @sallePause.NbTables</p>
-
-                                }  
-                             @if (salle is SalleReunion salleReunion)
+                                    <div>
+                                        <p>Distributeur: @(sallePause.Distributeur ? "Oui" : "Non")</p>
+                                        <p>Micro-ondes: @sallePause.MicroOndes</p>
+                                        <p>Frigo: @(sallePause.Frigo ? "Oui" : "Non")</p>
+                                        <p>Evier: @sallePause.Evier</p>
+                                        <p>Nombre de chaises: @sallePause.NbChaises</p>
+                                        <p>Nombre de tables: @sallePause.NbTables</p>
+                                    </div>
+                                }
+                                @if (salleReunion != null)
                                 {
-                                    <p>Ecran: @salleReunion.Ecran</p>
-                                    <p>Camera: @salleReunion.Camera</p>
-                                    <p>Tableau blanc: @salleReunion.TableauBlanc</p>
-                                    <p>Systeme audio: @salleReunion.SystemeAudio</p>
-                                } 
-                             @if (salle is SalleBubble salleBubble)
+                                    <div>
+                                        <p>Écran: @(salleReunion.Ecran ? "Oui" : "Non")</p>
+                                        <p>Caméra: @(salleReunion.Camera ? "Oui" : "Non")</p>
+                                        <p>Tableau blanc: @(salleReunion.TableauBlanc ? "Oui" : "Non")</p>
+                                        <p>Système audio: @(salleReunion.SystemeAudio ? "Oui" : "Non")</p>
+                                    </div>
+                                }
+                                @if (salleBubble != null)
                                 {
-                                     <p>Prise électrique: @salleBubble.PriseElectrique</p>
-                                }   
-
-
-                             </div>
-
-
+                                    <div>
+                                        <p>Prise électrique: @(salleBubble.PriseElectrique ? "Oui" : "Non")</p>
+                                    </div>
+                                }
+                            </div>
                         </div>
-                    </div>       
-                <div class="section_imgPlan" >
+                    </div>
+                    <div class="section_imgPlan">
                         <img src="~/@salle.Etage.ImgPlanEtagePath" class="img-plan" />
+                    </div>
                 </div>
-
-                </div>
-
             }
         }
         else
         {
             <p>no working</p>
         }
-
-
     </div>
-    </div>
-
+</div>
