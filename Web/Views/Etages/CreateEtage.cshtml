@@ -1,10 +1,8 @@
 ﻿@model Domain.Etage
 
 <form asp-action="CreateEtage" method="post" enctype="multipart/form-data">
-    <input name="Niveau" type="number" placeholder="Numéro de l'étage" required />
-    <input name="Nom" type="text" placeholder="Niveau de l'étage" required />
-    <input type="file" id="imageInput" accept="image/*"  />
-    <p id="coordinates"></p>
-
+    <input name="Niveau" type="number" placeholder="Numéro de l'étage" />
+    <input name="Nom" type="text" placeholder="Niveau de l'étage" />
+    <input name="ImgPlanEtagePath" type="file" />
     <button type="submit">Submit</button>
 </form>

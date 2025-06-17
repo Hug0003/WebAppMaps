@@ -20,63 +20,63 @@ const closeModal = document.querySelectorAll(".closeModal");
 
 
 
-const canvas = document.getElementById('imageCanvas');
-const ctx = canvas.getContext('2d');
-const addEtageToSalle = document.getElementById('addEtageToSalle');
+//const canvas = document.getElementById('imageCanvas');
+//const ctx = canvas.getContext('2d');
+//const addEtageToSalle = document.getElementById('addEtageToSalle');
 
-addEtageToSalle.addEventListener('change', function () {
-    const selectedOption = addEtageToSalle.options[addEtageToSalle.selectedIndex];
-    const imagePath = selectedOption.dataset.imgpath;
-    console.log("Chemin de l'image :", imagePath); 
-    if (imagePath) {
-        loadImageOnCanvas(imagePath);
-    }
-});
+//addEtageToSalle.addEventListener('change', function () {
+//    const selectedOption = addEtageToSalle.options[addEtageToSalle.selectedIndex];
+//    const imagePath = selectedOption.dataset.imgpath;
+//    console.log("Chemin de l'image :", imagePath); 
+//    if (imagePath) {
+//        loadImageOnCanvas(imagePath);
+//    }
+//});
 
-function loadImageOnCanvas(imagePath) {
-    const img = new Image();
-    img.onload = function () {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0, img.width, img.height);
-        canvas.style.display = 'block';
-    };
+//function loadImageOnCanvas(imagePath) {
+//    const img = new Image();
+//    img.onload = function () {
+//        canvas.width = img.width;
+//        canvas.height = img.height;
+//        ctx.drawImage(img, 0, 0, img.width, img.height);
+//        canvas.style.display = 'block';
+//    };
 
-    img.onerror = function () {
-        console.error("Erreur de chargement de l'image : ", imagePath);
-        alert("Erreur de chargement de l'image. Veuillez vérifier le chemin de l'image.");
-    };
+//    img.onerror = function () {
+//        console.error("Erreur de chargement de l'image : ", imagePath);
+//        alert("Erreur de chargement de l'image. Veuillez vérifier le chemin de l'image.");
+//    };
 
-    img.src = imagePath;
-}
+//    img.src = imagePath;
+//}
 
 
 
-let nbClick = 0;
-let listCoord = {};
+//let nbClick = 0;
+//let listCoord = {};
 
-function getCursorPosition(canvas, event) {
-    const rect = canvas.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
+//function getCursorPosition(canvas, event) {
+//    const rect = canvas.getBoundingClientRect();
+//    const x = event.clientX - rect.left;
+//    const y = event.clientY - rect.top;
 
-    // Stocker les coordonnées dans le dictionnaire
-    listCoord[nbClick] = [x, y];
+//    // Stocker les coordonnées dans le dictionnaire
+//    listCoord[nbClick] = [x, y];
 
-    console.log(`Coordonnées du clic ${nbClick}: x: ${x}, y: ${y}`);
-    console.log("Liste des coordonnées :", listCoord);
+//    console.log(`Coordonnées du clic ${nbClick}: x: ${x}, y: ${y}`);
+//    console.log("Liste des coordonnées :", listCoord);
 
-    return listCoord;
-}
+//    return listCoord;
+//}
 
-canvas.addEventListener('click', function (event) {
-    if (nbClick < 2) {
-        nbClick++;
-        getCursorPosition(canvas, event);
-    } else {
-        console.log("Vous avez atteint le nombre maximum de clics.");
-    }
-});
+//canvas.addEventListener('click', function (event) {
+//    if (nbClick < 2) {
+//        nbClick++;
+//        getCursorPosition(canvas, event);
+//    } else {
+//        console.log("Vous avez atteint le nombre maximum de clics.");
+//    }
+//});
 
 
 

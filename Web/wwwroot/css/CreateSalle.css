@@ -6,6 +6,7 @@
     background-color: #f9f9f9;
     width: 60vw;
     min-height: 60vh;
+    max-height: 80vh;
     display: flex;
     justify-self: center;
     flex-direction: column;
@@ -72,12 +73,3 @@ input:focus, textarea:focus, select:focus {
 
 
 /* create etage */
-
-.canvas_planImg {
-    display: none;
-    max-width: 700px;
-    max-height: 700px;
-    object-fit: contain;
-    margin-top: 10px;
-    transform: rotate(-90deg);
-}
