@@ -1,0 +1,83 @@
+﻿.formCreateSalle {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: #f9f9f9;
+    width: 60vw;
+    min-height: 60vh;
+    display: flex;
+    justify-self: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    gap:1em;
+    transition:all .3s;
+}
+
+
+.form-group {
+    width: 50%;
+}
+
+.form-goup_input {
+    margin-bottom: .5rem;
+}
+
+.form-input {
+    width: 100%;
+    transition: all .2s;
+}
+
+
+.box_form-group {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+
+
+}
+
+.box_form-group div{
+    width:100%;
+    height:2rem;
+    gap:1rem;
+    display:flex;
+}
+
+
+input[type="text"],
+input[type="number"],
+input[type="file"],
+select {
+    border: none;
+    border-bottom: 1px solid rgb(96,167,138);
+    outline: none;
+    background-color: #f0f0f0;
+    border-radius:0;
+    padding: 0.5rem;
+    font-size: 1rem;
+    transition: box-shadow 0.2s;
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+
+/* create etage */
+
+.canvas_planImg {
+    display: none;
+    max-width: 700px;
+    max-height: 700px;
+    object-fit: contain;
+    margin-top: 10px;
+    transform: rotate(-90deg);
+}

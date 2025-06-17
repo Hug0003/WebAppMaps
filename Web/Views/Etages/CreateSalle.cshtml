@@ -1,22 +1,28 @@
-﻿@model Domain.Salle
+﻿@using Domain
+@using Web.ViewModel
+@model SalleViewModel
 
-<form asp-action="CreateSalle" method="post" enctype="multipart/form-data">
+
+<form asp-action="CreateSalle" method="post" enctype="multipart/form-data" class="formCreateSalle">
+    <h1>Créer une salle</h1>
     <div class="form-group">
-        <input name="Nom" type="text" class="form-control" placeholder="Nom de la salle" required />
+        <input name="Nom" type="text" class="form-input" placeholder="Nom de la salle" autocomplete="off" required />
     </div>
     <div class="form-group">
-        <input name="Numero" type="text" class="form-control" placeholder="Numéro de la salle" required />
+        <input name="Numero" type="text" class="form-input" placeholder="Numéro de la salle" autocomplete="off" required />
     </div>
     <div class="form-group">
-        <select name="EtageId" class="form-control">
+        <select name="EtageId" class="form-input" id="addEtageToSalle">
             @foreach (var etage in ViewBag.EtageId)
             {
-                <option value="@etage.Id">@etage.Nom</option>
+                <option value="@etage.Id" data-imgpath="~/@etage.ImgPlanEtagePath">@etage.Nom</option>
             }
         </select>
     </div>
+    <canvas class="canvas_planImg" id="imageCanvas" style="border: 1px solid black; margin-top: 10px; display: none;"></canvas>
+
     <div class="form-group">
-        <select name="TypeSalle" id="typeSalle" class="form-control" onchange="showSpecificFields()">
+        <select name="TypeSalle" id="typeSalle" class="form-input" onchange="showSpecificFields()">
             <option value="1">Réunion</option>
             <option value="2">Pause</option>
             <option value="3">Bubble</option>
@@ -24,7 +30,7 @@
     </div>
 
     <!-- Champs spécifiques pour Salle Réunion -->
-    <div id="reunionFields" style="display: none;">
+    <div id="reunionFields" style="display: none;" class="box_form-group">
         <div class="form-group">
             <label>Écran</label>
             <input value="true" type="checkbox" name="Ecran" />
@@ -44,35 +50,32 @@
     </div>
 
     <!-- Champs spécifiques pour Salle Pause -->
-    <div id="pauseFields" style="display: none;">
+    <div id="pauseFields" style="display: none;" class="box_form-group">
         <div class="form-group">
-            <label>Nombre de micro-ondes</label>
-            <input type="number" name="MicroOndes" class="form-control" />
+            <label for="distributeur">Distributeur</label>
+            <input value="true" type="checkbox" name="Distributeur" id="distributeur" />
         </div>
         <div class="form-group">
-            <label>Frigo</label>
-            <input value="true" type="checkbox" name="Frigo" />
+            <label for="frigo">Frigo</label>
+            <input value="true" type="checkbox" name="Frigo" id="frigo" />
         </div>
-        <div class="form-group">
-            <label>Nombre d'éviers</label>
-            <input type="number" name="Evier" class="form-control" />
+        <div class="form-group form-goup_input">
+            <input type="number" id="microondes" name="MicroOndes" class="form-control" placeholder="Nombre de micro-ondes" />
         </div>
-        <div class="form-group">
-            <label>Distributeur</label>
-            <input value="true" type="checkbox" name="Distributeur" />
+        <div class="form-group form-goup_input">
+            <input type="number" name="Evier" class="form-input" id="evier" placeholder="Nombre d'évier'" />
         </div>
-        <div class="form-group">
-            <label>Nombre de tables</label>
-            <input type="number" name="NbTables" class="form-control" />
+
+        <div class="form-group form-goup_input">
+            <input type="number" name="NbTables" class="form-input" placeholder="Nombre de tables" />
         </div>
-        <div class="form-group">
-            <label>Nombre de chaises</label>
-            <input type="number" name="NbChaises" class="form-control" />
+        <div class="form-group form-goup_input">
+            <input type="number" name="NbChaises" class="form-input" placeholder="Nombre de chaises" />
         </div>
     </div>
 
     <!-- Champs spécifiques pour Salle Bubble -->
-    <div id="bubbleFields" style="display: none;">
+    <div id="bubbleFields" style="display: none;" class="box_form-group">
         <div class="form-group">
             <label>Prise électrique</label>
             <input value="true" type="checkbox" name="PriseElectrique" />
@@ -80,8 +83,9 @@
     </div>
 
     <div class="form-group">
-        <input name="ImgSallePath" type="file" class="form-control" />
+        <input name="ImgSallePath" type="file" class="form-input form-addImg" />
     </div>
     <button type="submit" class="btn btn-primary">Créer Salle</button>
 </form>
+
 
