@@ -48,7 +48,7 @@
         margin: 20px 0;
         border: 1px solid #ccc;
         overflow: hidden;
-        width: 100%;
+        width: 80%;
         height: 450px;
         flex-shrink: 0; /* Empêche le canvas de rétrécir */
     }
@@ -194,6 +194,7 @@
         let scale = 0.3;
         const MIN_SCALE = 0.3;
         const MAX_SCALE = 2;
+        const MAX_TRANSLATE = 100; // Limite de déplacement en pixels (1rem = 16px, donc environ 6rem)
         let isDragging = false;
         let startX, startY;
         let translateX = 0;
@@ -281,7 +282,7 @@
                     newScale = Math.max(scale / 1.2, MIN_SCALE);
                     break;
                 case 'reset':
-                    newScale = 1;
+                    newScale = 0.3;
                     translateX = 0;
                     translateY = 0;
                     break;
@@ -309,8 +310,15 @@
             const deltaY = startY - e.clientY;
             
             // Pour une rotation de -90 degrés, on inverse X et Y et on inverse le signe de Y
-            translateX = lastTranslateX + deltaY;
-            translateY = lastTranslateY - deltaX;
+            let newTranslateX = lastTranslateX + deltaY;
+            let newTranslateY = lastTranslateY - deltaX;
+            
+            // Appliquer les limites de déplacement
+            newTranslateX = Math.max(Math.min(newTranslateX, MAX_TRANSLATE), -MAX_TRANSLATE);
+            newTranslateY = Math.max(Math.min(newTranslateY, MAX_TRANSLATE), -MAX_TRANSLATE);
+            
+            translateX = newTranslateX;
+            translateY = newTranslateY;
             
             drawImage();
         });
