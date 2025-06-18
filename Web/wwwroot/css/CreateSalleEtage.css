@@ -1,5 +1,4 @@
-﻿
-.container_link_create{
+﻿.container_link_create{
     width:100%;
     height:100%;
     display:flex;
@@ -34,28 +33,20 @@
 /* create etage */
 .formCreateSalleEtage {
     background-color: #f9f9f9;
-    min-height: 40vh;
-    max-height: auto;
+    height: auto;
+    width: auto;
     display: flex;
     justify-self: center;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    border-radius: 1rem;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     padding: 1rem;
     gap: 1em;
     transition: all .3s;
     overflow-y: auto;
 }
 
-.formCreateSalle{
-    width:60vw
-}
 
-.formCreateEtage{
-    width:40vw
-}
 
     .formCreateSalle::-webkit-scrollbar {
         width: 8px;
@@ -141,5 +132,80 @@ select {
     width: 100%;
     height: 100%;
     object-fit: contain;
+}
+
+@media (max-width: 900px) {
+    .form-group {
+        width: 80vw;
+    }
+    .canvas-container {
+        width: 95vw;
+        height: 40vw;
+        min-height: 200px;
+        max-width: 100vw;
+    }
+    .box_form-group {
+        width: 90vw;
+    }
+}
+
+@media (max-width: 600px) {
+    .container_link_create {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: stretch;
+    }
+    .link_create {
+        width: 100%;
+        min-width: unset;
+        font-size: 1rem;
+        height: 2.5rem;
+    }
+    form {
+        padding: 0.5rem;
+    }
+    input, textarea, select, button {
+        font-size: 1rem;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .form-group {
+        width: 95vw;
+    }
+    .canvas-container {
+        width: 100vw;
+        height: 50vw;
+        min-height: 120px;
+    }
+    .box_form-group {
+        width: 100vw;
+    }
+    h1 {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 400px) {
+
+    .container_link_create {
+        gap: 0.2rem;
+    }
+    .link_create {
+        font-size: 0.9rem;
+        height: 2rem;
+    }
+    input, textarea, select, button {
+        font-size: 0.9rem;
+    }
+
+    .form-group {
+        width: 98vw;
+    }
+    .canvas-container {
+        width: 100vw;
+        height: 60vw;
+        min-height: 80px;
+    }
 }
 

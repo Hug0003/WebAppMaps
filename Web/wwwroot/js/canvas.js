@@ -73,14 +73,26 @@ function drawImage() {
 }
 
 function drawPoints() {
+    ctx.save();
     ctx.fillStyle = "#FF0000";
-    Object.values(listCoord).forEach(([x, y]) => {
-        ctx.beginPath();
-        ctx.arc(x / scale - translateX / scale, y / scale - translateY / scale, 5, 0, Math.PI * 2, true);
-        ctx.fill();
-        console.log(ctx)
-
-    });
+    const radius = 20;
+    // Bas-droite
+    ctx.beginPath();
+    ctx.arc(-820, 1250, radius, 0, Math.PI * 2, true);
+    ctx.fill();
+    // Haut-gauche
+    ctx.beginPath();
+    ctx.arc(820, -1250, radius, 0, Math.PI * 2, true);
+    ctx.fill();
+    // Haut-droite
+    ctx.beginPath();
+    ctx.arc(820, 1250, radius, 0, Math.PI * 2, true);
+    ctx.fill();
+    // Bas-gauche
+    ctx.beginPath();
+    ctx.arc(-820, -1250, radius, 0, Math.PI * 2, true);
+    ctx.fill();
+    ctx.restore();
 }
 
 window.onload = function () {
@@ -97,25 +109,25 @@ let nbClick = 0;
 
 function getCursorPosition(canvas, event) {
     const rect = canvas.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
+    let x = event.clientX - rect.left;
+    let y = event.clientY - rect.top;
 
-    listCoord[nbClick] = [x, y];
+    listCoord[Object.keys(listCoord).length] = [x, y];
 
-    console.log(`Coordonnées du clic ${nbClick}: x: ${x}, y: ${y}`);
+    console.log(`Coordonnées du clic (canvas): x: ${x}, y: ${y}`);
     console.log("Liste des coordonnées :", listCoord);
 
     return listCoord;
 }
 
+function updateHiddenInput() {
+    document.getElementById('coordonneesInput').value = JSON.stringify(listCoord);
+}
+
 canvas.addEventListener('dblclick', function (event) {
-    if (nbClick < 2) {
-        nbClick++;
-        getCursorPosition(canvas, event);
-        drawImage(); // Redessiner l'image et les points après chaque clic
-    } else {
-        console.log("Vous avez atteint le nombre maximum de clics.");
-    }
+    getCursorPosition(canvas, event);
+    drawImage();
+    updateHiddenInput();
 });
 
 
