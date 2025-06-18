@@ -1,8 +1,15 @@
 ﻿@model Domain.Etage
 
-<form asp-action="CreateEtage" method="post" enctype="multipart/form-data">
-    <input name="Niveau" type="number" placeholder="Numéro de l'étage" />
-    <input name="Nom" type="text" placeholder="Niveau de l'étage" />
-    <input name="ImgPlanEtagePath" type="file" />
-    <button type="submit">Submit</button>
+<form asp-action="CreateEtage" method="post" enctype="multipart/form-data" class="formCreateSalleEtage formCreateEtage">
+    <h1>Créer un étage</h1>
+    <div class="form-group">
+        <input name="Niveau" type="number" placeholder="Numéro de l'étage" class="form-input"  autocomplete="off" required />
+    </div>
+    <div class="form-group">
+        <input name="Nom" type="text" placeholder="Niveau de l'étage" class="form-input" autocomplete="off" required />
+    </div>
+    <div class="form-group">
+        <input name="ImgPlanEtagePath" type="file" class="form-input form-addImg" />
+    </div>
+    <button type="submit" class="btn btn-primary">Créer Salle</button>
 </form>

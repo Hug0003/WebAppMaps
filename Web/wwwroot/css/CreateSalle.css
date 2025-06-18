@@ -1,27 +1,54 @@
-﻿.formCreateSalle {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
+﻿
+
+
+/* create etage */
+.formCreateSalleEtage {
     background-color: #f9f9f9;
-    width: 60vw;
-    min-height: 60vh;
-    max-height: 80vh;
+    min-height: 40vh;
+    max-height: auto;
     display: flex;
     justify-self: center;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     border-radius: 1rem;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     padding: 1rem;
-    gap:1em;
-    transition:all .3s;
+    gap: 1em;
+    transition: all .3s;
+    overflow-y: auto;
 }
+
+.formCreateSalle{
+    width:60vw
+}
+
+.formCreateEtage{
+    width:40vw
+}
+
+    .formCreateSalle::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .formCreateSalle::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+    }
+
+    .formCreateSalle::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 4px;
+    }
+
+        .formCreateSalle::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
 
 
 .form-group {
-    width: 50%;
+    width: 30vw;
 }
 
 .form-goup_input {
@@ -40,15 +67,13 @@
     flex-direction: column;
     justify-content: center;
     align-items: start;
-
-
 }
 
-.box_form-group div{
-    width:100%;
-    height:2rem;
-    gap:1rem;
-    display:flex;
+.box_form-group div {
+    width: 100%;
+    height: 2rem;
+    gap: 1rem;
+    display: flex;
 }
 
 
@@ -60,16 +85,31 @@ select {
     border-bottom: 1px solid rgb(96,167,138);
     outline: none;
     background-color: #f0f0f0;
-    border-radius:0;
+    border-radius: 0;
     padding: 0.5rem;
     font-size: 1rem;
     transition: box-shadow 0.2s;
 }
 
-input:focus, textarea:focus, select:focus {
-    outline: none;
-    box-shadow: none;
+    input:focus, textarea:focus, select:focus {
+        outline: none;
+        box-shadow: none;
+    }
+
+.canvas-container {
+    position: relative;
+    margin: 20px 0;
+    border: 1px solid #ccc;
+    overflow: hidden;
+    width: 80%;
+    height: 450px;
+    flex-shrink: 0; /* Empêche le canvas de rétrécir */
 }
 
+#imageCanvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
 
-/* create etage */
