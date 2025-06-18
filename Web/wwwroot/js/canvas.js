@@ -76,6 +76,8 @@ function drawPoints() {
     ctx.save();
     ctx.fillStyle = "#FF0000";
     const radius = 20;
+    
+    // Points fixes aux extrémités
     // Bas-droite
     ctx.beginPath();
     ctx.arc(-820, 1250, radius, 0, Math.PI * 2, true);
@@ -92,6 +94,14 @@ function drawPoints() {
     ctx.beginPath();
     ctx.arc(-820, -1250, radius, 0, Math.PI * 2, true);
     ctx.fill();
+    
+    // Points des clics
+    ctx.fillStyle = "#00FF00";
+    Object.values(listCoord).forEach(([x, y]) => {
+        ctx.beginPath();
+        ctx.arc(x, y, 10, 0, Math.PI * 2, true);
+        ctx.fill();
+    });
     ctx.restore();
 }
 
@@ -109,12 +119,17 @@ let nbClick = 0;
 
 function getCursorPosition(canvas, event) {
     const rect = canvas.getBoundingClientRect();
+    // Coordonnées du clic dans le canvas (0 à canvas.width, 0 à canvas.height)
     let x = event.clientX - rect.left;
     let y = event.clientY - rect.top;
+    
+    // Conversion vers le repère étendu (-820 à 820, -1250 à 1250)
+    x = (x / canvas.width) * 1640 - 820;
+    y = (y / canvas.height) * 2500 - 1250;
 
     listCoord[Object.keys(listCoord).length] = [x, y];
 
-    console.log(`Coordonnées du clic (canvas): x: ${x}, y: ${y}`);
+    console.log(`Coordonnées du clic (repère étendu): x: ${x}, y: ${y}`);
     console.log("Liste des coordonnées :", listCoord);
 
     return listCoord;
