@@ -31,7 +31,7 @@ namespace Web.Controllers
             _salleManager = salleManager;
         }
 
-        public IActionResult Index()
+        public IActionResult Create()
         {
             return View();
         }

@@ -16,6 +16,9 @@ img {
 /*formulaire search salle*/
 
 .addItem{
+    position:absolute;
+    top:.5rem;
+    left:1rem;
     width:1rem;
 }
 
@@ -45,8 +48,8 @@ img {
 .form-section {
     display: flex;
     justify-content: center;
-    margin-bottom: 30px;
-    padding: 0 10rem;
+    margin-bottom: 20px;
+    padding: 0 18rem;
 }
 
 .form{
@@ -72,8 +75,11 @@ img {
 
 .btn {
     height: 2.5rem;
-    width:8rem;
+    width:4rem;
     border: none;
+    display:flex;
+    justify-content:center;
+    align-items:center;
     background-color: rgb(96,167,138);
     color: white;
     font-weight: bold;
@@ -88,9 +94,27 @@ img {
 
 .formSelectFiltre{
     display:grid;
-    grid-template-columns:1fr 1fr 1fr .5fr;
+    grid-template-columns:1fr 1fr 1fr;
     gap:1rem;
+    margin-bottom:50px;
 }
+
+.form-select {
+    font-size: 16px;
+    background-color: #f8f8f8;
+    outline:none;
+    border:none;
+    border-radius:0;
+    border-bottom:1px solid rgb(96,167,138);
+}
+
+    .form-select:focus {
+        outline: none;
+        border-color: #007BFF;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+
 /*fin formulaire search salle*/
 /*style affichage card salleClick*/
 .container_ListSalle {
@@ -149,184 +173,244 @@ img {
 
 .iconStar{
     fill:rgb(96,167,138);
-
-
 }
 
-/*fin style affichage card salleClick*/
-
-
-/*style affichage toutes les infos salle et etage*/
-
-.container_plan_info {
-    position: fixed;
-    top: 47%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80vw;
-    height: 86vh;
-    background-color:white;
-    border-radius:1rem;
-    display: grid;
-    grid-template-rows: 1fr 4fr;
-    align-items: center;
-    justify-content: center;
-    pointer-events: all;
-    overflow:hidden;
-    z-index: 10000;
-    
-}
-
-.closeModal {
-    position: absolute;
-    right: 1rem;
-    top: 0rem;
-    border: none;
-    outline: none;
-    font-size: 2rem;
-    color: rgb(96,167,138);
-    background-color: transparent;
-    z-index: 30000;
-}
-
-
-.hidden {
-    display: none;
-}
-
-
-
-.section_infoSalle {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: max-content;
-    background-color:white;
-    display: grid;
-    grid-template-columns: 1fr 4fr;
-
-}
-
-.box_imgSalle {
+.iconStarFiltre{
     position:absolute;
-    top:0;
-    left:0;
-    width: 30%;
-    height: 10vh;
+    top:9rem;
+    left:50%;
+    transform:translate(-50%,-50%);
 }
 
-.imgSalle {
-    -webkit-clip-path: polygon(0 0%, 60% 0,100% 50%, 100% 100%, 0 100%);
-    clip-path: polygon(0 0%, 60% 0,100% 50%, 100% 100%, 0 100%);
-    object-fit: cover;
+
+@media only screen and (max-width: 1200px) {
+    .search-room-container {
+        top: 52%;
+        width: 50rem;
+
+    }
+    .form-section {
+        padding: 0 10rem;
+    }
+    .input-field {
+        padding: 5px;
+        width: 15rem;
+        height: 1.8rem;
+
+    }
+
+    .input-field:focus {
+        width: 16rem;
+    }
+
+    .formSelectFiltre {
+        height:1.8rem;
+        margin-bottom: 50px;
+    }
+    .btn {
+        height: 1.8rem;
+        width: 5rem;
+
+    }
+
+    .iconStarFiltre {
+        top: 8rem;
+    }
+
+    .container_ListSalle {
+        grid-template-columns: repeat(2,20rem);
+    }
+
 }
 
-.box_iconFavori{
-    position:absolute;
-    top:.2rem;
-    left:29%;
-    cursor:pointer;
-    z-index:50000;
+@media only screen and (max-width: 850px) {
+    .search-room-container {
+        top: 52%;
+        width: 30rem;
+    }
+
+    .form-section {
+        padding: 0rem;
+    }
+
+    .input-field {
+        width: 12rem;
+    }
+
+        .input-field:focus {
+            width: 13rem;
+        }
+
+    .form-select {
+        font-size: 12px;
+        height:1.8rem;
+
+    }
+
+
+
+    .iconStarFiltre {
+        top: 8.5rem;
+    }
+
+    .container_ListSalle {
+        grid-template-columns: repeat(1,20rem);
+    }
 }
 
-.list-info{
-    position:absolute;
-    top: .35rem;
-    left:31%;
-    width:70%;
-    max-height:10vh;
-    gap:1rem;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-evenly;
-    align-items:start;
+@media only screen and (max-width: 450px) {
+    .search-room-container {
+        top: 52%;
+        width: 20rem;
+    }
+
+    .form-section {
+        padding: 0rem;
+    }
+
+    .input-field {
+        width: 10rem;
+    }
+
+        .input-field:focus {
+            width: 11rem;
+        }
+
+    .form-select {
+        font-size: 12px;
+        height: 1.8rem;
+    }
+
+
+
+    .iconStarFiltre {
+        top: 8.5rem;
+    }
+
+    .container_ListSalle {
+        grid-template-columns: repeat(1,20rem);
+    }
+
 }
 
-.box_infoPrin_salle_modal {
-    display: flex;
-    gap: 1rem
-}
 
-.box_infoPrin_salle_modal div{
-    display:flex;
-    gap:1rem
-}
+    /*fin style affichage card salleClick*/
 
-.p_infoSalle {
-    margin-bottom: 0;
-}
 
-.section_imgPlan {
-    position: absolute;
-    top: 10vh;
-    left: 0;
-    width: 100%;
-    height: 70vh;
-    background-color: white;
-    overflow: hidden;
-}
+    /*style affichage toutes les infos salle et etage*/
 
-.img-plan {
-    transform: rotate(-90deg) scale(1.8) translate(-1rem);
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-/*
-.img-plan-container.dragging {
-    cursor: grabbing;
-}
+    .container_plan_info {
+        position: fixed;
+        top: 47%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80vw;
+        height: 86vh;
+        background-color: white;
+        border-radius: 1rem;
+        display: grid;
+        grid-template-rows: 1fr 4fr;
+        align-items: center;
+        justify-content: center;
+        pointer-events: all;
+        overflow: hidden;
+        z-index: 10000;
+    }
 
-.zoom-controls {
-    position: absolute;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    z-index: 1000;
-    background-color: white;
-    padding: 0.75rem;
-    border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-    border: 1px solid #e8e8e8;
-}
+    .closeModal {
+        position: absolute;
+        right: 1rem;
+        top: 0rem;
+        border: none;
+        outline: none;
+        font-size: 2rem;
+        color: rgb(96,167,138);
+        background-color: transparent;
+        z-index: 30000;
+    }
 
-.zoom-btn {
-    background-color: white;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    width: 2.8rem;
-    height: 2.8rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 1.2rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    transition: all 0.2s ease;
-    color: #666;
-    font-weight: 500;
-}
 
-.zoom-btn:hover {
-    background-color: #f8f8f8;
-    border-color: #d0d0d0;
-    color: #333;
-    transform: translateY(-1px);
-}
+    .hidden {
+        display: none;
+    }
 
-.zoom-btn:active {
-    transform: translateY(1px);
-    background-color: #f0f0f0;
-}
 
-.zoom-btn[data-action="reset"] {
-    margin-top: 0.5rem;
-    border-top: 1px solid #e0e0e0;
-    padding-top: 0.5rem;
-    font-size: 1rem;
-}
-*/
-/*fin style affichage toutes les infos salle et etage*/
+
+    .section_infoSalle {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: max-content;
+        background-color: white;
+        display: grid;
+        grid-template-columns: 1fr 4fr;
+    }
+
+    .box_imgSalle {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 30%;
+        height: 10vh;
+    }
+
+    .imgSalle {
+        -webkit-clip-path: polygon(0 0%, 60% 0,100% 50%, 100% 100%, 0 100%);
+        clip-path: polygon(0 0%, 60% 0,100% 50%, 100% 100%, 0 100%);
+        object-fit: cover;
+    }
+
+    .box_iconFavori {
+        position: absolute;
+        top: .2rem;
+        left: 29%;
+        cursor: pointer;
+        z-index: 50000;
+    }
+
+    .list-info {
+        position: absolute;
+        top: .35rem;
+        left: 31%;
+        width: 70%;
+        max-height: 10vh;
+        gap: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: start;
+    }
+
+    .box_infoPrin_salle_modal {
+        display: flex;
+        gap: 1rem
+    }
+
+        .box_infoPrin_salle_modal div {
+            display: flex;
+            gap: 1rem
+        }
+
+    .p_infoSalle {
+        margin-bottom: 0;
+    }
+
+    .section_imgPlan {
+        position: absolute;
+        top: 10vh;
+        left: 0;
+        width: 100%;
+        height: 70vh;
+        background-color: white;
+        overflow: hidden;
+    }
+
+    .img-plan {
+        transform: rotate(-90deg) scale(1.8) translate(-1rem);
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    /*fin style affichage toutes les infos salle et etage*/

@@ -6,7 +6,7 @@ const container = document.querySelector('.canvas-container');
 let scale = 0.3;
 const MIN_SCALE = 0.3;
 const MAX_SCALE = 2;
-const MAX_TRANSLATE = 100; // Limite de déplacement en pixels (1rem = 16px, donc environ 6rem)
+const MAX_TRANSLATE = 100;
 let isDragging = false;
 let startX, startY;
 let translateX = 0;
@@ -14,11 +14,12 @@ let translateY = 0;
 let lastTranslateX = 0;
 let lastTranslateY = 0;
 let currentImage = null;
+let listCoord = {};
 
 addEtageToSalle.addEventListener('change', function () {
     const selectedOption = addEtageToSalle.options[addEtageToSalle.selectedIndex];
     const imagePath = selectedOption.dataset.imgpath;
-    console.log("Chemin de l'image :", imagePath); // Pour déboguer
+    console.log("Chemin de l'image :", imagePath);
     if (imagePath) {
         loadImageOnCanvas(imagePath);
     }
@@ -32,7 +33,6 @@ function loadImageOnCanvas(imagePath) {
         currentImage = img;
         const containerWidth = container.clientWidth;
         const containerHeight = container.clientHeight;
-        const aspectRatio = img.height / img.width;
 
         canvas.width = containerWidth;
         canvas.height = containerHeight;
@@ -58,28 +58,31 @@ function drawImage() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.save();
 
-    // Déplacer au centre du canvas
     ctx.translate(canvas.width / 2, canvas.height / 2);
-
-    // Appliquer la rotation
     ctx.rotate(-Math.PI / 2);
-
-    // Appliquer le zoom
     ctx.scale(scale, scale);
-
-    // Appliquer la translation
     ctx.translate(translateX / scale, translateY / scale);
 
-    // Dessiner l'image centrée
     const x = -currentImage.width / 2;
     const y = -currentImage.height / 2;
     ctx.drawImage(currentImage, x, y);
 
+    drawPoints();
+
     ctx.restore();
 }
 
+function drawPoints() {
+    ctx.fillStyle = "#FF0000";
+    Object.values(listCoord).forEach(([x, y]) => {
+        ctx.beginPath();
+        ctx.arc(x / scale - translateX / scale, y / scale - translateY / scale, 5, 0, Math.PI * 2, true);
+        ctx.fill();
+        console.log(ctx)
 
-// Charger l'image au chargement initial
+    });
+}
+
 window.onload = function () {
     if (addEtageToSalle.selectedIndex >= 0) {
         const selectedOption = addEtageToSalle.options[addEtageToSalle.selectedIndex];
@@ -91,14 +94,12 @@ window.onload = function () {
 };
 
 let nbClick = 0;
-let listCoord = {};
 
 function getCursorPosition(canvas, event) {
     const rect = canvas.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
 
-    // Stocker les coordonnées dans le dictionnaire
     listCoord[nbClick] = [x, y];
 
     console.log(`Coordonnées du clic ${nbClick}: x: ${x}, y: ${y}`);
@@ -111,9 +112,38 @@ canvas.addEventListener('dblclick', function (event) {
     if (nbClick < 2) {
         nbClick++;
         getCursorPosition(canvas, event);
+        drawImage(); // Redessiner l'image et les points après chaque clic
     } else {
         console.log("Vous avez atteint le nombre maximum de clics.");
     }
-
-
 });
+
+
+//let nbClick = 0;
+//let listCoord = {};
+
+//function getCursorPosition(canvas, event) {
+//    const rect = canvas.getBoundingClientRect();
+//    const x = event.clientX - rect.left;
+//    const y = event.clientY - rect.top;
+
+//    // Stocker les coordonnées dans le dictionnaire
+//    listCoord[nbClick] = [x, y];
+
+//    console.log(`Coordonnées du clic ${nbClick}: x: ${x}, y: ${y}`);
+//    console.log("Liste des coordonnées :", listCoord);
+
+//    return listCoord;
+//}
+
+//canvas.addEventListener('dblclick', function (event) {
+//    if (nbClick < 2) {
+//        nbClick++;
+//        getCursorPosition(canvas, event);
+//    } else {
+//        console.log("Vous avez atteint le nombre maximum de clics.");
+//    }
+
+
+//});
+
