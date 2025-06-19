@@ -105,6 +105,9 @@ namespace Web.Controllers
         int EtageId,
         IFormFile ImgSallePath,
         TypeSalle TypeSalle,
+        // Coordonnées sur le plan
+        double? CoordonneeX = null,
+        double? CoordonneeY = null,
         // Paramètres pour SalleReunion
         bool Ecran = false,
         bool Camera = false,
@@ -143,6 +146,8 @@ namespace Web.Controllers
                     EtageId = EtageId,
                     ImgSallePath = imagePath,
                     TypeSalle = TypeSalle,
+                    CoordonneeX = CoordonneeX,
+                    CoordonneeY = CoordonneeY,
                     Ecran = Ecran,
                     Camera = Camera,
                     TableauBlanc = TableauBlanc,
@@ -155,6 +160,8 @@ namespace Web.Controllers
                     EtageId = EtageId,
                     ImgSallePath = imagePath,
                     TypeSalle = TypeSalle,
+                    CoordonneeX = CoordonneeX,
+                    CoordonneeY = CoordonneeY,
                     MicroOndes = MicroOndes,
                     Frigo = Frigo,
                     Evier = Evier,
@@ -169,6 +176,8 @@ namespace Web.Controllers
                     EtageId = EtageId,
                     ImgSallePath = imagePath,
                     TypeSalle = TypeSalle,
+                    CoordonneeX = CoordonneeX,
+                    CoordonneeY = CoordonneeY,
                     PriseElectrique = PriseElectrique,
                 },
                 _ => new Salle
@@ -177,7 +186,9 @@ namespace Web.Controllers
                     Nom = Nom,
                     EtageId = EtageId,
                     ImgSallePath = imagePath,
-                    TypeSalle = TypeSalle
+                    TypeSalle = TypeSalle,
+                    CoordonneeX = CoordonneeX,
+                    CoordonneeY = CoordonneeY
                 }
             };
 

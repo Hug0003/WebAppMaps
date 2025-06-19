@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class yes04 : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -61,6 +61,8 @@ namespace Infrastructure.Migrations
                     ImgSallePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Favori = table.Column<bool>(type: "bit", nullable: true),
                     TypeSalle = table.Column<int>(type: "int", nullable: false),
+                    CoordonneeX = table.Column<double>(type: "float", nullable: true),
+                    CoordonneeY = table.Column<double>(type: "float", nullable: true),
                     EtageId = table.Column<int>(type: "int", nullable: false),
                     UtilisateurId = table.Column<int>(type: "int", nullable: true),
                     Discriminator = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
@@ -71,6 +73,10 @@ namespace Infrastructure.Migrations
                     Distributeur = table.Column<bool>(type: "bit", nullable: true),
                     NbTables = table.Column<int>(type: "int", nullable: true),
                     NbChaises = table.Column<int>(type: "int", nullable: true),
+                    Ecran = table.Column<bool>(type: "bit", nullable: true),
+                    Camera = table.Column<bool>(type: "bit", nullable: true),
+                    TableauBlanc = table.Column<bool>(type: "bit", nullable: true),
+                    SystemeAudio = table.Column<bool>(type: "bit", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)

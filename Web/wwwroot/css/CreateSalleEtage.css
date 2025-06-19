@@ -124,6 +124,26 @@ select {
     width: 900px;
     display: block;
     object-fit: contain;
+    cursor: crosshair;
+}
+
+.canvas-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.canvas-instructions {
+    color: #666;
+    font-size: 0.9rem;
+    text-align: center;
+    margin: 0;
+    padding: 0.5rem;
+    background-color: #f8f9fa;
+    border-radius: 0.5rem;
+    border: 1px solid #dee2e6;
 }
 
 @media (max-width: 900px) {
@@ -138,6 +158,10 @@ select {
     }
     .box_form-group {
         width: 90vw;
+    }
+    #imageCanvas {
+        width: 100%;
+        height: auto;
     }
 }
 

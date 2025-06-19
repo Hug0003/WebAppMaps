@@ -15,6 +15,10 @@ namespace Domain
         public string? ImgSallePath { get; set; }
         public bool? Favori { get; set; }
         public TypeSalle TypeSalle { get; set; }
+        
+        // Coordonnées sur le plan de l'étage
+        public double? CoordonneeX { get; set; }
+        public double? CoordonneeY { get; set; }
 
         public Etage Etage { get; set; }
         public int EtageId { get; set; }

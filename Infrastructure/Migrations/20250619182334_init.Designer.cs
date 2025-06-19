@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(WebAppMapsContext))]
-    [Migration("20250616080326_yes04")]
-    partial class yes04
+    [Migration("20250619182334_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -64,6 +64,12 @@ namespace Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double?>("CoordonneeX")
+                        .HasColumnType("float");
+
+                    b.Property<double?>("CoordonneeY")
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -187,6 +193,25 @@ namespace Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasDiscriminator().HasValue("SallePause");
+                });
+
+            modelBuilder.Entity("Domain.SalleReunion", b =>
+                {
+                    b.HasBaseType("Domain.Salle");
+
+                    b.Property<bool>("Camera")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Ecran")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("SystemeAudio")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("TableauBlanc")
+                        .HasColumnType("bit");
+
+                    b.HasDiscriminator().HasValue("SalleReunion");
                 });
 
             modelBuilder.Entity("Domain.Salle", b =>

@@ -14,6 +14,20 @@
             </button>
         </form>
 
+        <div class="form form-section" id="sortSection">
+            <select id="sortSelect" class="form-select sort-select">
+                <option value="default">-- Trier par --</option>
+                <option value="name-asc">Nom (A-Z)</option>
+                <option value="name-desc">Nom (Z-A)</option>
+                <option value="number-asc">Numéro (croissant)</option>
+                <option value="number-desc">Numéro (décroissant)</option>
+                <option value="type-asc">Type (A-Z)</option>
+                <option value="type-desc">Type (Z-A)</option>
+                <option value="floor-asc">Étage (croissant)</option>
+                <option value="floor-desc">Étage (décroissant)</option>
+            </select>
+        </div>
+
         <form class="form formSelectFiltre form-section">
             <select id="etageSelect" name="EtageId" class="form-select">
                 <option value="all">-- Reset --</option>
@@ -182,7 +196,7 @@
                                 {
                                     <div>
                                         <p>@(salleReunion.Ecran ? "Écran" : "Pas écran")</p>
-                                        <p>@(salleReunion.Camera ? "Caméra" : "Pas d'écran'")</p>
+                                        <p>@(salleReunion.Camera ? "Caméra" : "Pas d'écran")</p>
                                         <p> @(salleReunion.TableauBlanc ? "Paper board" : "pas de paper board")</p>
                                         <p>Système audio: @(salleReunion.SystemeAudio ? "Oui" : "Non")</p>
                                     </div>
@@ -197,7 +211,12 @@
                         </div>
                     </div>
                     <div class="section_imgPlan">
-                        <img src="~/@salle.Etage.ImgPlanEtagePath" class="img-plan" />
+                        <canvas id="planCanvas_@salle.Id" 
+                                class="img-plan" 
+                                data-imgpath="@Url.Content("~/" + salle.Etage.ImgPlanEtagePath)"
+                                data-coordx="@salle.CoordonneeX"
+                                data-coordy="@salle.CoordonneeY">
+                        </canvas>
                     </div>
                 </div>
             }
