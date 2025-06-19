@@ -140,11 +140,11 @@
                 </a>
 
                 <div class="hidden container_plan_info" data-sallelid="@salle.Id" data-sallenom="@salle.Nom" data-sallenum="@salle.Numero">
-                    <button class="closeModal">
+                    <span class="closeModal">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x-lg iconCLose" viewBox="0 0 16 16">
                             <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
                         </svg>
-                    </button>
+                    </span>
 
                     <div class="section_infoSalle">
                         <div class="box_imgSalle">
@@ -159,10 +159,10 @@
 
                         <div class="list-info">
                             <div class="box_infoPrin_salle_modal">
-                                <p class="p_infoSalle"><strong>Nom Bureau :</strong> @salle.Nom</p>
-                                <p class="p_infoSalle"><strong>Numéro :</strong> @salle.Numero</p>
-                                <p class="p_infoSalle"><strong>Étage :</strong> @salle.Etage.Nom</p>
-                                <p class="p_infoSalle"><strong>Type :</strong> @salle.TypeSalle</p>
+                                <p class="p_infoSalle">@salle.Nom</p>
+                                <p class="p_infoSalle">@salle.Numero</p>
+                                <p class="p_infoSalle">@salle.Etage.Nom</p>
+                                <p class="p_infoSalle">@salle.TypeSalle</p>
                                 <a asp-controller="Etages" asp-action="SignalerRoom">Signaler</a>
                             </div>
 
@@ -170,20 +170,20 @@
                                 @if (sallePause != null)
                                 {
                                     <div>
-                                        <p>Distributeur: @(sallePause.Distributeur ? "Oui" : "Non")</p>
+                                        <p> @(sallePause.Distributeur ? "Distributeur" : "Pas de distributeur")</p>
                                         <p>Micro-ondes: @sallePause.MicroOndes</p>
-                                        <p>Frigo: @(sallePause.Frigo ? "Oui" : "Non")</p>
+                                        <p>@(sallePause.Frigo ? "Frigo" : "Pas de frigo")</p>
                                         <p>Evier: @sallePause.Evier</p>
-                                        <p>Nombre de chaises: @sallePause.NbChaises</p>
-                                        <p>Nombre de tables: @sallePause.NbTables</p>
+                                        <p>Chaises: @sallePause.NbChaises</p>
+                                        <p>Tables: @sallePause.NbTables</p>
                                     </div>
                                 }
                                 @if (salleReunion != null)
                                 {
                                     <div>
-                                        <p>Écran: @(salleReunion.Ecran ? "Oui" : "Non")</p>
-                                        <p>Caméra: @(salleReunion.Camera ? "Oui" : "Non")</p>
-                                        <p>Tableau blanc: @(salleReunion.TableauBlanc ? "Oui" : "Non")</p>
+                                        <p>@(salleReunion.Ecran ? "Écran" : "Pas écran")</p>
+                                        <p>@(salleReunion.Camera ? "Caméra" : "Pas d'écran'")</p>
+                                        <p> @(salleReunion.TableauBlanc ? "Paper board" : "pas de paper board")</p>
                                         <p>Système audio: @(salleReunion.SystemeAudio ? "Oui" : "Non")</p>
                                     </div>
                                 }
@@ -197,12 +197,7 @@
                         </div>
                     </div>
                     <div class="section_imgPlan">
-                            <img src="~/@salle.Etage.ImgPlanEtagePath" class="img-plan" />
-                        @* <div class="zoom-controls">
-                            <button class="zoom-btn" data-action="zoom-in">+</button>
-                            <button class="zoom-btn" data-action="zoom-out">-</button>
-                            <button class="zoom-btn" data-action="reset">↺</button>
-                        </div> *@
+                        <img src="~/@salle.Etage.ImgPlanEtagePath" class="img-plan" />
                     </div>
                 </div>
             }

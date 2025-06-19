@@ -186,7 +186,7 @@ img {
 @media only screen and (max-width: 1200px) {
     .search-room-container {
         top: 52%;
-        width: 50rem;
+        width: 47.5rem;
 
     }
     .form-section {
@@ -422,10 +422,162 @@ img {
     }
 
     .img-plan {
-        transform: rotate(-90deg) scale(1.8) translate(-1rem);
+        transform:scale(1.2) translateY(2rem);
         width: 100%;
         height: 100%;
         object-fit: contain;
     }
 
+
+
+    @media only screen and (max-width: 1400px) {
+
+
+
+        .img-plan {
+            transform: scale(1.1) translate(-1rem);
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    }
+
+@media only screen and (max-width: 1250px) {
+    .list-info {
+        position: absolute;
+        top: .35rem;
+        left: 31%;
+        width: 70%;
+        font-size:14px;
+        max-height: 10vh;
+        gap: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: start;
+    }
+
+}
+
+@media only screen and (max-width: 1110px) {
+
+
+    .list-info {
+        position: absolute;
+        top: .35rem;
+        left: 31%;
+        width: 70%;
+        font-size: 12px;
+        max-height: 10vh;
+        gap: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: start;
+    }
+}
+
+
+
+    @media only screen and (max-width: 950px) {
+
+
+
+        .img-plan {
+            transform: rotate(-90deg) scale(1) translate(-1rem);
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .box_iconFavori {
+            position: absolute;
+            top: 1rem;
+            left: 1%;
+            cursor: pointer;
+            z-index: 50000;
+        }
+
+        .list-info {
+            position: absolute;
+            top: 50%;
+            left: 5%;
+            width: 100%;
+            max-height: 10vh;
+            gap: .5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: start;
+        }
+
+
+        .section_infoSalle {
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-size: 11px;
+            width: 100%;
+            height: max-content;
+            background-color: white;
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+
+        .box_imgSalle {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 10vh;
+            display: none;
+        }
+    }
+
+    @media only screen and (max-width: 850px) {
+        .container_plan_info {
+            top: 47%;
+            width: 30rem;
+        }
+
+        .section_infoSalle {
+
+            grid-template-columns: 1fr;
+        }
+
+        .box_imgSalle {
+            display: none;
+        }
+
+
+
+
+        .box_infoPrin_salle_modal {
+            gap: .5rem
+        }
+
+            .box_infoPrin_salle_modal div {
+                gap: .8rem
+            }
+
+
+
+ 
+    }
+
+
+@media only screen and (max-width: 600px) {
+    .closeModal {
+        position: absolute;
+        right: 1rem;
+        top: 0rem;
+        border: none;
+        outline: none;
+        font-size: 2rem;
+        color: rgb(96,167,138);
+        background-color: transparent;
+        z-index: 30000;
+    }
+
+}
     /*fin style affichage toutes les infos salle et etage*/
