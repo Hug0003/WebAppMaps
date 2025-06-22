@@ -100,8 +100,10 @@ function drawClickedPoint() {
 
 function handleCanvasClick(event) {
     const rect = canvas.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const x = (event.clientX - rect.left) * scaleX;
+    const y = (event.clientY - rect.top) * scaleY;
     
     // Les coordonnées sont directement celles de l'image
     const imageX = x;
@@ -120,28 +122,14 @@ function handleCanvasClick(event) {
 }
 
 function updateHiddenInputs(x, y) {
-    // Créer ou mettre à jour les champs cachés pour les coordonnées
+    // Mettre à jour les champs cachés pour les coordonnées
     let coordXInput = document.getElementById('coordonneeX');
     let coordYInput = document.getElementById('coordonneeY');
     
-    if (!coordXInput) {
-        coordXInput = document.createElement('input');
-        coordXInput.type = 'hidden';
-        coordXInput.id = 'coordonneeX';
-        coordXInput.name = 'CoordonneeX';
-        document.querySelector('form').appendChild(coordXInput);
+    if (coordXInput && coordYInput) {
+        coordXInput.value = x;
+        coordYInput.value = y;
     }
-    
-    if (!coordYInput) {
-        coordYInput = document.createElement('input');
-        coordYInput.type = 'hidden';
-        coordYInput.id = 'coordonneeY';
-        coordYInput.name = 'CoordonneeY';
-        document.querySelector('form').appendChild(coordYInput);
-    }
-    
-    coordXInput.value = x;
-    coordYInput.value = y;
 }
 
 // Les fonctions drawPointOnCanvas et loadImageWithPoint restent pour SearchRoom

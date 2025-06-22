@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(WebAppMapsContext))]
-    [Migration("20250619183551_AddSalleCoordinates")]
-    partial class AddSalleCoordinates
+    [Migration("20250620133012_Coords_not_null2")]
+    partial class Coords_not_null2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

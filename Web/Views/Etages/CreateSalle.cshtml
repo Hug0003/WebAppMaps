@@ -26,7 +26,10 @@
         <p class="canvas-instructions">Sélectionnez un étage ci-dessus, puis cliquez sur le plan pour positionner la salle</p>
         <canvas id="imageCanvas"></canvas>
     </div>
-   
+    
+    <!-- Champs cachés pour les coordonnées -->
+    <input type="hidden" id="coordonneeX" name="CoordonneeX" value="" />
+    <input type="hidden" id="coordonneeY" name="CoordonneeY" value="" />
 
     <div class="form-group">
         <select name="TypeSalle" id="typeSalle" class="form-input" onchange="showSpecificFields()">

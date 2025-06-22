@@ -123,7 +123,7 @@ namespace Web.Controllers
         // Paramètres pour SalleBubble
         bool PriseElectrique = false)
         {
-            string imagePath = "assets/Salles/ImageSalle_444.jpg";
+            string imagePath = "assets/Salles/DefautSalle.jpg";
 
             if (ImgSallePath != null && ImgSallePath.Length > 0)
             {
