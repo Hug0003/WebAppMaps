@@ -33,6 +33,11 @@ namespace Infrastructure
             }
         }
 
+        public Task FindAsync(int idEtageDel)
+        {
+            throw new NotImplementedException();
+        }
+
         public IQueryable<TEntity> GetAll()
         {
             return _dbSet.Where(e => !e.IsDeleted);

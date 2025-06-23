@@ -38,7 +38,7 @@ namespace Web.Controllers
 
         #region Affiche Salle && Etage
 
-        public IActionResult SearchRoom()
+        public IActionResult SearchSalle()
         {
             var viewModel = new SalleViewModel
             {
@@ -47,7 +47,7 @@ namespace Web.Controllers
 
             };
 
-            return View("SearchRoom", viewModel);
+            return View("SearchSalle", viewModel);
         }
             
 
@@ -85,7 +85,7 @@ namespace Web.Controllers
                 await _etageRepository.SaveChangeAsync();
             }
 
-            return RedirectToAction(nameof(SearchRoom));
+            return RedirectToAction(nameof(SearchSalle));
         }
 
         // -------------------------------------- Created Salle -----------------------------------------
@@ -106,8 +106,8 @@ namespace Web.Controllers
         IFormFile ImgSallePath,
         TypeSalle TypeSalle,
         // Coordonnées sur le plan
-        double? CoordonneeX = null,
-        double? CoordonneeY = null,
+        string CoordonneeX,
+        string CoordonneeY,
         // Paramètres pour SalleReunion
         bool Ecran = false,
         bool Camera = false,
@@ -136,7 +136,8 @@ namespace Web.Controllers
                 }
                 imagePath = "assets/Salles/" + ImgSallePath.FileName;
             }
-
+                
+       
             Salle salle = TypeSalle switch
             {
                 TypeSalle.Reunion => new SalleReunion
@@ -191,18 +192,18 @@ namespace Web.Controllers
                     CoordonneeY = CoordonneeY
                 }
             };
-
+            
             await _salleRepository.AddAsync(salle);
             await _salleRepository.SaveChangeAsync();
 
-            return RedirectToAction(nameof(SearchRoom));
+            return RedirectToAction(nameof(SearchSalle));
         }
 
 
 
         // -------------------------------------- Signaler  -----------------------------------------
 
-        public IActionResult SignalerRoom()
+        public IActionResult SignalerSalle()
         {
             return View();
         }
@@ -227,10 +228,12 @@ namespace Web.Controllers
         public IActionResult Signaler(string salle, string probleme)
         {
             SendEmail("Signal : " + salle, probleme);
-            return SearchRoom();
+            return SearchSalle();
         }
 
 
 
     }
 }
+
+

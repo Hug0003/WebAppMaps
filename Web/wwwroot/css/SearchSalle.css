@@ -189,10 +189,13 @@ img {
     align-items:start;
 }
 
-.box_visuSalleInfo p{
-    text-transform:capitalize;
-    color:black;
-}
+    
+
+    .box_visuSalleInfo p {
+        text-transform: capitalize;
+        color: black;
+        font-weight:500;
+    }
 
 .box_visuSalleImg {
     position: absolute;
@@ -452,7 +455,7 @@ img {
         top: 0;
         left: 0;
         width: 100%;
-        height: 10vh;
+        height: 5rem;
         background-color: white;
         display: grid;
         grid-template-columns: 1fr 4fr;
@@ -463,7 +466,7 @@ img {
         top: 0;
         left: 0;
         width: 30%;
-        height: 10vh;
+        height: 5rem;
     }
 
     .imgSalle {
@@ -487,7 +490,7 @@ img {
         top: .35rem;
         left: 31%;
         width: 70%;
-        max-height: 10vh;
+        max-height: 5rem;
         gap: 1rem;
         display: flex;
         flex-direction: column;
@@ -511,7 +514,7 @@ img {
 
     .section_imgPlan {
         position: absolute;
-        top: 10vh;
+        top: 5rem;
         left: 0;
         width: 100%;
         height: 80vh;
@@ -560,7 +563,7 @@ img {
     }
 
     .img-plan {
-        transform:scale(.9);
+        transform:scale(1.05);
         width: 100%;
         height: 100%;
         object-fit: contain;
@@ -580,6 +583,14 @@ img {
         justify-content: space-evenly;
         align-items: start;
     }
+    .box_iconFavori {
+        position: absolute;
+        top: .2rem;
+        left: 28%;
+        cursor: pointer;
+        z-index: 50000;
+    }
+
 
 }
 
@@ -607,6 +618,7 @@ img {
         .container_plan_info {
             top: 47%;
             width: 30rem;
+            height:85vh;
         }
 
         .section_infoSalle {
@@ -621,7 +633,7 @@ img {
 
 
         .img-plan {
-            transform: rotate(-90deg) scale(.9) translate(3rem);
+            transform: rotate(-90deg) scale(1.1) translate(3rem);
             width: 100%;
             height: 100%;
             object-fit: contain;
@@ -674,4 +686,73 @@ img {
     }
 
 }
+
+
+
+
+@media only screen and (max-width: 450px) {
+    .container_plan_info {
+        top: 47%;
+        width: 20rem;
+        height: 85vh;
+    }
+
+    .section_infoSalle {
+        height: 3rem;
+        grid-template-columns: 1fr;
+        justify-content:center
+    }
+
+    .box_infoPrin_salle_modal{
+        display:grid;
+        grid-template-columns: repeat(2, 1fr);
+
+    }
+
+    .box_imgSalle {
+        display: none;
+    }
+
+    .box_info_type {
+        display: none;
+    }
+
+    .img-plan {
+        transform: rotate(-90deg) scale(1.5) translate(2rem);
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+
+
+    .box_iconFavori {
+        position: absolute;
+        top: 1rem;
+        left: 1%;
+        cursor: pointer;
+        z-index: 50000;
+    }
+
+    .list-info {
+        position: absolute;
+        top: 0%;
+        left: 5%;
+        width: 100%;
+        max-height: 3rem;
+        gap: 0rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: start;
+    }
+
+
+    .section_infoSalle {
+        font-size: 11px;
+        grid-template-columns: 1fr;
+    }
+}
+
+
     /*fin style affichage toutes les infos salle et etage*/

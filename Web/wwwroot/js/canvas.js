@@ -83,9 +83,9 @@ function drawClickedPoint() {
     ctx.save();
     ctx.fillStyle = "#FF0000";
     ctx.strokeStyle = "#FFFFFF";
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 3;
     
-    const radius = 8;
+    const radius = 12;
     const x = clickedCoordinates.x;
     const y = clickedCoordinates.y;
     
@@ -132,7 +132,7 @@ function updateHiddenInputs(x, y) {
     }
 }
 
-// Les fonctions drawPointOnCanvas et loadImageWithPoint restent pour SearchRoom
+// Les fonctions drawPointOnCanvas et loadImageWithPoint restent pour SearchSalle
 function drawPointOnCanvas(canvasId, x, y, color = "#FF0000") {
     const canvas = document.getElementById(canvasId);
     if (!canvas) return;
@@ -142,9 +142,9 @@ function drawPointOnCanvas(canvasId, x, y, color = "#FF0000") {
     
     ctx.fillStyle = color;
     ctx.strokeStyle = "#FFFFFF";
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 3;
     
-    const radius = 8;
+    const radius = 12;
     
     ctx.beginPath();
     ctx.arc(x, y, radius, 0, Math.PI * 2);

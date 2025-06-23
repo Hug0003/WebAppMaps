@@ -47,7 +47,7 @@ namespace Web
             app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Etages}/{action=SearchRoom}/{id?}")
+                pattern: "{controller=Etages}/{action=SearchSalle}/{id?}")
                 .WithStaticAssets();
 
             app.Run();

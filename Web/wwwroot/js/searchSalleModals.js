@@ -1,9 +1,9 @@
-// Gestion des modals dans SearchRoom avec canvas
+// Gestion des modals dans SearchSalle avec canvas
 document.addEventListener('DOMContentLoaded', function() {
-    initializeSearchRoomModals();
+    initializeSearchSalleModals();
 });
 
-function initializeSearchRoomModals() {
+function initializeSearchSalleModals() {
     // Écouter les clics sur les salles pour ouvrir les modals
     const sallesClick = document.querySelectorAll('.salles_click');
     sallesClick.forEach(salle => {
@@ -104,9 +104,9 @@ function drawPointOnCanvas(canvasId, x, y, color = "#FF0000") {
     
     ctx.fillStyle = color;
     ctx.strokeStyle = "#FFFFFF";
-    ctx.lineWidth = 3;
+    ctx.lineWidth = 5;
     
-    const radius = 10;
+    const radius = 15;
     
     // Dessiner le point
     ctx.beginPath();

@@ -31,7 +31,7 @@ namespace Web.Controllers
             var utilisateur = new Utilisateur { NomUtilisateur = Nom, PrenomUtilisateur = Prenom, EmailUtilisateur = Email, RoleUtilisateur = Role };
             await _utilisateurRepository.AddAsync(utilisateur);
             await _utilisateurRepository.SaveChangeAsync();
-            return RedirectToAction("SearchRoom", "Etages");
+            return RedirectToAction("SearchSalle", "Etages");
 
         }
 

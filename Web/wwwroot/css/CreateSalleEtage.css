@@ -121,7 +121,7 @@ select {
 
 #imageCanvas {
     border: 1px solid white;
-    width: 900px;
+    width: 1500px;
     display: block;
     object-fit: contain;
     cursor: crosshair;
@@ -225,3 +225,23 @@ select {
     }
 }
 
+/* ----------------------------------- gérer les tables --------------------------------------*/
+
+
+
+/* Assurez-vous que les images sont petites */
+.small-image {
+    max-width: 100px; /* Ajustez la taille selon vos besoins */
+    height: auto;
+}
+
+/* Alignez tout le contenu de la table à gauche */
+.tableEtages td, .tableEtages th {
+    text-align: left;
+}
+
+/* Assurez-vous que les cellules contenant les images ne dépassent pas */
+.tdImgetage {
+    width: 10%;
+    white-space: nowrap;
+}

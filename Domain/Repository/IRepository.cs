@@ -13,6 +13,6 @@ namespace Domain
         Task<TEntity> GetByIdAsync(int id);
         Task SaveChangeAsync();
         IQueryable<TEntity> GetAll();
-
+        Task FindAsync(int idEtageDel);
     }
 }

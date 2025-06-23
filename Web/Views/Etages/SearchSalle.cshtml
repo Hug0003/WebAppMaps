@@ -5,7 +5,7 @@
 <div class="search-room-container">
     <a class="linkStyle addItem" asp-controller="Etages" asp-action="Create">+</a>
 
-        <form class="form form-section" id="searchRoomForm">
+        <form class="form form-section" id="searchSalleForm">
             <input name="salle" id="salleInput" placeholder="Numéro/Nom salle" class="input-field" />
             <button type="submit" class="btn">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
@@ -177,10 +177,10 @@
                                 <p class="p_infoSalle">@salle.Numero</p>
                                 <p class="p_infoSalle">@salle.Etage.Nom</p>
                                 <p class="p_infoSalle">@salle.TypeSalle</p>
-                                <a asp-controller="Etages" asp-action="SignalerRoom">Signaler</a>
+                                <a asp-controller="Etages" asp-action="SignalerSalle">Signaler</a>
                             </div>
 
-                            <div class="box_infoPrin_salle_modal">
+                            <div class="box_infoPrin_salle_modal box_info_type">
                                 @if (sallePause != null)
                                 {
                                     <div>

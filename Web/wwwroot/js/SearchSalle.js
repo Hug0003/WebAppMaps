@@ -239,7 +239,7 @@ const dStarEmpty = "M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256
 
 
 //input search salle 
-document.getElementById('searchRoomForm').addEventListener('submit', function (e) {
+document.getElementById('searchSalleForm').addEventListener('submit', function (e) {
     e.preventDefault();
     var inputValue = document.getElementById('salleInput').value;
     document.getElementById('salleInput').value = "";
@@ -363,7 +363,7 @@ iconsStar.forEach(iconStar => {
     })
 })
 
-// Le code de gestion des modals a été déplacé dans searchRoomModals.js
+// Le code de gestion des modals a été déplacé dans searchSalleModals.js
 
 
 
