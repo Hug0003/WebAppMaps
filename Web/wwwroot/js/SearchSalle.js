@@ -24,23 +24,27 @@ const closeModal = document.querySelectorAll(".closeModal");
 //ajouter des cookies
 function setCookie(nomCookie, nouvelElement) {
     let listeStringRecuperee = getCookie(nomCookie);
-
     let listeRecuperee = listeStringRecuperee ? JSON.parse(listeStringRecuperee) : [];
+
+    // Nettoyer la liste de toute valeur nulle ou indésirable
+    listeRecuperee = listeRecuperee.filter(e => e !== null && e !== undefined && e !== "null" && e !== "undefined");
 
     if (!listeRecuperee.includes(nouvelElement)) {
         listeRecuperee.push(nouvelElement);
     } else {
         const index = listeRecuperee.indexOf(nouvelElement);
-        listeRecuperee.splice(index, 1)
+        listeRecuperee.splice(index, 1);
     }
 
-
-    let listeMiseAJourJson = JSON.stringify(listeRecuperee);
-
-    let dateDansUnAn = new Date();
-    dateDansUnAn.setFullYear(dateDansUnAn.getFullYear() + 1);
-
-    document.cookie = `${nomCookie}=${listeMiseAJourJson}; expires=${dateDansUnAn.toUTCString()}; path=/`;
+    if (listeRecuperee.length === 0) {
+        // Supprimer le cookie si la liste est vide
+        document.cookie = `${nomCookie}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    } else {
+        let listeMiseAJourJson = JSON.stringify(listeRecuperee);
+        // Date d'expiration fixée à l'an 3000
+        let dateAn3000 = new Date('3000-01-01T00:00:00Z');
+        document.cookie = `${nomCookie}=${listeMiseAJourJson}; expires=${dateAn3000.toUTCString()}; path=/`;
+    }
 }
 
 
@@ -256,61 +260,10 @@ document.getElementById('searchSalleForm').addEventListener('submit', function (
     })
 });
 
-//affiche plan si clique sur card mais pas sur les étoiles
-salleClick.forEach(salle => {
-    salle.addEventListener('click', function (e) {
-        if (e.target.closest('.iconStar')) {
-            return; 
-        }
+// Le code de gestion des modals a été déplacé dans searchSalleModals.js
+// Suppression du gestionnaire d'événements dupliqué pour éviter les conflits
 
-        const salleClickId = salle.dataset.salleclickid;
-
-        containerPlanInfo.forEach(plan => {
-            if (plan.dataset.sallelid === salleClickId) {
-                plan.style.display="block";
-                body.classList.add("bodyBackDesable");
-            }
-        });
-    });
-});
-
-// Fonction pour fermer tous les modals
-function closeAllModals() {
-    containerPlanInfo.forEach(plan => {
-        plan.style.display="none";
-    });
-    body.classList.remove("bodyBackDesable");
-}
-
-// Fermer le modal en cliquant sur le bouton de fermeture
-closeModal.forEach(c => c.addEventListener("click", function (e) {
-    closeAllModals();
-}));
-
-// Fermer le modal en cliquant à l'extérieur
-document.addEventListener("click", function (e) {
-    // Vérifier si on clique sur un modal ouvert
-    const openModal = document.querySelector('.container_plan_info[style*="display: block"]');
-    if (openModal) {
-        // Si on clique sur le modal lui-même ou ses enfants, ne rien faire
-        if (openModal.contains(e.target)) {
-            return;
-        }
-        
-        // Si on clique sur le bouton de fermeture, ne rien faire (géré par l'autre event listener)
-        if (e.target.closest('.closeModal')) {
-            return;
-        }
-        
-        // Si on clique sur une carte de salle, ne rien faire (pour permettre l'ouverture)
-        if (e.target.closest('.salles_click')) {
-            return;
-        }
-        
-        // Sinon, fermer le modal
-        closeAllModals();
-    }
-});
+// Le code de fermeture des modals a été déplacé dans searchSalleModals.js
 
 
 

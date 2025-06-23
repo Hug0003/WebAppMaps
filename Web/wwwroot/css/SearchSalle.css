@@ -440,6 +440,7 @@ img {
         font-size: 2rem;
         color: rgb(96,167,138);
         background-color: transparent;
+        cursor:pointer;
         z-index: 30000;
     }
 

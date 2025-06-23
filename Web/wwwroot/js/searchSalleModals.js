@@ -3,21 +3,37 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeSearchSalleModals();
 });
 
+// Fonction pour fermer tous les modals
+function closeAllModals() {
+    const containerPlanInfo = document.querySelectorAll('.container_plan_info');
+    containerPlanInfo.forEach(plan => {
+        plan.style.display = 'none';
+    });
+    document.body.classList.remove('bodyBackDesable');
+}
+
 function initializeSearchSalleModals() {
     // Écouter les clics sur les salles pour ouvrir les modals
     const sallesClick = document.querySelectorAll('.salles_click');
     sallesClick.forEach(salle => {
         salle.addEventListener('click', function(e) {
             e.preventDefault();
-            const salleId = this.dataset.salleclickid;
-            const modal = document.querySelector(`[data-sallelid="${salleId}"]`);
-            if (modal) {
-                modal.style.display = 'block';
-                document.body.classList.add('bodyBackDesable');
-                
-                // Charger le canvas avec l'image et le point
-                loadModalCanvas(salleId);
+            // Vérifier si on clique sur l'icône d'étoile (ou un de ses enfants)
+            if(e.target.closest(".iconStar_favori_cartes")){
+                console.log("Clic sur l'icône d'étoile - ne pas ouvrir le modal");
+                return; // Sortir de la fonction sans ouvrir le modal
+            }else{
+                const salleId = this.dataset.salleclickid;
+                const modal = document.querySelector(`[data-sallelid="${salleId}"]`);
+                if (modal) {
+                    modal.style.display = 'block';
+                    document.body.classList.add('bodyBackDesable');
+                    
+                    // Charger le canvas avec l'image et le point
+                    loadModalCanvas(salleId);
+                }
             }
+
         });
     });
     
@@ -25,22 +41,32 @@ function initializeSearchSalleModals() {
     const closeButtons = document.querySelectorAll('.closeModal');
     closeButtons.forEach(button => {
         button.addEventListener('click', function() {
-            const modal = this.closest('.container_plan_info');
-            if (modal) {
-                modal.style.display = 'none';
-                document.body.classList.remove('bodyBackDesable');
-            }
+            closeAllModals();
         });
     });
     
     // Fermer le modal en cliquant à l'extérieur
     document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('bodyBackDesable')) {
-            const modal = document.querySelector('.container_plan_info[style*="block"]');
-            if (modal) {
-                modal.style.display = 'none';
-                document.body.classList.remove('bodyBackDesable');
+        // Vérifier si on clique sur un modal ouvert
+        const openModal = document.querySelector('.container_plan_info[style*="display: block"]');
+        if (openModal) {
+            // Si on clique sur le modal lui-même ou ses enfants, ne rien faire
+            if (openModal.contains(e.target)) {
+                return;
             }
+            
+            // Si on clique sur le bouton de fermeture, ne rien faire (géré par l'autre event listener)
+            if (e.target.closest('.closeModal')) {
+                return;
+            }
+            
+            // Si on clique sur une carte de salle, ne rien faire (pour permettre l'ouverture)
+            if (e.target.closest('.salles_click')) {
+                return;
+            }
+            
+            // Sinon, fermer le modal
+            closeAllModals();
         }
     });
 }

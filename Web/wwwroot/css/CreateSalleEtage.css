@@ -121,7 +121,7 @@ select {
 
 #imageCanvas {
     border: 1px solid white;
-    width: 1500px;
+    width: 90vw;
     display: block;
     object-fit: contain;
     cursor: crosshair;
