@@ -757,3 +757,154 @@ img {
 
 
     /*fin style affichage toutes les infos salle et etage*/
+
+    /* Styles pour le formulaire de signalement */
+    .signaler-container {
+        width: 40rem;
+        max-width: 90vw;
+        border-radius: 1rem;
+        padding: 2rem;
+        font-family: 'Segoe UI', sans-serif;
+        margin: 2rem auto;
+    }
+
+    .signaler-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .signaler-header h2 {
+        color: rgb(96, 167, 138);
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .signaler-header p {
+        color: #666;
+        font-size: 1rem;
+        margin: 0;
+    }
+
+    .signaler-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .form-group label {
+        font-weight: 500;
+        color: #333;
+        font-size: 1rem;
+    }
+
+    .form-input,
+    .form-textarea {
+        padding: 0.75rem;
+        border: 1px solid #ccc;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        font-family: inherit;
+        transition: all 0.3s ease;
+        outline: none;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus {
+        border-color: rgb(96, 167, 138);
+        box-shadow: 0 0 5px rgba(96, 167, 138, 0.3);
+    }
+
+    .form-textarea {
+        resize: vertical;
+        min-height: 6rem;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .btn {
+        width: max-content;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 0.5rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+        background-color: rgb(96, 167, 138);
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: rgb(124, 170, 150);
+        transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+        background-color: #f8f9fa;
+        color: #666;
+        border: 1px solid #ddd;
+    }
+
+    .btn-secondary:hover {
+        background-color: #e9ecef;
+        color: #333;
+    }
+
+    /* Responsive design pour le formulaire de signalement */
+    @media only screen and (max-width: 768px) {
+        .signaler-container {
+            width: 90vw;
+            padding: 1.5rem;
+            margin: 1rem auto;
+        }
+
+        .signaler-header h2 {
+            font-size: 1.5rem;
+        }
+
+        .form-actions {
+            flex-direction: column;
+        }
+
+        .btn {
+            width: 100%;
+        }
+    }
+
+    @media only screen and (max-width: 480px) {
+        .signaler-container {
+            width: 95vw;
+            padding: 1rem;
+            margin: 0.5rem auto;
+        }
+
+        .signaler-header h2 {
+            font-size: 1.3rem;
+        }
+
+        .form-input,
+        .form-textarea {
+            font-size: 0.9rem;
+        }
+    }

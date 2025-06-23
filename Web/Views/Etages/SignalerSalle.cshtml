@@ -1,8 +1,37 @@
-﻿
-@model Domain.Salle
+﻿@model Domain.Salle
 
-<form asp-action="Signaler">
-    <input name="salle" placeholder="Numéro/Nom de la salle"/>
-    <textarea name="message" placeholder="Description du problème"></textarea>
-    <button type="submit">Signaler</button>
-</form>
+<div class="signaler-container">
+    <div class="signaler-header">
+        <h2>Signaler un problème</h2>
+        <p>Décrivez le problème rencontré avec cette salle</p>
+    </div>
+
+    <form asp-action="Signaler" class="signaler-form">
+        <div class="form-group">
+            <label for="salle">Salle concernée</label>
+            <input 
+                type="text" 
+                id="salle" 
+                name="salle" 
+                placeholder="Numéro/Nom de la salle"
+                class="form-input"
+                required />
+        </div>
+
+        <div class="form-group">
+            <label for="message">Description du problème</label>
+            <textarea 
+                id="message" 
+                name="message" 
+                placeholder="Décrivez en détail le problème rencontré..."
+                class="form-textarea"
+                rows="5"
+                required></textarea>
+        </div>
+
+        <div class="form-actions">
+            <a asp-controller="Etages" asp-action="SearchSalle" class="btn btn-secondary">Annuler</a>
+            <button type="submit" class="btn btn-primary">Signaler le problème</button>
+        </div>
+    </form>
+</div>
