@@ -23,7 +23,7 @@
         </a>
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-10">
             @RenderBody()
         </main>
     </div>
@@ -33,9 +33,11 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/SearchSalle.js" asp-append-version="true"></script>
+    <script src="~/js/searchSalle.js" asp-append-version="true"></script>
     <script src="~/js/canvas.js" asp-append-version="true"></script>
     <script src="~/js/searchSalleModals.js" asp-append-version="true"></script>
+    <script src="~/js/create.js" asp-append-version="true"></script>
+
 
 
     @await RenderSectionAsync("Scripts", required: false)

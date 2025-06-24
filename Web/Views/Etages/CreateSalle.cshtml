@@ -41,33 +41,33 @@
 
     <!-- Champs spécifiques pour Salle Réunion -->
     <div id="reunionFields" style="display: none;" class="box_form-group">
-        <div class="form-group">
-            <label>Écran</label>
-            <input value="true" type="checkbox" name="Ecran" />
+        <div class="form-group" style="display: flex; align-items: center; gap: 0.5rem;">
+            <input value="true" type="checkbox" name="Ecran" id="ecran" style="width: auto; margin-right: 0.5em; margin-top: 0;" />
+            <label for="ecran" style="margin: 0; line-height: 1; display: flex; align-items: center; transform: translateY(-1px);">Écran</label>
         </div>
-        <div class="form-group">
-            <label>Caméra</label>
-            <input value="true" type="checkbox" name="Camera" />
+        <div class="form-group" style="display: flex; align-items: center; gap: 0.5rem;">
+            <input value="true" type="checkbox" name="Camera" id="camera" style="width: auto; margin-right: 0.5em; margin-top: 0;" />
+            <label for="camera" style="margin: 0; line-height: 1; display: flex; align-items: center; transform: translateY(-1px);">Caméra</label>
         </div>
-        <div class="form-group">
-            <label>Tableau blanc</label>
-            <input value="true" type="checkbox" name="TableauBlanc" />
+        <div class="form-group" style="display: flex; align-items: center; gap: 0.5rem;">
+            <input value="true" type="checkbox" name="TableauBlanc" id="tableauBlanc" style="width: auto; margin-right: 0.5em; margin-top: 0;" />
+            <label for="tableauBlanc" style="margin: 0; line-height: 1; display: flex; align-items: center; transform: translateY(-1px);">Tableau blanc</label>
         </div>
-        <div class="form-group">
-            <label>Système audio</label>
-            <input value="true" type="checkbox" name="SystemeAudio" />
+        <div class="form-group" style="display: flex; align-items: center; gap: 0.5rem;">
+            <input value="true" type="checkbox" name="SystemeAudio" id="systemeAudio" style="width: auto; margin-right: 0.5em; margin-top: 0;" />
+            <label for="systemeAudio" style="margin: 0; line-height: 1; display: flex; align-items: center; transform: translateY(-1px);">Système audio</label>
         </div>
     </div>
 
     <!-- Champs spécifiques pour Salle Pause -->
     <div id="pauseFields" style="display: none;" class="box_form-group">
-        <div class="form-group">
-            <label for="distributeur">Distributeur</label>
-            <input value="true" type="checkbox" name="Distributeur" id="distributeur" />
+        <div class="form-group" style="display: flex; align-items: center; gap: 0.5rem;">
+            <input value="true" type="checkbox" name="Distributeur" id="distributeur" style="width: auto; margin-right: 0.5em; margin-top: 0;" />
+            <label for="distributeur" style="margin: 0; line-height: 1; display: flex; align-items: center; transform: translateY(-1px);">Distributeur</label>
         </div>
-        <div class="form-group">
-            <label for="frigo">Frigo</label>
-            <input value="true" type="checkbox" name="Frigo" id="frigo" />
+        <div class="form-group" style="display: flex; align-items: center; gap: 0.5rem;">
+            <input value="true" type="checkbox" name="Frigo" id="frigo" style="width: auto; margin-right: 0.5em; margin-top: 0;" />
+            <label for="frigo" style="margin: 0; line-height: 1; display: flex; align-items: center; transform: translateY(-1px);">Frigo</label>
         </div>
         <div class="form-group form-goup_input">
             <input type="number" id="microondes" name="MicroOndes" class="form-control" placeholder="Nombre de micro-ondes" />
@@ -75,7 +75,6 @@
         <div class="form-group form-goup_input">
             <input type="number" name="Evier" class="form-input" id="evier" placeholder="Nombre d'évier'" />
         </div>
-
         <div class="form-group form-goup_input">
             <input type="number" name="NbTables" class="form-input" placeholder="Nombre de tables" />
         </div>
@@ -86,9 +85,9 @@
 
     <!-- Champs spécifiques pour Salle Bubble -->
     <div id="bubbleFields" style="display: none;" class="box_form-group">
-        <div class="form-group">
-            <label>Prise électrique</label>
-            <input value="true" type="checkbox" name="PriseElectrique" />
+        <div class="form-group" style="display: flex; align-items: center; gap: 0.5rem;">
+            <input value="true" type="checkbox" name="PriseElectrique" id="priseElectrique" style="width: auto; margin-right: 0.5em; margin-top: 0;" />
+            <label for="priseElectrique" style="margin: 0; line-height: 1; display: flex; align-items: center; transform: translateY(-1px);">Prise électrique</label>
         </div>
     </div>
 
