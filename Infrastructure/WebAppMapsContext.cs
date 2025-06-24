@@ -23,7 +23,6 @@ namespace Infrastructure
 
 
         public DbSet<Etage> Etages { get; set; }
-        public DbSet<Utilisateur> Utilisateurs { get; set; }
 
 
     }

@@ -17,17 +17,14 @@ namespace Web.Controllers
     {
         private readonly IRepository<Etage> _etageRepository;
         private readonly IRepository<Salle> _salleRepository;
-        private readonly IRepository<Utilisateur> _utilisateurRepository;
         private readonly ISalleManager _salleManager;
 
         public EtagesController(IRepository<Etage> etageRepository, 
             IRepository<Salle> salleRepository, 
-            IRepository<Utilisateur> utilisateurRepository, 
             ISalleManager salleManager)
         {
             _etageRepository = etageRepository;
             _salleRepository = salleRepository;
-            _utilisateurRepository = utilisateurRepository;
             _salleManager = salleManager;
         }
 

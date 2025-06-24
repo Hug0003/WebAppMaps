@@ -8,7 +8,6 @@ namespace Web.ViewModel
 
 
         public ICollection<Etage> etages { get; set; }
-        public Utilisateur utilisateur { get; set; }
 
     }
 }

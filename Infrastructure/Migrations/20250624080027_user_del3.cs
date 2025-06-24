@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Coords_not_null2 : Migration
+    public partial class user_del3 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,26 +30,6 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Utilisateurs",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    NomUtilisateur = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PrenomUtilisateur = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EmailUtilisateur = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MotDePasseUtilisateur = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RoleUtilisateur = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Utilisateurs", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Salles",
                 columns: table => new
                 {
@@ -61,10 +41,9 @@ namespace Infrastructure.Migrations
                     ImgSallePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Favori = table.Column<bool>(type: "bit", nullable: true),
                     TypeSalle = table.Column<int>(type: "int", nullable: false),
-                    CoordonneeX = table.Column<double>(type: "float", nullable: true),
-                    CoordonneeY = table.Column<double>(type: "float", nullable: true),
+                    CoordonneeX = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CoordonneeY = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EtageId = table.Column<int>(type: "int", nullable: false),
-                    UtilisateurId = table.Column<int>(type: "int", nullable: true),
                     Discriminator = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
                     PriseElectrique = table.Column<bool>(type: "bit", nullable: true),
                     MicroOndes = table.Column<int>(type: "int", nullable: true),
@@ -90,22 +69,12 @@ namespace Infrastructure.Migrations
                         principalTable: "Etages",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Salles_Utilisateurs_UtilisateurId",
-                        column: x => x.UtilisateurId,
-                        principalTable: "Utilisateurs",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Salles_EtageId",
                 table: "Salles",
                 column: "EtageId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Salles_UtilisateurId",
-                table: "Salles",
-                column: "UtilisateurId");
         }
 
         /// <inheritdoc />
@@ -116,9 +85,6 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Etages");
-
-            migrationBuilder.DropTable(
-                name: "Utilisateurs");
         }
     }
 }

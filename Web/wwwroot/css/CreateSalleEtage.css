@@ -72,6 +72,8 @@
     width: 30vw;
 }
 
+
+
 .form-goup_input {
     margin-bottom: .5rem;
 }
@@ -84,15 +86,13 @@
 
 .box_form-group {
     width: 50%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: start;
+    height: 100%;
+
 }
 
 .box_form-group div {
     width: 100%;
-    height: 2rem;
+    height: 3rem;
     gap: 1rem;
     display: flex;
 }
