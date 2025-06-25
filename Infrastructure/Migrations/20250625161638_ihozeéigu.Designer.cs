@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(WebAppMapsContext))]
-    [Migration("20250625084612_initialisation1")]
-    partial class initialisation1
+    [Migration("20250625161638_ihozeéigu")]
+    partial class ihozeéigu
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

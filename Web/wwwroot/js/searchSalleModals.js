@@ -1,6 +1,15 @@
 // Gestion des modals dans SearchSalle avec canvas
 document.addEventListener('DOMContentLoaded', function () {
     initializeSearchSalleModals();
+    
+    // Écouter les changements de taille d'écran pour ajuster le comportement
+    window.addEventListener('resize', function() {
+        // Si un canvas est actuellement affiché, le redessiner avec les bonnes coordonnées
+        const activeCanvas = document.querySelector('canvas[style*="display: block"]');
+        if (activeCanvas && activeCanvas.img) {
+            redrawCanvas(activeCanvas);
+        }
+    });
 });
 
 // Fonction pour fermer tous les modals
@@ -10,6 +19,26 @@ function closeAllModals() {
         plan.style.display = 'none';
     });
     document.body.classList.remove('bodyBackDesable');
+    // Restaurer la barre de défilement
+    document.body.style.overflow = "auto";
+}
+
+// Fonction pour détecter si l'écran est en mode mobile
+function isMobileScreen() {
+    return window.innerWidth <= 850;
+}
+
+// Fonction pour ajuster les coordonnées de déplacement selon l'orientation
+function adjustDragCoordinates(deltaX, deltaY) {
+    if (isMobileScreen()) {
+        // En mode mobile, le canvas est roté de -90deg, donc on inverse X et Y
+        // et on inverse la direction du déplacement
+        return {
+            deltaX: -deltaY,
+            deltaY: deltaX
+        };
+    }
+    return { deltaX, deltaY };
 }
 
 // Input search salle
@@ -40,6 +69,9 @@ function initializeSearchSalleModals() {
                 console.log("Clic sur l'icône d'étoile - ne pas ouvrir le modal");
                 return; // Sortir de la fonction sans ouvrir le modal
             } else {
+                document.querySelector(".search-room-container").style.backgroundColor = "transparent";
+                // Masquer la barre de défilement
+                document.body.style.overflow = "hidden";
                 const salleId = this.dataset.salleclickid;
                 const modal = document.querySelector(`[data-sallelid="${salleId}"]`);
                 if (modal) {
@@ -58,6 +90,9 @@ function initializeSearchSalleModals() {
     closeButtons.forEach(button => {
         button.addEventListener('click', function () {
             closeAllModals();
+            document.querySelector(".search-room-container").style.backgroundColor = "white";
+            // Restaurer la barre de défilement
+            document.body.style.overflow = "auto";
         });
     });
 
@@ -83,6 +118,9 @@ function initializeSearchSalleModals() {
 
             // Sinon, fermer le modal
             closeAllModals();
+            document.querySelector(".search-room-container").style.backgroundColor = "white";
+            // Restaurer la barre de défilement
+            document.body.style.overflow = "auto";
         }
     });
 }
@@ -210,8 +248,11 @@ function setupCanvasInteractions(canvas, img, pointX, pointY) {
         const deltaX = e.clientX - lastMouseX;
         const deltaY = e.clientY - lastMouseY;
         
-        currentOffsetX += deltaX;
-        currentOffsetY += deltaY;
+        // Ajuster les coordonnées selon l'orientation de l'écran
+        const adjustedCoords = adjustDragCoordinates(deltaX, deltaY);
+        
+        currentOffsetX += adjustedCoords.deltaX;
+        currentOffsetY += adjustedCoords.deltaY;
         
         lastMouseX = e.clientX;
         lastMouseY = e.clientY;

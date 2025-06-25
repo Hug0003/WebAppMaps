@@ -359,11 +359,12 @@ img {
 
 .container_plan_info {
   position: fixed;
-  top: 42%;
+  top: 43%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 94vw;
-  height: 95vh;
+  width: 90vw;
+  height: 94vh;
+
   background-color: white;
   border-radius: 1rem;
   display: grid;
@@ -550,7 +551,7 @@ img {
   overflow-y: hidden;
   padding-bottom: 0.5rem;
   scrollbar-width: thin;
-  scrollbar-color: rgba(96, 167, 138, 0.3) transparent;
+  scrollbar-color: rgba(96, 167, 138, 0.3) ;
 }
 
 .attributs-container::-webkit-scrollbar {
@@ -579,7 +580,6 @@ img {
   font-size: 0.8rem;
   font-weight: 500;
   transition: all 0.3s ease;
-  cursor: help;
   min-width: fit-content;
 }
 
@@ -605,7 +605,6 @@ img {
 
 .attribut-present:hover {
   background-color: rgba(40, 167, 69, 0.3);
-  transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(40, 167, 69, 0.2);
 }
 
@@ -621,7 +620,6 @@ img {
 
 .attribut-absent:hover {
   background-color: rgba(220, 53, 69, 0.3);
-  transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(220, 53, 69, 0.2);
 }
 
@@ -638,16 +636,25 @@ img {
 
 .attribut-item:not(.attribut-present):not(.attribut-absent):hover {
   background-color: rgba(108, 117, 125, 0.3);
-  transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(108, 117, 125, 0.2);
+}
+
+@media only screen and (max-height: 1200px) {
+  .container_plan_info {
+    height: 85vh;
+
+
+  }
+
+  .search-room-container{
+    height: 85vh;
+  }
 }
 
 @media only screen and (max-width: 1200px) {
   .container_plan_info {
-    top: 45%;
-   
-    width: 50rem;
-    height: 80vh;
+    top: 40%;
+
 
   }
 
@@ -674,11 +681,7 @@ img {
 }
 
 @media only screen and (max-width: 850px) {
-  .container_plan_info {
-    top: 47%;
-    width: 30rem;
-    height: 85vh;
-  }
+
 
 
   .img-plan {
@@ -712,11 +715,7 @@ img {
 }
 
 @media only screen and (max-width: 450px) {
-  .container_plan_info {
-    top: 47%;
-    width: 22rem;
-    height: 85vh;
-  }
+
 
 
   .img-plan {
