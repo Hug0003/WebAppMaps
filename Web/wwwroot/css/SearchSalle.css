@@ -92,6 +92,30 @@ img {
   color: white;
 }
 
+.btn-reset {
+  width: auto;
+  padding: 0 1.5rem;
+  border-radius: 6px;
+  background-color: #6c757d;
+  font-size: 0.9rem;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.btn-reset:hover {
+  background-color: #5a6268;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-reset svg {
+  transition: transform 0.3s ease;
+}
+
+.btn-reset:hover svg {
+  transform: rotate(180deg);
+}
+
 .sort-select {
   font-size: 16px;
   background-color: #f8f8f8;
@@ -202,14 +226,14 @@ img {
 
 .iconStarFiltre {
   position: absolute;
-  top: 4.5rem;
+  top: 3.5rem;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
 @media only screen and (max-width: 1200px) {
   .img-plan {
-    transform: scale(1) translateY(2rem);
+    transform: scale(1rem) translateY(2rem);
     width: 100%;
     height: 100%;
     object-fit: contain;
@@ -241,6 +265,12 @@ img {
   .btn {
     height: 1.8rem;
     width: 5rem;
+  }
+
+  .btn-reset {
+    height: 1.8rem;
+    padding: 0 1rem;
+    font-size: 0.8rem;
   }
 
   .container_ListSalle {
@@ -287,6 +317,12 @@ img {
   .form-select {
     font-size: 10px;
     height: 1.8rem;
+  }
+
+  .btn-reset {
+    height: 1.8rem;
+    padding: 0 0.8rem;
+    font-size: 0.7rem;
   }
 
   .container_ListSalle {
@@ -338,11 +374,11 @@ img {
     width: 9rem;
   }
 
-
-  .iconStarFiltre {
-    top: 4rem;
+  .btn-reset {
+    height: 1.8rem;
+    padding: 0 0.6rem;
+    font-size: 0.6rem;
   }
-
 
 
   .sort-select {
@@ -515,7 +551,7 @@ img {
 }
 
 .img-plan {
-  transform: scale(1);
+  transform: scale(.9);
   width: 100%;
   height: 100%;
   object-fit: contain;

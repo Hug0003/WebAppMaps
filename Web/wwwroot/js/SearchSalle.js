@@ -3,6 +3,7 @@ const formSelectFavorie = document.querySelector("#favoriSelect");
 const formSelectType = document.querySelector("#typeSalle");
 const formSelectAttribut = document.querySelector("#attributSalle");
 const sortSelect = document.querySelector("#sortSelect");
+const resetFiltersBtn = document.querySelector("#resetFilters");
 const salleClick = document.querySelectorAll(".salles_click");
 const container_infoSalle = document.querySelectorAll('.container_plan_info');
 const scrollContainer = document.querySelector(".container_ListSalle");
@@ -290,6 +291,45 @@ iconsStar.forEach(iconStar => {
 
     })
 })
+
+// Fonction pour réinitialiser tous les filtres
+function resetAllFilters() {
+    // Réinitialiser les sélecteurs
+    formSelectEtage.value = "all";
+    formSelectType.value = "all";
+    formSelectAttribut.value = "all";
+    sortSelect.value = "default";
+    
+    // Réinitialiser le filtre favori
+    const iconStarFilter = document.querySelector(".iconStar-filter");
+    if (iconStarFilter) {
+        iconStarFilter.setAttribute("d", dStarEmpty);
+    }
+    
+    // Réinitialiser le champ de recherche
+    const searchInput = document.querySelector("#salleInput");
+    if (searchInput) {
+        searchInput.value = "";
+    }
+    
+    // Afficher toutes les salles
+    salleClick.forEach(function (salle) {
+        salle.style.display = "block";
+    });
+    
+    // Remettre les salles dans l'ordre original
+    const container = document.querySelector('.container_ListSalle');
+    const salles = Array.from(container.querySelectorAll('.salles_click'));
+    salles.forEach(salle => {
+        container.appendChild(salle);
+    });
+    
+    // Mettre à jour les icônes de favoris
+    updateIcon();
+}
+
+// Ajouter l'écouteur d'événement pour le bouton de réinitialisation
+resetFiltersBtn.addEventListener("click", resetAllFilters);
 
 
 

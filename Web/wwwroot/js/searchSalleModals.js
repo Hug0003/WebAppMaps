@@ -306,51 +306,103 @@ function redrawCanvas(canvas) {
     ctx.restore();
 }
 
-// Fonction pour dessiner un point sur un canvas avec un rayon donné
+// Fonction pour dessiner une goutte sur un canvas avec un rayon donné
 function drawPointOnCanvas(canvasId, x, y, radius, color = "#FF0000") {
     const canvas = document.getElementById(canvasId);
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
     ctx.save();
-    ctx.fillStyle = color;
-    ctx.strokeStyle = "#FFFFFF";
-    ctx.lineWidth = 5;
-
-    // Dessiner le point
+    
+    // Déplacer la goutte un peu vers le haut
+    const offsetY = -radius * 0.9;
+    const adjustedY = y + offsetY;
+    
+    // Dessiner une goutte (tournée de 180deg - pointe vers le bas)
     ctx.beginPath();
-    ctx.arc(x, y, radius, 0, Math.PI * 2);
+    
+    // Point de départ (pointe de la goutte vers le bas)
+    ctx.moveTo(x, adjustedY + radius);
+    
+    // Courbe de Bézier pour la partie gauche de la goutte
+    ctx.bezierCurveTo(
+        x - radius * 0.5, adjustedY + radius * 0.8,  // Point de contrôle 1
+        x - radius * 0.8, adjustedY - radius * 0.3,  // Point de contrôle 2
+        x, adjustedY - radius * 0.6                  // Point final (haut de la goutte)
+    );
+    
+    // Courbe de Bézier pour la partie droite de la goutte
+    ctx.bezierCurveTo(
+        x + radius * 0.8, adjustedY - radius * 0.3,  // Point de contrôle 1
+        x + radius * 0.5, adjustedY + radius * 0.8,  // Point de contrôle 2
+        x, adjustedY + radius                        // Retour au point de départ
+    );
+    
+    ctx.closePath();
+    
+    // Remplir la goutte
+    ctx.fillStyle = color;
     ctx.fill();
+    
+    // Contour blanc
+    ctx.strokeStyle = "#FFFFFF";
+    ctx.lineWidth = 3;
     ctx.stroke();
-
+    
     // Ajouter une ombre pour plus de visibilité
     ctx.shadowColor = "rgba(0, 0, 0, 0.3)";
     ctx.shadowBlur = 4;
     ctx.shadowOffsetX = 2;
     ctx.shadowOffsetY = 2;
-
+    
     ctx.restore();
 }
 
-// Fonction pour dessiner un point avec un contexte déjà transformé
+// Fonction pour dessiner une goutte avec un contexte déjà transformé
 function drawPointOnCanvasWithContext(ctx, x, y, radius, color = "#FF0000") {
     ctx.save();
-    ctx.fillStyle = color;
-    ctx.strokeStyle = "#FFFFFF";
-    ctx.lineWidth = 5;
-
-    // Dessiner le point
+    
+    // Déplacer la goutte un peu vers le haut
+    const offsetY = -radius * 0.6;
+    const adjustedY = y + offsetY;
+    
+    // Dessiner une goutte (tournée de 180deg - pointe vers le bas)
     ctx.beginPath();
-    ctx.arc(x, y, radius, 0, Math.PI * 2);
+    
+    // Point de départ (pointe de la goutte vers le bas)
+    ctx.moveTo(x, adjustedY + radius);
+    
+    // Courbe de Bézier pour la partie gauche de la goutte
+    ctx.bezierCurveTo(
+        x - radius * 0.5, adjustedY + radius * 0.8,  // Point de contrôle 1
+        x - radius * 0.8, adjustedY - radius * 0.3,  // Point de contrôle 2
+        x, adjustedY - radius * 0.6                  // Point final (haut de la goutte)
+    );
+    
+    // Courbe de Bézier pour la partie droite de la goutte
+    ctx.bezierCurveTo(
+        x + radius * 0.8, adjustedY - radius * 0.3,  // Point de contrôle 1
+        x + radius * 0.5, adjustedY + radius * 0.8,  // Point de contrôle 2
+        x, adjustedY + radius                        // Retour au point de départ
+    );
+    
+    ctx.closePath();
+    
+    // Remplir la goutte
+    ctx.fillStyle = color;
     ctx.fill();
+    
+    // Contour blanc
+    ctx.strokeStyle = "#FFFFFF";
+    ctx.lineWidth = 3;
     ctx.stroke();
-
+    
     // Ajouter une ombre pour plus de visibilité
     ctx.shadowColor = "rgba(0, 0, 0, 0.3)";
     ctx.shadowBlur = 4;
     ctx.shadowOffsetX = 2;
     ctx.shadowOffsetY = 2;
-
+    
     ctx.restore();
 }
 
