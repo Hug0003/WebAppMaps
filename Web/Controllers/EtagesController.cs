@@ -105,6 +105,8 @@ namespace Web.Controllers
         // Coordonnées sur le plan
         string CoordonneeX,
         string CoordonneeY,
+        int? NbTables,
+        int? NbPlaces,
         // Paramètres pour SalleReunion
         bool Ecran = false,
         bool Camera = false,
@@ -115,8 +117,6 @@ namespace Web.Controllers
         bool Frigo = false,
         int Evier = 0,
         bool Distributeur = false,
-        int NbTables = 0,
-        int NbChaises = 0,
         // Paramètres pour SalleBubble
         bool PriseElectrique = false)
         {
@@ -146,6 +146,8 @@ namespace Web.Controllers
                     TypeSalle = TypeSalle,
                     CoordonneeX = CoordonneeX,
                     CoordonneeY = CoordonneeY,
+                    NbTables = NbTables,
+                    NbPlaces = NbPlaces,
                     Ecran = Ecran,
                     Camera = Camera,
                     TableauBlanc = TableauBlanc,
@@ -160,12 +162,13 @@ namespace Web.Controllers
                     TypeSalle = TypeSalle,
                     CoordonneeX = CoordonneeX,
                     CoordonneeY = CoordonneeY,
+                    NbTables = NbTables,
+                    NbPlaces = NbPlaces,
                     MicroOndes = MicroOndes,
                     Frigo = Frigo,
                     Evier = Evier,
                     Distributeur = Distributeur,
-                    NbTables = NbTables,
-                    NbChaises = NbChaises
+
                 },
                 TypeSalle.Bubble => new SalleBubble
                 {
@@ -176,6 +179,8 @@ namespace Web.Controllers
                     TypeSalle = TypeSalle,
                     CoordonneeX = CoordonneeX,
                     CoordonneeY = CoordonneeY,
+                    NbTables = NbTables,
+                    NbPlaces = NbPlaces,
                     PriseElectrique = PriseElectrique,
                 },
                 _ => new Salle
@@ -186,7 +191,10 @@ namespace Web.Controllers
                     ImgSallePath = imagePath,
                     TypeSalle = TypeSalle,
                     CoordonneeX = CoordonneeX,
-                    CoordonneeY = CoordonneeY
+                    CoordonneeY = CoordonneeY,
+                    NbTables = NbTables,
+                    NbPlaces = NbPlaces,
+
                 }
             };
             
@@ -196,37 +204,6 @@ namespace Web.Controllers
             return RedirectToAction(nameof(SearchSalle));
         }
 
-
-
-        // -------------------------------------- Signaler  -----------------------------------------
-
-        public IActionResult SignalerSalle()
-        {
-            return View();
-        }
-
-        public void SendEmail(string subject, string body)
-        {
-            var smtp = new SmtpClient("smtp.gmail.com")
-            {
-                Port = 587,
-                Credentials = new NetworkCredential("hugomeuriel@gmail.com", "btzq mcia ryxw ongv"),
-                EnableSsl = true
-            };
-            var message = new MailMessage("hugomeuriel@gmail.com", "hugomeuriel@gmail.com")
-            {
-                Subject = subject,
-                Body = body
-            };
-            smtp.Send(message);
-
-        }
-
-        public IActionResult Signaler(string salle, string probleme)
-        {
-            SendEmail("Signal : " + salle, probleme);
-            return SearchSalle();
-        }
 
 
 

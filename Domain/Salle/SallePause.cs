@@ -12,7 +12,6 @@ namespace Domain
         public bool Frigo { get; set; }
         public int Evier { get; set; }
         public bool Distributeur { get; set; }
-        public int NbTables { get; set; }
-        public int NbChaises { get; set; }
+
     }
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(WebAppMapsContext))]
-    [Migration("20250624164051_del_user3")]
-    partial class del_user3
+    [Migration("20250625084612_initialisation1")]
+    partial class initialisation1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -93,7 +93,10 @@ namespace Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("NbPlace")
+                    b.Property<int?>("NbPlaces")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("NbTables")
                         .HasColumnType("int");
 
                     b.Property<string>("Nom")
@@ -144,12 +147,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<int>("MicroOndes")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NbChaises")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NbTables")
                         .HasColumnType("int");
 
                     b.HasDiscriminator().HasValue("SallePause");

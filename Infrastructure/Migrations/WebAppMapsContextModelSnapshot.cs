@@ -90,7 +90,10 @@ namespace Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("NbPlace")
+                    b.Property<int?>("NbPlaces")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("NbTables")
                         .HasColumnType("int");
 
                     b.Property<string>("Nom")
@@ -141,12 +144,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<int>("MicroOndes")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NbChaises")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NbTables")
                         .HasColumnType("int");
 
                     b.HasDiscriminator().HasValue("SallePause");

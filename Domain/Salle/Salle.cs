@@ -11,7 +11,8 @@ namespace Domain
     {
         public string Nom { get; set; }
         public int Numero { get; set; }
-        public int? NbPlace { get; set; }
+
+
         public string? ImgSallePath { get; set; }
         public bool? Favori { get; set; }
         public TypeSalle TypeSalle { get; set; }
@@ -19,6 +20,8 @@ namespace Domain
         // Coordonnées sur le plan de l'étage
         public string CoordonneeX { get; set; }
         public string CoordonneeY { get; set; }
+        public int?  NbTables { get; set; }
+        public int? NbPlaces { get; set; }
 
         public Etage Etage { get; set; }
         public int EtageId { get; set; }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class del_user : Migration
+    public partial class initialisation1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -37,12 +37,13 @@ namespace Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nom = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Numero = table.Column<int>(type: "int", nullable: false),
-                    NbPlace = table.Column<int>(type: "int", nullable: true),
                     ImgSallePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Favori = table.Column<bool>(type: "bit", nullable: true),
                     TypeSalle = table.Column<int>(type: "int", nullable: false),
                     CoordonneeX = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CoordonneeY = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NbTables = table.Column<int>(type: "int", nullable: true),
+                    NbPlaces = table.Column<int>(type: "int", nullable: true),
                     EtageId = table.Column<int>(type: "int", nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
                     PriseElectrique = table.Column<bool>(type: "bit", nullable: true),
@@ -50,8 +51,6 @@ namespace Infrastructure.Migrations
                     Frigo = table.Column<bool>(type: "bit", nullable: true),
                     Evier = table.Column<int>(type: "int", nullable: true),
                     Distributeur = table.Column<bool>(type: "bit", nullable: true),
-                    NbTables = table.Column<int>(type: "int", nullable: true),
-                    NbChaises = table.Column<int>(type: "int", nullable: true),
                     Ecran = table.Column<bool>(type: "bit", nullable: true),
                     Camera = table.Column<bool>(type: "bit", nullable: true),
                     TableauBlanc = table.Column<bool>(type: "bit", nullable: true),

@@ -51,10 +51,12 @@ img {
   padding: 0 18rem;
 }
 
+
+
 .form {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .input-field {
@@ -150,7 +152,6 @@ img {
   gap: 1rem;
   padding: 2rem 0;
   min-width: 62rem;
-  display: n;
 }
 
 .box_visuSalle {
@@ -264,11 +265,16 @@ img {
     top: 52%;
     width: 22rem;
     overflow: visible;
+    padding:0;
   }
 
   .form-section {
     padding: 0rem;
   }
+
+    .form-search {
+        padding: 2rem;
+    }
 
   .input-field {
     width: 12rem;
@@ -279,12 +285,12 @@ img {
   }
 
   .form-select {
-    font-size: 12px;
+    font-size: 10px;
     height: 1.8rem;
   }
 
   .container_ListSalle {
-    grid-template-columns: repeat(1, 20rem);
+    grid-template-columns: repeat(1, 19rem);
     min-width: 20rem;
   }
 
@@ -300,22 +306,31 @@ img {
     grid-template-columns: 1fr 1fr 1fr;
     gap: 0.5rem;
   }
+
+    .box_visuSalle {
+        width: 19rem;
+        box-shadow: none;
+    }
 }
 
 @media only screen and (max-width: 450px) {
   .search-room-container {
     top: 52%;
-    width: 20rem;
-    padding: 1rem 0;
+    width: 21rem;
+    padding: .5rem 0;
     overflow: visible;
   }
 
-  .form-section {
-    padding: 0rem;
-  }
+
+
+    .form-search {
+        padding: 1rem;
+        padding-top:2rem;
+    }
+
 
   .input-field {
-    width: 8rem;
+    width: 15rem;
     font-size: 10px;
   }
 
@@ -323,45 +338,19 @@ img {
     width: 9rem;
   }
 
-  .form-select {
-    font-size: 12px;
-    height: 1.8rem;
-  }
 
   .iconStarFiltre {
     top: 4rem;
   }
 
-  .container_ListSalle {
-    grid-template-columns: repeat(1, 20rem);
-    min-width: 20rem;
-  }
 
-  .box_visuSalle {
-    position: relative;
-    width: 20rem;
-    height: 7rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0rem 0rem 2rem rgba(0, 0, 0, 0.2);
-    background-color: #f9f9f9;
-    border-radius: 0;
-    overflow: hidden;
-  }
 
   .sort-select {
-    height: 2.5rem;
     min-width: 80px;
     font-size: 10px;
     padding: 5px;
   }
 
-  .formSelectFiltre {
-    overflow: visible;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 0.3rem;
-  }
 }
 
 /*fin style affichage card salleClick*/
@@ -373,7 +362,7 @@ img {
   top: 42%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 90vw;
+  width: 94vw;
   height: 95vh;
   background-color: white;
   border-radius: 1rem;
@@ -444,14 +433,14 @@ img {
   position: absolute;
   top: 0.35rem;
   left: 31%;
-  width: 70%;
-  height: 7rem;
+  width: 64%;
+  height: 6rem;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: start;
   overflow-x: auto; /* Active le défilement horizontal */
-  padding-right:1rem ;
+  gap:1rem;
 }
 
 .box_infoPrin_salle_modal {
@@ -655,26 +644,21 @@ img {
 
 @media only screen and (max-width: 1200px) {
   .container_plan_info {
-    position: fixed;
     top: 45%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+   
     width: 50rem;
     height: 80vh;
-    background-color: white;
-    border-radius: 1rem;
-    display: grid;
-    grid-template-rows: 1fr 4fr;
-    align-items: center;
-    justify-content: center;
-    pointer-events: all;
-    overflow: hidden;
-    z-index: 10000;
-    display: none;
+
   }
 
+    .list-info {
+
+        width: 63%;
+
+    }
+
   .img-plan {
-    transform: scale(1.05);
+    transform: scale(.9);
     width: 100%;
     height: 100%;
     object-fit: contain;
@@ -706,8 +690,8 @@ img {
 
   .box_iconFavori {
     position: absolute;
-    top: 1rem;
-    left: 1%;
+    top: 0rem;
+    left: 26%;
     cursor: pointer;
     z-index: 50000;
   }
@@ -716,11 +700,11 @@ img {
 @media only screen and (max-width: 770px) {
   .closeModal {
     position: absolute;
-    right: 1rem;
-    top: -0.7rem;
+    right: .1rem;
+    top: -.5rem;
     border: none;
     outline: none;
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: rgb(96, 167, 138);
     background-color: transparent;
     z-index: 30000;
@@ -730,7 +714,7 @@ img {
 @media only screen and (max-width: 450px) {
   .container_plan_info {
     top: 47%;
-    width: 20rem;
+    width: 22rem;
     height: 85vh;
   }
 
@@ -742,10 +726,12 @@ img {
     object-fit: contain;
   }
 
+
+
   .box_iconFavori {
     position: absolute;
-    top: 1rem;
-    left: 1%;
+    top: 0rem;
+    left: 25%;
     cursor: pointer;
     z-index: 50000;
   }
