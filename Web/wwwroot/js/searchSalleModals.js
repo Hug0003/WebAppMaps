@@ -1,7 +1,5 @@
-
 // Gestion des modals dans SearchSalle avec canvas
 document.addEventListener('DOMContentLoaded', function () {
-    initializeSearchSalleModals();
     // Écouter les changements de taille d'écran pour ajuster le comportement
     window.addEventListener('resize', function () {
         // Si un canvas est actuellement affiché, le redessiner avec les bonnes coordonnées
@@ -11,20 +9,23 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
 // Fonction pour fermer tous les modals
 function closeAllModals() {
-    const containerPlanInfo = document.querySelectorAll('.container_plan_info');
-    containerPlanInfo.forEach(plan => {
-        plan.style.display = 'none';
-    });
+    const modalContainer = document.querySelector('#modalContainer');
+    if (modalContainer) {
+        modalContainer.innerHTML = '';
+    }
     document.body.classList.remove('bodyBackDesable');
     // Restaurer la barre de défilement
     document.body.style.overflow = "auto";
 }
+
 // Fonction pour détecter si l'écran est en mode mobile
 function isMobileScreen() {
     return window.innerWidth <= 850;
 }
+
 // Fonction pour ajuster les coordonnées de déplacement selon l'orientation
 function adjustDragCoordinates(deltaX, deltaY) {
     if (isMobileScreen()) {
@@ -37,124 +38,123 @@ function adjustDragCoordinates(deltaX, deltaY) {
     }
     return { deltaX, deltaY };
 }
+
 // Input search salle
 document.getElementById('searchSalleForm').addEventListener('submit', function (e) {
     e.preventDefault();
-    var inputValue = document.getElementById('salleInput').value;
-    document.getElementById('salleInput').value = "";
-    container_infoSalle.forEach(info => {
-        const salleNum = info.dataset.sallenum;
-        const salleNom = info.dataset.sallenom;
-        const salleId = info.dataset.sallelid;
-        if (inputValue == salleNum || inputValue == salleNom) {
-            info.style.display = "block";
-            document.body.classList.add("bodyBackDesable");
-            loadModalCanvas(salleId);
-        }
-    });
+    performSearch();
 });
-function initializeSearchSalleModals() {
-    // Écouter les clics sur les salles pour ouvrir les modals
+
+// Recherche en temps réel au changement
+document.getElementById('salleInput').addEventListener('input', function (e) {
+    performSearch();
+});
+
+// Fonction de recherche
+function performSearch() {
+    var inputValue = document.getElementById('salleInput').value.trim();
+    
+    if (!inputValue) {
+        // Si le champ est vide, réinitialiser l'affichage
+        if (typeof resetAllFilters === 'function') {
+            resetAllFilters();
+        }
+        return;
+    }
+    
+    // Rechercher la salle correspondante
     const sallesClick = document.querySelectorAll('.salles_click');
+    let salleTrouvee = false;
+    
+    // D'abord, chercher une correspondance exacte
     sallesClick.forEach(salle => {
-        salle.addEventListener('click', function (e) {
-            e.preventDefault();
-            // Vérifier si on clique sur l'icône d'étoile (ou un de ses enfants)
-            if (e.target.closest(".iconStar_favori_cartes")) {
-                console.log("Clic sur l'icône d'étoile - ne pas ouvrir le modal");
-                return; // Sortir de la fonction sans ouvrir le modal
-            } else {
-                document.querySelector(".search-room-container").style.backgroundColor = "transparent";
-                // Masquer la barre de défilement
-                document.body.style.overflow = "hidden";
-                const salleId = this.dataset.salleclickid;
-                const modal = document.querySelector(`[data-sallelid="${salleId}"]`);
-                if (modal) {
-                    modal.style.display = 'block';
-                    document.body.classList.add('bodyBackDesable');
-                    // Charger le canvas avec l'image et le point
-                    loadModalCanvas(salleId);
-                }
+        const salleNum = salle.dataset.sallenum;
+        const salleNom = salle.dataset.sallenom;
+        // Comparaison insensible à la casse
+        if (inputValue.toLowerCase() === salleNum.toLowerCase() || 
+            inputValue.toLowerCase() === salleNom.toLowerCase()) {
+            // Utiliser la fonction de création de modal dynamique
+            if (typeof showSalleModal === 'function') {
+                showSalleModal(salle);
             }
-        });
-    });
-    // Écouter les clics sur les boutons de fermeture
-    const closeButtons = document.querySelectorAll('.closeModal');
-    closeButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            closeAllModals();
-            document.querySelector(".search-room-container").style.backgroundColor = "white";
-            // Restaurer la barre de défilement
-            document.body.style.overflow = "auto";
-        });
-    });
-    // Fermer le modal en cliquant à l'extérieur
-    document.addEventListener('click', function (e) {
-        // Vérifier si on clique sur un modal ouvert
-        const openModal = document.querySelector('.container_plan_info[style*="display: block"]');
-        if (openModal) {
-            // Si on clique sur le modal lui-même ou ses enfants, ne rien faire
-            if (openModal.contains(e.target)) {
-                return;
-            }
-            // Si on clique sur le bouton de fermeture, ne rien faire (géré par l'autre event listener)
-            if (e.target.closest('.closeModal')) {
-                return;
-            }
-            // Si on clique sur une carte de salle, ne rien faire (pour permettre l'ouverture)
-            if (e.target.closest('.salles_click')) {
-                return;
-            }
-            // Sinon, fermer le modal
-            closeAllModals();
-            document.querySelector(".search-room-container").style.backgroundColor = "white";
-            // Restaurer la barre de défilement
-            document.body.style.overflow = "auto";
+            salleTrouvee = true;
         }
     });
+    
+    // Si aucune salle exacte trouvée, essayer de filtrer
+    if (!salleTrouvee) {
+        let sallesFiltrees = [];
+        
+        // Chercher des correspondances partielles dans les noms
+        sallesClick.forEach(salle => {
+            const salleNom = salle.dataset.sallenom;
+            if (salleNom && salleNom.toLowerCase().includes(inputValue.toLowerCase())) {
+                sallesFiltrees.push(salle);
+            }
+        });
+        
+        // Si on trouve des correspondances dans les noms, les afficher
+        if (sallesFiltrees.length > 0) {
+            sallesClick.forEach(salle => {
+                salle.style.display = "none";
+            });
+            sallesFiltrees.forEach(salle => {
+                salle.style.display = "block";
+            });
+        } else {
+            // Sinon, essayer de filtrer par étage si c'est un numéro
+            const premierChiffre = inputValue.charAt(0);
+            if (!isNaN(premierChiffre)) {
+                sallesClick.forEach(salle => {
+                    const salleNum = salle.dataset.sallenum;
+                    if (salleNum && salleNum.charAt(0) === premierChiffre) {
+                        salle.style.display = "block";
+                    } else {
+                        salle.style.display = "none";
+                    }
+                });
+            }
+        }
+    }
 }
+
+// Fonction pour initialiser les modals (maintenant gérée par searchSalle.js)
+function initializeSearchSalleModals() {
+    // Cette fonction n'est plus nécessaire car les modals sont créés dynamiquement
+    // Les événements sont gérés dans searchSalle.js
+}
+
+// Fonction pour charger le canvas d'un modal
 function loadModalCanvas(salleId) {
     const canvas = document.getElementById(`planCanvas_${salleId}`);
     if (!canvas) return;
-    const imagePath = canvas.dataset.imgpath;
-    const coordX = parseFloat(canvas.dataset.coordx);
-    const coordY = parseFloat(canvas.dataset.coordy);
-    if (imagePath) {
-        loadImageWithPoint(`planCanvas_${salleId}`, imagePath, coordX, coordY);
-    }
-}
-// Variables globales pour le zoom
-let currentScale = 1;
-let currentOffsetX = 0;
-let currentOffsetY = 0;
-let isDragging = false;
-let lastMouseX = 0;
-let lastMouseY = 0;
-// Fonction pour charger une image dans un canvas avec un point et système de zoom
-function loadImageWithPoint(canvasId, imagePath, pointX, pointY) {
-    const canvas = document.getElementById(canvasId);
-    if (!canvas) return;
+
     const ctx = canvas.getContext('2d');
     const img = new Image();
-    // Réinitialiser les variables de zoom pour chaque nouvelle image
-    currentScale = 1;
-    currentOffsetX = 0;
-    currentOffsetY = 0;
-    img.onload = function () {
+    
+    // Récupérer les coordonnées depuis les attributs data
+    const coordX = parseFloat(canvas.dataset.coordx);
+    const coordY = parseFloat(canvas.dataset.coordy);
+
+    img.onload = function() {
         // Ajuster la taille du canvas à l'image
         canvas.width = img.width;
         canvas.height = img.height;
+        
         // Dessiner l'image
         ctx.drawImage(img, 0, 0);
+        
         // Dessiner et animer le point si les coordonnées sont fournies et valides
-        if (pointX !== null && pointY !== null && !isNaN(pointX) && !isNaN(pointY)) {
-            animatePoint(canvasId, img, pointX, pointY);
+        if (coordX !== null && coordY !== null && !isNaN(coordX) && !isNaN(coordY)) {
+            animatePoint(canvas.id, img, coordX, coordY);
         }
+        
         // Ajouter les event listeners pour le zoom et le déplacement
-        setupCanvasInteractions(canvas, img, pointX, pointY);
+        setupCanvasInteractions(canvas, img, coordX, coordY);
     };
+    
     img.onerror = function () {
-        console.error("Erreur de chargement de l'image pour le modal : ", imagePath);
+        console.error("Erreur de chargement de l'image pour le modal : ", canvas.dataset.imgpath);
         // Afficher un message d'erreur sur le canvas
         ctx.fillStyle = "#f8f9fa";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -163,8 +163,18 @@ function loadImageWithPoint(canvasId, imagePath, pointX, pointY) {
         ctx.textAlign = "center";
         ctx.fillText("Erreur de chargement de l'image", canvas.width / 2, canvas.height / 2);
     };
-    img.src = imagePath;
+    
+    img.src = canvas.dataset.imgpath;
 }
+
+// Variables globales pour le zoom
+let currentScale = 1;
+let currentOffsetX = 0;
+let currentOffsetY = 0;
+let isDragging = false;
+let lastMouseX = 0;
+let lastMouseY = 0;
+
 // Fonction pour configurer les interactions du canvas (zoom et déplacement)
 function setupCanvasInteractions(canvas, img, pointX, pointY) {
     // Supprimer les anciens event listeners s'ils existent
@@ -174,6 +184,8 @@ function setupCanvasInteractions(canvas, img, pointX, pointY) {
     canvas.removeEventListener('mouseup', handleMouseUp);
     canvas.removeEventListener('mouseleave', handleMouseUp);
     canvas.removeEventListener('dblclick', handleDoubleClick);
+    canvas.removeEventListener('click', handleClick);
+    
     // Ajouter les nouveaux event listeners
     canvas.addEventListener('wheel', handleWheel);
     canvas.addEventListener('mousedown', handleMouseDown);
@@ -181,153 +193,294 @@ function setupCanvasInteractions(canvas, img, pointX, pointY) {
     canvas.addEventListener('mouseup', handleMouseUp);
     canvas.addEventListener('mouseleave', handleMouseUp);
     canvas.addEventListener('dblclick', handleDoubleClick);
+    canvas.addEventListener('click', handleClick);
+    
     // Stocker les références pour les utiliser dans les handlers
     canvas.img = img;
     canvas.pointX = pointX;
     canvas.pointY = pointY;
+    
+    function handleClick(e) {
+        e.stopPropagation();
+    }
+    
     function handleWheel(e) {
         e.preventDefault();
+        e.stopPropagation();
         const delta = e.deltaY > 0 ? 0.9 : 1.1; // Réduire ou augmenter le zoom
         const newScale = Math.max(0.5, Math.min(5, currentScale * delta)); // Limiter le zoom entre 0.5x et 5x
+        
         // Calculer le point de zoom (position de la souris)
         const rect = canvas.getBoundingClientRect();
         const mouseX = e.clientX - rect.left;
         const mouseY = e.clientY - rect.top;
+        
         // Ajuster l'offset pour zoomer vers le point de la souris
         const scaleChange = newScale / currentScale;
         currentOffsetX = mouseX - (mouseX - currentOffsetX) * scaleChange;
         currentOffsetY = mouseY - (mouseY - currentOffsetY) * scaleChange;
         currentScale = newScale;
-        // Redessiner le canvas avec le nouveau zoom
+        
         redrawCanvas(canvas);
     }
+    
     function handleMouseDown(e) {
+        e.stopPropagation();
         isDragging = true;
         lastMouseX = e.clientX;
         lastMouseY = e.clientY;
         canvas.style.cursor = 'grabbing';
     }
+    
     function handleMouseMove(e) {
         if (!isDragging) return;
+        e.stopPropagation();
+        
         const deltaX = e.clientX - lastMouseX;
         const deltaY = e.clientY - lastMouseY;
-        // Ajuster les coordonnées selon l'orientation de l'écran
         const adjustedCoords = adjustDragCoordinates(deltaX, deltaY);
+        
         currentOffsetX += adjustedCoords.deltaX;
         currentOffsetY += adjustedCoords.deltaY;
+        
         lastMouseX = e.clientX;
         lastMouseY = e.clientY;
+        
         redrawCanvas(canvas);
     }
-    function handleMouseUp() {
+    
+    function handleMouseUp(e) {
+        if (e) e.stopPropagation();
         isDragging = false;
         canvas.style.cursor = 'grab';
     }
+    
     function handleDoubleClick(e) {
         e.preventDefault();
-        // Réinitialiser le zoom et la position
+        e.stopPropagation();
+        // Reset zoom et position
         currentScale = 1;
         currentOffsetX = 0;
         currentOffsetY = 0;
         redrawCanvas(canvas);
     }
 }
-// Fonction pour redessiner le canvas avec le zoom et le déplacement
+
 function redrawCanvas(canvas) {
     const ctx = canvas.getContext('2d');
     const img = canvas.img;
     const pointX = canvas.pointX;
     const pointY = canvas.pointY;
+    
+    if (!img) return;
+    
     // Effacer le canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
     // Sauvegarder le contexte
     ctx.save();
+    
     // Appliquer les transformations
     ctx.translate(currentOffsetX, currentOffsetY);
     ctx.scale(currentScale, currentScale);
+    
     // Dessiner l'image
     ctx.drawImage(img, 0, 0);
-    // Dessiner le point si les coordonnées sont valides
+    
+    // Dessiner le marqueur si les coordonnées sont valides
     if (pointX !== null && pointY !== null && !isNaN(pointX) && !isNaN(pointY)) {
-        drawPointOnCanvasWithContext(ctx, pointX, pointY, 20, "#FF0000");
+        // Utiliser la taille actuelle du marqueur pour l'animation
+        const markerSize = canvas.currentPointRadius || 20;
+        drawMarker(ctx, pointX, pointY, markerSize);
     }
+    
     // Restaurer le contexte
     ctx.restore();
 }
-// Fonction pour dessiner un point sur un canvas avec un rayon donné
+
 function drawPointOnCanvas(canvasId, x, y, radius, color = "#FF0000") {
     const canvas = document.getElementById(canvasId);
     if (!canvas) return;
+    
     const ctx = canvas.getContext('2d');
-    ctx.save();
-    ctx.fillStyle = color;
-    ctx.strokeStyle = "#FFFFFF";
-    ctx.lineWidth = 5;
-    // Dessiner le point
-    ctx.beginPath();
-    ctx.arc(x, y, radius, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.stroke();
-    // Ajouter une ombre pour plus de visibilité
-    ctx.shadowColor = "rgba(0, 0, 0, 0.3)";
-    ctx.shadowBlur = 4;
-    ctx.shadowOffsetX = 2;
-    ctx.shadowOffsetY = 2;
-    ctx.restore();
+    drawPointOnCanvasWithContext(ctx, x, y, radius, color);
 }
-// Fonction pour dessiner un point avec un contexte déjà transformé
+
 function drawPointOnCanvasWithContext(ctx, x, y, radius, color = "#FF0000") {
     ctx.save();
-    ctx.fillStyle = color;
-    ctx.strokeStyle = "#FFFFFF";
-    ctx.lineWidth = 5;
-    // Dessiner le point
-    ctx.beginPath();
-    ctx.arc(x, y, radius, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.stroke();
-    // Ajouter une ombre pour plus de visibilité
-    ctx.shadowColor = "rgba(0, 0, 0, 0.3)";
-    ctx.shadowBlur = 4;
+    
+    // Taille du marqueur
+    const markerSize = radius * 2;
+    const halfSize = markerSize / 2;
+    
+    // Position du marqueur
+    const markerX = x - halfSize;
+    const markerY = y - markerSize; // Décaler vers le haut pour que la pointe soit sur la position
+    
+    // Effet de lueur d'abord (en arrière-plan)
+    ctx.shadowColor = color;
+    ctx.shadowBlur = 15;
     ctx.shadowOffsetX = 2;
     ctx.shadowOffsetY = 2;
+    
+    // Dessiner le marqueur SVG (forme de goutte/pin) - version ombrée
+    ctx.beginPath();
+    
+    // Corps du marqueur (cercle en haut)
+    ctx.arc(x, y - halfSize, halfSize, 0, 2 * Math.PI);
+    
+    // Pointe du marqueur (triangle en bas)
+    ctx.moveTo(x - halfSize, y - halfSize);
+    ctx.lineTo(x, y + halfSize);
+    ctx.lineTo(x + halfSize, y - halfSize);
+    ctx.closePath();
+    
+    // Remplir le marqueur avec l'ombre
+    ctx.fillStyle = color;
+    ctx.fill();
+    
+    // Maintenant dessiner le marqueur principal sans ombre
+    ctx.shadowBlur = 0;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
+    
+    // Dessiner le marqueur principal
+    ctx.beginPath();
+    
+    // Corps du marqueur (cercle en haut)
+    ctx.arc(x, y - halfSize, halfSize, 0, 2 * Math.PI);
+    
+    // Pointe du marqueur (triangle en bas)
+    ctx.moveTo(x - halfSize, y - halfSize);
+    ctx.lineTo(x, y + halfSize);
+    ctx.lineTo(x + halfSize, y - halfSize);
+    ctx.closePath();
+    
+    // Remplir complètement le marqueur
+    ctx.fillStyle = color;
+    ctx.fill();
+    
+    // Contour blanc épais
+    ctx.strokeStyle = "#FFFFFF";
+    ctx.lineWidth = 4;
+    ctx.stroke();
+    
+    // Point central blanc pour plus de visibilité
+    ctx.fillStyle = "#FFFFFF";
+    ctx.beginPath();
+    ctx.arc(x, y - halfSize, halfSize * 0.4, 0, 2 * Math.PI);
+    ctx.fill();
+    
     ctx.restore();
 }
-// Fonction pour animer le point
+
 function animatePoint(canvasId, img, x, y) {
-    let radius = 20;
+    let radius = 12; // Taille de base plus petite pour le marqueur
     let growing = true;
-    const canvas = document.getElementById(canvasId);
-    const ctx = canvas.getContext('2d');
+    
     function updateRadius() {
-        // Utiliser la fonction de redessinage avec zoom si disponible
-        if (canvas.img) {
-            redrawCanvas(canvas);
-        } else {
-            ctx.clearRect(0, 0, canvas.width, canvas.height); // Effacer le canvas pour redessiner
-            ctx.drawImage(img, 0, 0); // Redessiner l'image
-        }
         if (growing) {
-            radius += .3;
-            if (radius >= 40) growing = false;
+            radius += 0.3; // Animation plus lente
+            if (radius >= 40) growing = false; // Taille max plus petite
         } else {
-            radius -= .3;
-            if (radius <= 20) growing = true;
+            radius -= 0.3;
+            if (radius <= 20) growing = true; // Taille min plus petite
         }
-        // Dessiner le point avec animation
-        if (canvas.img) {
-            // Si le zoom est actif, dessiner avec le contexte transformé
-            ctx.save();
-            ctx.translate(currentOffsetX, currentOffsetY);
-            ctx.scale(currentScale, currentScale);
-            drawPointOnCanvasWithContext(ctx, x, y, radius);
-            ctx.restore();
-        } else {
-            // Sinon, utiliser la méthode normale
-            drawPointOnCanvas(canvasId, x, y, radius);
+        
+        const canvas = document.getElementById(canvasId);
+        if (canvas && canvas.img) {
+            // Stocker le rayon actuel pour l'utiliser dans redrawCanvas
+            canvas.currentPointRadius = radius;
+            redrawCanvas(canvas);
         }
+        
         requestAnimationFrame(updateRadius);
     }
+    
     updateRadius();
+}
+
+function drawMarker(ctx, x, y, size) {
+    ctx.save();
+    
+    // Taille du marqueur Google Maps
+    const markerWidth = size * 1.6;
+    const markerHeight = size * 2.4;
+    
+    // Position du marqueur (la pointe de la goutte doit être sur la position exacte)
+    const markerX = x;
+    const markerY = y - markerHeight * 0.85; // Décaler vers le haut pour que la pointe soit sur la position
+    
+    // Fonction pour dessiner la forme de goutte Google Maps
+    function drawGoogleMarker(x, y, width, height, isShadow = false) {
+        const offset = isShadow ? 2 : 0;
+        
+        ctx.beginPath();
+        
+        // Corps principal (cercle en haut)
+        const circleRadius = width / 2;
+        const circleY = y + circleRadius;
+        ctx.arc(x + offset, circleY + offset, circleRadius, 0, Math.PI * 2);
+        
+        // Pointe de la goutte (triangle en bas)
+        ctx.moveTo(x - width/2 + offset, circleY + offset);
+        ctx.lineTo(x + offset, y + height + offset);
+        ctx.lineTo(x + width/2 + offset, circleY + offset);
+        ctx.closePath();
+    }
+    
+    // Dessiner l'ombre portée (comme Google Maps)
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+    ctx.shadowBlur = 6;
+    ctx.shadowOffsetX = 2;
+    ctx.shadowOffsetY = 2;
+    
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+    drawGoogleMarker(markerX, markerY, markerWidth, markerHeight, true);
+    ctx.fill();
+    
+    ctx.restore();
+    ctx.save();
+    
+    // Dessiner le marqueur principal
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+    ctx.shadowBlur = 3;
+    ctx.shadowOffsetX = 1;
+    ctx.shadowOffsetY = 1;
+    
+    // Couleur rouge Google Maps (#EA4335)
+    ctx.fillStyle = '#EA4335';
+    drawGoogleMarker(markerX, markerY, markerWidth, markerHeight);
+    ctx.fill();
+    
+    // Contour blanc fin (comme Google Maps)
+    ctx.strokeStyle = '#FFFFFF';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    
+    // Effet de reflet/highlight Google Maps
+    ctx.shadowBlur = 0;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
+    
+    // Reflet sur le cercle (partie supérieure)
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+    ctx.beginPath();
+    ctx.arc(markerX - markerWidth * 0.25, markerY + markerWidth * 0.25, markerWidth * 0.3, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Reflet plus petit au centre
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+    ctx.beginPath();
+    ctx.arc(markerX - markerWidth * 0.15, markerY + markerWidth * 0.35, markerWidth * 0.15, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Point central blanc (comme Google Maps)
+    ctx.fillStyle = '#FFFFFF';
+    ctx.beginPath();
+    ctx.arc(markerX, markerY + markerWidth * 0.5, markerWidth * 0.12, 0, Math.PI * 2);
+    ctx.fill();
+    
+    ctx.restore();
 }
 

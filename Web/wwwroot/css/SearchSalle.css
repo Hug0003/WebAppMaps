@@ -29,7 +29,6 @@ img {
   height: 80vh;
   display: flex;
   flex-direction: column;
-  margin: 40px auto;
   padding: 20px;
   font-family: "Segoe UI", sans-serif;
   background-color: white;
@@ -51,12 +50,10 @@ img {
   padding: 0 18rem;
 }
 
-
-
 .form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .input-field {
@@ -87,6 +84,7 @@ img {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
+
 .btn:hover {
   background-color: rgb(124, 170, 150);
   color: white;
@@ -395,7 +393,7 @@ img {
 
 .container_plan_info {
   position: fixed;
-  top: 43%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 90vw;
@@ -688,11 +686,6 @@ img {
 }
 
 @media only screen and (max-width: 1200px) {
-  .container_plan_info {
-    top: 40%;
-
-
-  }
 
     .list-info {
 
