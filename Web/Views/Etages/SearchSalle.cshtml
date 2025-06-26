@@ -1,119 +1,106 @@
 ﻿@using Domain
 @using Web.ViewModel
 @model SalleViewModel
-
 <div class="search-room-container">
     <a class="linkStyle addItem" asp-controller="Etages" asp-action="Create">+</a>
-
-        <form class="form form-section form-search" id="searchSalleForm">
-            <input name="salle" id="salleInput" placeholder="Numéro/Nom salle" class="input-field" />
-            <button type="submit" class="btn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-                </svg>
-            </button>
-        </form>
-
-        <div class="form form-section" id="sortSection">
-            <select id="sortSelect" class="form-select sort-select">
-                <option value="default">-- Trier par --</option>
-                <option value="name-asc">Nom (A-Z)</option>
-                <option value="name-desc">Nom (Z-A)</option>
-                <option value="number-asc">Numéro (croissant)</option>
-                <option value="number-desc">Numéro (décroissant)</option>
-                <option value="type-asc">Type (A-Z)</option>
-                <option value="type-desc">Type (Z-A)</option>
-                <option value="floor-asc">Étage (croissant)</option>
-                <option value="floor-desc">Étage (décroissant)</option>
-            </select>
-        </div>
-
-        <form class="form formSelectFiltre form-section">
-            <select id="etageSelect" name="EtageId" class="form-select">
-                <option value="all">-- Etages --</option>
-                <hr class="dropdown-divider">
-                @foreach (var etage in Model.etages)
+    <form class="form form-section form-search" id="searchSalleForm">
+        <input name="salle" id="salleInput" placeholder="Numéro/Nom salle" class="input-field" />
+        <button type="submit" class="btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+            </svg>
+        </button>
+    </form>
+    <div class="form form-section" id="sortSection">
+        <select id="sortSelect" class="form-select sort-select">
+            <option value="default">-- Trier par --</option>
+            <option value="name-asc">Nom (A-Z)</option>
+            <option value="name-desc">Nom (Z-A)</option>
+            <option value="number-asc">Numéro (croissant)</option>
+            <option value="number-desc">Numéro (décroissant)</option>
+            <option value="type-asc">Type (A-Z)</option>
+            <option value="type-desc">Type (Z-A)</option>
+            <option value="floor-asc">Étage (croissant)</option>
+            <option value="floor-desc">Étage (décroissant)</option>
+        </select>
+    </div>
+    <form class="form formSelectFiltre form-section">
+        <select id="etageSelect" name="EtageId" class="form-select">
+            <option value="all">-- Etages --</option>
+            <hr class="dropdown-divider">
+            @foreach (var etage in Model.etages)
+            {
+                <option value="@etage.Id">@etage.Nom</option>
+            }
+        </select>
+        <select id="typeSalle" name="TypeSalle" class="form-select">
+            <option value="all">-- Type --</option>
+            <hr class="dropdown-divider">
+            @foreach (var type in Model.salles.Select(s => s.TypeSalle).Distinct())
+            {
+                <option value="@type">@type</option>
+            }
+        </select>
+        <select id="attributSalle" name="AttributSalle" class="form-select">
+            <option value="all">-- Propriété --</option>
+            <hr class="dropdown-divider">
+            @{
+                var addedOptions = new HashSet<string>();
+                foreach (var salle in Model.salles)
                 {
-                    <option value="@etage.Id">@etage.Nom</option>
-                }
-            </select>
-            <select id="typeSalle" name="TypeSalle" class="form-select">
-                <option value="all">-- Type --</option>
-                <hr class="dropdown-divider">
-                @foreach (var type in Model.salles.Select(s => s.TypeSalle).Distinct())
-                {
-                    <option value="@type">@type</option>
-                }
-            </select>
-            <select id="attributSalle" name="AttributSalle" class="form-select">
-                <option value="all">-- Propriété --</option>
-                <hr class="dropdown-divider">
-
-                @{
-                    var addedOptions = new HashSet<string>();
-
-                    foreach (var salle in Model.salles)
+                    var sallePause = salle as SallePause;
+                    var salleReunion = salle as SalleReunion;
+                    var salleBubble = salle as SalleBubble;
+                    if (sallePause != null)
                     {
-                        var sallePause = salle as SallePause;
-                        var salleReunion = salle as SalleReunion;
-                        var salleBubble = salle as SalleBubble;
-
-
-                        if (sallePause != null)
+                        if (addedOptions.Add("distributeur"))
                         {
-                            if (addedOptions.Add("distributeur"))
-                            {
-                                <option value="distributeur">Distributeur</option>
-                            }
-                            if (addedOptions.Add("frigo"))
-                            {
-                                <option value="frigo">Frigo</option>
-                            }
+                            <option value="distributeur">Distributeur</option>
                         }
-
-                        if (salleReunion != null)
+                        if (addedOptions.Add("frigo"))
                         {
-                            if (addedOptions.Add("ecran"))
-                            {
-                                <option value="ecran">Écran</option>
-                            }
-                            if (addedOptions.Add("camera"))
-                            {
-                                <option value="camera">Caméra</option>
-                            }
-                            if (addedOptions.Add("tableaublanc"))
-                            {
-                                <option value="tableaublanc">Tableau blanc</option>
-                            }
-                            if (addedOptions.Add("systemeaudio"))
-                            {
-                                <option value="systemeaudio">Système audio</option>
-                            }
-                        }
-                        
-                        if (salleBubble != null && addedOptions.Add("priseelectrique"))
-                        {
-                            <option value="priseelectrique">Prise électrique</option>
+                            <option value="frigo">Frigo</option>
                         }
                     }
+                    if (salleReunion != null)
+                    {
+                        if (addedOptions.Add("ecran"))
+                        {
+                            <option value="ecran">Écran</option>
+                        }
+                        if (addedOptions.Add("camera"))
+                        {
+                            <option value="camera">Caméra</option>
+                        }
+                        if (addedOptions.Add("tableaublanc"))
+                        {
+                            <option value="tableaublanc">Tableau blanc</option>
+                        }
+                        if (addedOptions.Add("systemeaudio"))
+                        {
+                            <option value="systemeaudio">Système audio</option>
+                        }
+                    }
+
+                    if (salleBubble != null && addedOptions.Add("priseelectrique"))
+                    {
+                        <option value="priseelectrique">Prise électrique</option>
+                    }
                 }
-
-            </select>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" id="favoriSelect" class="bi bi-star-fill iconFavoriFill iconStar iconStarFiltre" viewBox="0 0 16 16">
-                <path class="iconStar-filter" d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.56.56 0 0 0-.163-.505L1.71 6.745l4.052-.576a.53.53 0 0 0 .393-.288L8 2.223l1.847 3.658a.53.53 0 0 0 .393.288l4.052.575-2.906 2.77a.56.56 0 0 0-.163.506l.694 3.957-3.686-1.894a.5.5 0 0 0-.461 0z" />
+            }
+        </select>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" id="favoriSelect" class="bi bi-star-fill iconFavoriFill iconStar iconStarFiltre" viewBox="0 0 16 16">
+            <path class="iconStar-filter" d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.56.56 0 0 0-.163-.505L1.71 6.745l4.052-.576a.53.53 0 0 0 .393-.288L8 2.223l1.847 3.658a.53.53 0 0 0 .393.288l4.052.575-2.906 2.77a.56.56 0 0 0-.163.506l.694 3.957-3.686-1.894a.5.5 0 0 0-.461 0z" />
+        </svg>
+    </form>
+    <div class="form form-section" id="resetSection">
+        <button type="button" id="resetFilters" class="btn btn-reset">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
+                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
             </svg>
-
-        </form>
-
-        <div class="form form-section" id="resetSection">
-            <button type="button" id="resetFilters" class="btn btn-reset">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
-                    <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
-                </svg>
-            </button>
-        </div>
-
+        </button>
+    </div>
     <div id="sallesList" class="container_ListSalle">
         @if (Model.salles != null)
         {
@@ -122,7 +109,6 @@
                 var sallePause = salle as SallePause;
                 var salleReunion = salle as SalleReunion;
                 var salleBubble = salle as SalleBubble;
-
                 <a class="salles_click"
                    data-etage="@salle.EtageId"
                    data-salleclickid="@salle.Id"
@@ -130,7 +116,7 @@
                    @if (sallePause != null)
                    {
                        @:data-distributeur="@(sallePause.Distributeur ? "distributeur" : "non")"
-                       @:data-frigo="@(sallePause.Frigo ? "frigo" :"non")"
+                       @:data-frigo="@(sallePause.Frigo ? "frigo" : "non")"
                    }
                    @if (salleReunion != null)
                    {
@@ -156,29 +142,25 @@
                             </div>
                         </div>
                         <div class="box_visuSalleImg">
-                            <img class="Img_visuSalle" src="~/@salle.ImgSallePath"/>
+                            <img class="Img_visuSalle" src="~/@salle.ImgSallePath" />
                         </div>
                     </div>
                 </a>
-
                 <div class="hidden container_plan_info" data-sallelid="@salle.Id" data-sallenom="@salle.Nom" data-sallenum="@salle.Numero">
                     <span class="closeModal">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x-lg iconCLose" viewBox="0 0 16 16">
-                            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
                         </svg>
                     </span>
-
                     <div class="section_infoSalle">
                         <div class="box_imgSalle">
                             <img src="~/@salle.ImgSallePath" alt="Salle" class="imgSalle" />
                         </div>
-
                         <div class="box_iconFavori" data-salleidfavorite="@salle.Id">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill iconFavoriFill iconStar" viewBox="0 0 16 16">
                                 <path class="iconStar" d="" />
                             </svg>
                         </div>
-
                         <div class="list-info">
                             <div class="box_infoPrin_salle_modal">
                                 <p class="p_infoSalle salle-nom">@salle.Nom</p>
@@ -187,46 +169,45 @@
                                 <p class="p_infoSalle salle-type">@salle.TypeSalle</p>
                                 <a href="mailto:hugomeuiel@gmail.com">Signaler</a>
                             </div>
-
                             <div class="box_infoPrin_salle_modal box_info_type">
                                 @if (sallePause != null)
                                 {
                                     <div class="attributs-container">
                                         <div class="attribut-item @(sallePause.Distributeur ? "attribut-present" : "attribut-absent")" title="@(sallePause.Distributeur ? "Distributeur présent" : "Pas de distributeur")">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                                <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/>
+                                                <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z" />
                                             </svg>
                                             <span>Distributeur</span>
                                         </div>
                                         <div class="attribut-item" title="Micro-ondes: @sallePause.MicroOndes">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                                <path d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2zm12 1a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h12z"/>
-                                                <path d="M4 6a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6z"/>
+                                                <path d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2zm12 1a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h12z" />
+                                                <path d="M4 6a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6z" />
                                             </svg>
                                             <span>Micro-ondes: @sallePause.MicroOndes</span>
                                         </div>
                                         <div class="attribut-item @(sallePause.Frigo ? "attribut-present" : "attribut-absent")" title="@(sallePause.Frigo ? "Frigo présent" : "Pas de frigo")">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-                                                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                                                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
+                                                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
                                             </svg>
                                             <span>Frigo</span>
                                         </div>
                                         <div class="attribut-item" title="Evier: @sallePause.Evier">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
                                             </svg>
                                             <span>Evier: @sallePause.Evier</span>
                                         </div>
                                         <div class="attribut-item" title="Chaises: @sallePause.NbPlaces">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
                                             </svg>
                                             <span>Chaises: @sallePause.NbPlaces</span>
                                         </div>
                                         <div class="attribut-item" title="Tables: @sallePause.NbTables">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
                                             </svg>
                                             <span>Tables: @sallePause.NbTables</span>
                                         </div>
@@ -237,40 +218,40 @@
                                     <div class="attributs-container">
                                         <div class="attribut-item @(salleReunion.Ecran ? "attribut-present" : "attribut-absent")" title="@(salleReunion.Ecran ? "Écran présent" : "Pas d'écran")">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                                <path d="M2.5 13.5A.5.5 0 0 1 3 13h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zM13.991 3l.024.001a1.46 1.46 0 0 1 .538.143.757.757 0 0 1 .302.254c.067.1.145.277.145.602v5.991l-.001.024a1.464 1.464 0 0 1-.143.538.758.758 0 0 1-.254.302c-.1.067-.277.145-.602.145H2.009l-.024-.001a1.464 1.464 0 0 1-.538-.143.758.758 0 0 1-.302-.254C1.078 10.502 1 10.325 1 10V4.009l.001-.024a1.46 1.46 0 0 1 .143-.538.758.758 0 0 1 .254-.302C1.498 3.078 1.675 3 2 3h11.991zM14 2H2C0 2 0 4 0 4v6c0 2 2 2 2 2h12c2 0 2-2 2-2V4c0-2-2-2-2-2z"/>
+                                                <path d="M2.5 13.5A.5.5 0 0 1 3 13h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zM13.991 3l.024.001a1.46 1.46 0 0 1 .538.143.757.757 0 0 1 .302.254c.067.1.145.277.145.602v5.991l-.001.024a1.464 1.464 0 0 1-.143.538.758.758 0 0 1-.254.302c-.1.067-.277.145-.602.145H2.009l-.024-.001a1.464 1.464 0 0 1-.538-.143.758.758 0 0 1-.302-.254C1.078 10.502 1 10.325 1 10V4.009l.001-.024a1.46 1.46 0 0 1 .143-.538.758.758 0 0 1 .254-.302C1.498 3.078 1.675 3 2 3h11.991zM14 2H2C0 2 0 4 0 4v6c0 2 2 2 2 2h12c2 0 2-2 2-2V4c0-2-2-2-2-2z" />
                                             </svg>
                                             <span>Écran</span>
                                         </div>
                                         <div class="attribut-item @(salleReunion.Camera ? "attribut-present" : "attribut-absent")" title="@(salleReunion.Camera ? "Caméra présente" : "Pas de caméra")">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                                <path d="M15 12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1.172a3 3 0 0 0 2.12-.879l.83-.828A1 1 0 0 1 6.827 3h2.344a1 1 0 0 1 .707.293l.828.828A3 3 0 0 0 12.828 5H14a1 1 0 0 1 1 1v6zM2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4H2z"/>
-                                                <path d="M8 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm0 1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM3 6.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"/>
+                                                <path d="M15 12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1.172a3 3 0 0 0 2.12-.879l.83-.828A1 1 0 0 1 6.827 3h2.344a1 1 0 0 1 .707.293l.828.828A3 3 0 0 0 12.828 5H14a1 1 0 0 1 1 1v6zM2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4H2z" />
+                                                <path d="M8 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm0 1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM3 6.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z" />
                                             </svg>
                                             <span>Caméra</span>
                                         </div>
                                         <div class="attribut-item @(salleReunion.TableauBlanc ? "attribut-present" : "attribut-absent")" title="@(salleReunion.TableauBlanc ? "Tableau blanc présent" : "Pas de tableau blanc")">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                                <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
-                                                <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
+                                                <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z" />
+                                                <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z" />
                                             </svg>
                                             <span>Tableau blanc</span>
                                         </div>
                                         <div class="attribut-item @(salleReunion.SystemeAudio ? "attribut-present" : "attribut-absent")" title="@(salleReunion.SystemeAudio ? "Système audio présent" : "Pas de système audio")">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                                <path d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5z"/>
-                                                <path d="M10 8a2 2 0 1 1-4 0V3a2 2 0 1 1 4 0v5zM8 0a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V3a3 3 0 0 0-3-3z"/>
+                                                <path d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5z" />
+                                                <path d="M10 8a2 2 0 1 1-4 0V3a2 2 0 1 1 4 0v5zM8 0a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V3a3 3 0 0 0-3-3z" />
                                             </svg>
                                             <span>Système audio</span>
                                         </div>
                                         <div class="attribut-item" title="Chaises: @salleReunion.NbPlaces">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
                                             </svg>
                                             <span>Chaises: @salleReunion.NbPlaces</span>
                                         </div>
                                         <div class="attribut-item" title="Tables: @salleReunion.NbTables">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
                                             </svg>
                                             <span>Tables: @salleReunion.NbTables</span>
                                         </div>
@@ -281,19 +262,19 @@
                                     <div class="attributs-container">
                                         <div class="attribut-item @(salleBubble.PriseElectrique ? "attribut-present" : "attribut-absent")" title="@(salleBubble.PriseElectrique ? "Prise électrique présente" : "Pas de prise électrique")">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
                                             </svg>
                                             <span>Prise électrique</span>
                                         </div>
                                         <div class="attribut-item" title="Chaises: @salleBubble.NbPlaces">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
                                             </svg>
                                             <span>Chaises: @salleBubble.NbPlaces</span>
                                         </div>
                                         <div class="attribut-item" title="Tables: @salleBubble.NbTables">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
                                             </svg>
                                             <span>Tables: @salleBubble.NbTables</span>
                                         </div>
@@ -303,8 +284,8 @@
                         </div>
                     </div>
                     <div class="section_imgPlan">
-                        <canvas id="planCanvas_@salle.Id" 
-                                class="img-plan" 
+                        <canvas id="planCanvas_@salle.Id"
+                                class="img-plan"
                                 data-imgpath="@Url.Content("~/" + salle.Etage.ImgPlanEtagePath)"
                                 data-coordx="@salle.CoordonneeX"
                                 data-coordy="@salle.CoordonneeY">
@@ -319,4 +300,5 @@
         }
     </div>
 </div>
+
 

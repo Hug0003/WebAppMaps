@@ -10,10 +10,10 @@
         <input name="Nom" type="text" class="form-input" placeholder="Nom de la salle" autocomplete="off" required />
     </div>
     <div class="form-group">
-        <input name="Numero" type="text" class="form-input" placeholder="Numéro de la salle" autocomplete="off" required />
+        <input name="Numero" type="number" class="form-input" placeholder="Numéro de la salle" autocomplete="off" required />
     </div>
     <div class="form-group">
-        <select name="EtageId" class="form-input" id="addEtageToSalle">
+        <select name="EtageId" class="form-input" id="addEtageToSalle" required>
             @foreach (var etage in ViewBag.EtageId)
             {
                 <option value="@etage.Id" data-imgpath="@Url.Content("~/" + etage.ImgPlanEtagePath)">@etage.Nom</option>
@@ -27,11 +27,11 @@
         <canvas id="imageCanvas"></canvas>
     </div>
 
-    <input type="text" id="coordonneeX" name="CoordonneeX" value="" placeholder="Coordonnées X de la salle" autocomplete="off" required />
-    <input type="text" id="coordonneeY" name="CoordonneeY" value="" placeholder="Coordonnées Y de la salle" autocomplete="off" required />
+    <input type="number" step="0.00000000000000001" id="coordonneeX" name="CoordonneeX" value="" placeholder="Coordonnées X de la salle" autocomplete="off" required />
+    <input type="number" step="0.00000000000000001" id="coordonneeY" name="CoordonneeY" value="" placeholder="Coordonnées Y de la salle" autocomplete="off" required />
 
     <div class="form-group">
-        <select name="TypeSalle" id="typeSalle" class="form-input" onchange="showSpecificFields()">
+        <select name="TypeSalle" id="typeSalle" class="form-input" onchange="showSpecificFields()" required>
             <option value="1">Réunion</option>
             <option value="2">Pause</option>
             <option value="3">Bubble</option>
