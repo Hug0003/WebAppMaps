@@ -429,7 +429,7 @@ function drawMarker(ctx, x, y, size) {
     const markerY = y - markerHeight * 0.85; // Décaler vers le haut pour que la pointe soit sur la position
     
     // Fonction pour dessiner la forme de goutte
-    function drawDropShape(x, y, width, height, isShadow = false) {
+    function drawDropShape(ctx, x, y, width, height, isShadow = false) {
         const offset = isShadow ? 3 : 0;
         
         ctx.beginPath();
@@ -446,29 +446,28 @@ function drawMarker(ctx, x, y, size) {
         ctx.closePath();
     }
     
-    // Dessiner l'ombre portée
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+    // Dessiner l'ombre
+    ctx.shadowColor = '#000000';
     ctx.shadowBlur = 10;
     ctx.shadowOffsetX = 3;
     ctx.shadowOffsetY = 3;
     
     // Ombre de la goutte
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
-    drawDropShape(markerX, markerY, markerWidth, markerHeight, true);
+    ctx.fillStyle = '#000000';
+    drawDropShape(ctx, markerX, markerY, markerWidth, markerHeight, true);
     ctx.fill();
     
     ctx.restore();
     ctx.save();
     
-    // Dessiner le marqueur principal
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
-    ctx.shadowBlur = 5;
-    ctx.shadowOffsetX = 2;
-    ctx.shadowOffsetY = 2;
+    // Marqueur principal - goutte
+    ctx.shadowBlur = 0;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
     
-    // Goutte entièrement rouge
+    // Goutte rouge
     ctx.fillStyle = '#FF0000';
-    drawDropShape(markerX, markerY, markerWidth, markerHeight);
+    drawDropShape(ctx, markerX, markerY, markerWidth, markerHeight);
     ctx.fill();
     
     // Bordure blanche épaisse
