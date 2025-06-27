@@ -70,9 +70,9 @@ function performSearch() {
     sallesClick.forEach(salle => {
         const salleNum = salle.dataset.sallenum;
         const salleNom = salle.dataset.sallenom;
-        // Comparaison insensible à la casse
-        if (inputValue.toLowerCase() === salleNum.toLowerCase() || 
-            inputValue.toLowerCase() === salleNom.toLowerCase()) {
+        // Comparaison insensible à la casse pour les numéros et noms
+        if ((salleNum && inputValue.toLowerCase() === salleNum.toLowerCase()) || 
+            (salleNom && inputValue.toLowerCase() === salleNom.toLowerCase())) {
             // Utiliser la fonction de création de modal dynamique
             if (typeof showSalleModal === 'function') {
                 showSalleModal(salle);
@@ -85,15 +85,22 @@ function performSearch() {
     if (!salleTrouvee) {
         let sallesFiltrees = [];
         
-        // Chercher des correspondances partielles dans les noms
+        // Chercher des correspondances partielles dans les noms et numéros
         sallesClick.forEach(salle => {
             const salleNom = salle.dataset.sallenom;
+            const salleNum = salle.dataset.sallenum;
+            
+            // Recherche dans le nom
             if (salleNom && salleNom.toLowerCase().includes(inputValue.toLowerCase())) {
+                sallesFiltrees.push(salle);
+            }
+            // Recherche dans le numéro
+            else if (salleNum && salleNum.toLowerCase().includes(inputValue.toLowerCase())) {
                 sallesFiltrees.push(salle);
             }
         });
         
-        // Si on trouve des correspondances dans les noms, les afficher
+        // Si on trouve des correspondances, les afficher
         if (sallesFiltrees.length > 0) {
             sallesClick.forEach(salle => {
                 salle.style.display = "none";
@@ -140,6 +147,15 @@ function loadModalCanvas(salleId) {
         // Ajuster la taille du canvas à l'image
         canvas.width = img.width;
         canvas.height = img.height;
+        
+        // Stocker l'image et les coordonnées sur le canvas pour les utiliser dans redrawCanvas
+        canvas.img = img;
+        canvas.pointX = coordX;
+        canvas.pointY = coordY;
+        
+        // Initialiser les propriétés d'animation
+        canvas.currentPointRadius = 20;
+        canvas.currentColorIntensity = 0;
         
         // Dessiner l'image
         ctx.drawImage(img, 0, 0);
@@ -375,16 +391,17 @@ function drawPointOnCanvasWithContext(ctx, x, y, radius, color = "#FF0000") {
 }
 
 function animatePoint(canvasId, img, x, y) {
-    let radius = 12; // Taille de base plus petite pour le marqueur
+    let radius = 12; // Taille de base
     let growing = true;
     
     function updateRadius() {
+        // Animation de taille simple
         if (growing) {
-            radius += 0.3; // Animation plus lente
-            if (radius >= 40) growing = false; // Taille max plus petite
+            radius += 0.3; // Animation lente
+            if (radius >= 35) growing = false; // Taille max raisonnable
         } else {
             radius -= 0.3;
-            if (radius <= 20) growing = true; // Taille min plus petite
+            if (radius <= 20) growing = true; // Taille min
         }
         
         const canvas = document.getElementById(canvasId);
@@ -403,17 +420,17 @@ function animatePoint(canvasId, img, x, y) {
 function drawMarker(ctx, x, y, size) {
     ctx.save();
     
-    // Taille du marqueur Google Maps
-    const markerWidth = size * 1.6;
-    const markerHeight = size * 2.4;
+    // Taille du marqueur en forme de goutte
+    const markerWidth = size * 1.8;
+    const markerHeight = size * 2.8;
     
     // Position du marqueur (la pointe de la goutte doit être sur la position exacte)
     const markerX = x;
     const markerY = y - markerHeight * 0.85; // Décaler vers le haut pour que la pointe soit sur la position
     
-    // Fonction pour dessiner la forme de goutte Google Maps
-    function drawGoogleMarker(x, y, width, height, isShadow = false) {
-        const offset = isShadow ? 2 : 0;
+    // Fonction pour dessiner la forme de goutte
+    function drawDropShape(x, y, width, height, isShadow = false) {
+        const offset = isShadow ? 3 : 0;
         
         ctx.beginPath();
         
@@ -429,57 +446,40 @@ function drawMarker(ctx, x, y, size) {
         ctx.closePath();
     }
     
-    // Dessiner l'ombre portée (comme Google Maps)
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
-    ctx.shadowBlur = 6;
-    ctx.shadowOffsetX = 2;
-    ctx.shadowOffsetY = 2;
+    // Dessiner l'ombre portée
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+    ctx.shadowBlur = 10;
+    ctx.shadowOffsetX = 3;
+    ctx.shadowOffsetY = 3;
     
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
-    drawGoogleMarker(markerX, markerY, markerWidth, markerHeight, true);
+    // Ombre de la goutte
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+    drawDropShape(markerX, markerY, markerWidth, markerHeight, true);
     ctx.fill();
     
     ctx.restore();
     ctx.save();
     
     // Dessiner le marqueur principal
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
-    ctx.shadowBlur = 3;
-    ctx.shadowOffsetX = 1;
-    ctx.shadowOffsetY = 1;
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+    ctx.shadowBlur = 5;
+    ctx.shadowOffsetX = 2;
+    ctx.shadowOffsetY = 2;
     
-    // Couleur rouge Google Maps (#EA4335)
-    ctx.fillStyle = '#EA4335';
-    drawGoogleMarker(markerX, markerY, markerWidth, markerHeight);
+    // Goutte entièrement rouge
+    ctx.fillStyle = '#FF0000';
+    drawDropShape(markerX, markerY, markerWidth, markerHeight);
     ctx.fill();
     
-    // Contour blanc fin (comme Google Maps)
+    // Bordure blanche épaisse
     ctx.strokeStyle = '#FFFFFF';
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 4;
     ctx.stroke();
     
-    // Effet de reflet/highlight Google Maps
-    ctx.shadowBlur = 0;
-    ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = 0;
-    
-    // Reflet sur le cercle (partie supérieure)
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
-    ctx.beginPath();
-    ctx.arc(markerX - markerWidth * 0.25, markerY + markerWidth * 0.25, markerWidth * 0.3, 0, Math.PI * 2);
-    ctx.fill();
-    
-    // Reflet plus petit au centre
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-    ctx.beginPath();
-    ctx.arc(markerX - markerWidth * 0.15, markerY + markerWidth * 0.35, markerWidth * 0.15, 0, Math.PI * 2);
-    ctx.fill();
-    
-    // Point central blanc (comme Google Maps)
-    ctx.fillStyle = '#FFFFFF';
-    ctx.beginPath();
-    ctx.arc(markerX, markerY + markerWidth * 0.5, markerWidth * 0.12, 0, Math.PI * 2);
-    ctx.fill();
+    // Bordure noire fine
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth = 1;
+    ctx.stroke();
     
     ctx.restore();
 }
