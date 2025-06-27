@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\assets\PlansEtages\" />
-    <Folder Include="wwwroot\assets\Salles\" />
   </ItemGroup>
 
 </Project>

@@ -9,7 +9,7 @@ namespace Domain
 {
     public class Salle : Entity
     {
-        public string Nom { get; set; }
+        public string? Nom { get; set; }
         public int Numero { get; set; }
 
 

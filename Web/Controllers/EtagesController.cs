@@ -98,7 +98,7 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateSalle(
         int Numero,
-        string Nom,
+        string? Nom,
         int EtageId,
         IFormFile ImgSallePath,
         TypeSalle TypeSalle,
@@ -120,7 +120,7 @@ namespace Web.Controllers
         // Paramètres pour SalleBubble
         bool PriseElectrique = false)
         {
-            string imagePath = "assets/Salles/DefautSalle.jpg";
+            string imagePath = "assets/Salles/DefautSalle.png";
 
             if (ImgSallePath != null && ImgSallePath.Length > 0)
             {
